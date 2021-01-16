@@ -16,4 +16,5 @@ export const config = {
   dbSynchronize: databaseConfig.synchronize,
   dbLogging: databaseConfig.logging,
   jwtSecret: process.env.JWT_SECRET,
+  ServicePort: process.env.PORT,
 } 
