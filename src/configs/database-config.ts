@@ -11,7 +11,7 @@ const databaseConfigList = {
     username: process.env.DEVELOPMENT_USERNAME,
     password: process.env.DEVELOPMENT_PASSWORD,
     database: process.env.DEVELOPMENT_DATABASE,
-    synchronize: false,
+    synchronize: true,
     logging: true,
   },
   test: {
@@ -31,8 +31,8 @@ const databaseConfigList = {
     username: process.env.PRODUCTION_USERNAME,
     password: process.env.PRODUCTION_PASSWORD,
     database: process.env.PRODUCTION_DATABASE,
-    synchronize: true,
-    logging: false,
+    synchronize: false,
+    logging: true,
   }
 }
 
