@@ -1,6 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
 import { Club } from "./Club";
 import { EntityWithIdColumn } from "./EntityWithPrimaryColumn";
+import { FeedFlag } from "./FeedFlag";
 import { FeedMedium } from './FeedMedium';
 
 @Entity("feed")
@@ -10,6 +11,12 @@ export class Feed extends EntityWithIdColumn {
 
   @Column({ type: "tinyint", nullable: true })
   pin?: number;
+
+  @Column({ nullable: true, default: 0 })
+  flag?: number;
+
+  @OneToMany(() => FeedFlag, feedFlag => feedFlag.feed)
+  flags: FeedFlag[];
 
   @OneToMany(() => FeedMedium, feed_medium => feed_medium.feed)
   media: FeedMedium[];
