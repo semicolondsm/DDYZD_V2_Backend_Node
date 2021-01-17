@@ -1,5 +1,5 @@
 import { ConnectionOptions } from "typeorm";
-import { config } from "./src/configs";
+import { config } from "./configs";
 
 export const createOptions: ConnectionOptions = {
    type: "mysql",
@@ -11,6 +11,6 @@ export const createOptions: ConnectionOptions = {
    synchronize: config.dbSynchronize,
    logging: config.dbLogging,
    entities: [
-      "src/entity/**/*.ts"
+      "src/entity/models/**/*.ts"
    ]
 }

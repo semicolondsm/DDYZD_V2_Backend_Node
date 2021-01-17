@@ -6,7 +6,7 @@ import bodyParser from "body-parser";
 import morgan from "morgan";
 import cors from "cors";
 import { createConnection } from "typeorm";
-import { createOptions } from '../ormconfig';
+import { createOptions } from './ormconfig';
 import { config } from "./configs";
 
 dotenv.config({ path: path.join(__dirname, "../.env") });
