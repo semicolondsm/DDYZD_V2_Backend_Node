@@ -4,7 +4,7 @@ import { Feed } from './Feed';
 
 @Entity("feed_medium")
 export class FeedMedium extends EntityWithIdColumn {
-  @Column({ type: "varchar", length: 45 })
+  @Column()
   medium_path: string;
 
   @ManyToOne(() => Feed, feed => feed.media)
