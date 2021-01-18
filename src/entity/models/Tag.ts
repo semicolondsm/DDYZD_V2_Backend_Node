@@ -1,4 +1,4 @@
-import { Column, Entity, JoinTable, ManyToMany, OneToMany } from "typeorm";
+import { Column, Entity, OneToMany } from "typeorm";
 import { ClubHasTag } from "./ClubHasTag";
 import { EntityWithIdColumn } from "./EntityWithPrimaryColumn";
 
