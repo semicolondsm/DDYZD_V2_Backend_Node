@@ -1,5 +1,5 @@
 import { ViewColumn, ViewEntity } from "typeorm";
-import { CustomViewEntityOption } from "./generation-views/ViewEntityOption";
+import { CustomViewEntityOption } from "./generation-view/ViewEntityOption";
 
 const options: CustomViewEntityOption = new CustomViewEntityOption("club_tag_view", "asClubTagView.sql");
 

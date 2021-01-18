@@ -6,7 +6,7 @@ export class CustomViewEntityOption {
   public readonly name: string;
 
   constructor(viweName: string, queryPath: string) {
-    this.expression = fs.readFileSync(path.join(__dirname, `./querys/${queryPath}`), { encoding: "utf8" });
+    this.expression = fs.readFileSync(path.join(__dirname, `./query/${queryPath}`), { encoding: "utf8" });
     this.name = viweName;
   }
 }
