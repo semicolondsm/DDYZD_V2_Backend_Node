@@ -8,6 +8,7 @@ import cors from "cors";
 import { createConnection } from "typeorm";
 import { createOptions } from './ormconfig';
 import { config } from "./config";
+import { HttpError, NotFoundError } from "./shared/exception";
 
 dotenv.config({ path: path.join(__dirname, "../.env") });
 
@@ -36,4 +37,17 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   } else {
     next();
   }
+});
+
+app.use((req: Request, res: Response, next: NextFunction) => {
+  next(new NotFoundError());
+});
+
+app.use((err: HttpError, req: Request, res: Response) => {
+  const statusCode: number = err.statusCode || 500;
+  res.status(statusCode)
+  .json({
+    statusCode: statusCode,
+    message: err.message,
+  });
 });
