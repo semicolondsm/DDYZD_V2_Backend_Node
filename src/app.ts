@@ -9,6 +9,7 @@ import { createConnection } from "typeorm";
 import { createOptions } from './ormconfig';
 import { config } from "./config";
 import { HttpError, NotFoundError } from "./shared/exception";
+import { logger } from "./shared/logger";
 
 dotenv.config({ path: path.join(__dirname, "../.env") });
 
@@ -40,15 +41,16 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 });
 
 app.use("/halo", (req, res, next) => {
-  console.log("asdf");
+  logger.info("logger");
   res.end();
 });
 
 app.use((req: Request, res: Response, next: NextFunction) => {
-  next(new NotFoundError);  
+  next(new NotFoundError(req.url));  
 });
 
 app.use((err: HttpError, req: Request, res: Response, next: NextFunction) => {
+  logger.info(err.message);
   const statusCode: number = err.statusCode || 500;
   res.status(statusCode)
   .json({
