@@ -5,7 +5,7 @@ WORKDIR /home/node/app
 COPY . .
 
 RUN npm install 
-RUN npx tsc
+RUN npm run build
 
 ENV NODE_ENV production
 
