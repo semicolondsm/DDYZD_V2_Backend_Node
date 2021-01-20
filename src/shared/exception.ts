@@ -28,8 +28,8 @@ export class ForbiddenError extends HttpError {
 }
 
 export class NotFoundError extends HttpError {
-  constructor() {
-    super(404, "Not Found");
+  constructor(url: string) {
+    super(404, `Not Found ${url}`);
   }
 }
 
