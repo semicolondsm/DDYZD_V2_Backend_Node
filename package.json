@@ -31,7 +31,8 @@
     "morgan": "^1.10.0",
     "mysql2": "^2.2.5",
     "reflect-metadata": "^0.1.10",
-    "typeorm": "0.2.29"
+    "typeorm": "0.2.29",
+    "winston": "^3.3.3"
   },
   "main": "index.js",
   "repository": {
