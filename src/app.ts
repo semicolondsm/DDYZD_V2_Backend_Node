@@ -54,4 +54,4 @@ app.use((err: HttpError, req: Request, res: Response) => {
 
 app.listen(app.get("port"), () => {
   console.log("server on", app.get("port"));
-})
+});

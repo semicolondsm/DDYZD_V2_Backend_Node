@@ -5,7 +5,8 @@
   "scripts": {
     "start": "nodemon --exec ts-node src/app.ts",
     "start:prod": "cross-env NODE_ENV=production npx pm2 start ./dist/app.js --name express",
-    "stop": "npx pm2 stop express & npx pm2 delete express"
+    "stop": "npx pm2 stop express & npx pm2 delete express",
+    "copyfiles": "cp -r ./src/entity/view/generation-view/query/ ./dist/entity/view/generation-view/query"
   },
   "devDependencies": {
     "@types/body-parser": "^1.19.0",

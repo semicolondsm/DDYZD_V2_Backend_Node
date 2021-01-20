@@ -11,7 +11,7 @@ export const createOptions: ConnectionOptions = {
    synchronize: config.dbSynchronize,
    logging: config.dbLogging,
    entities: [
-      "src/entity/model/**/*.ts",
-      "src/entity/view/**/*.ts"
+      "dist/entity/model/**/*.js",
+      "dist/entity/view/**/*.js"
    ]
 }
