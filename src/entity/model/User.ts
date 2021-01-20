@@ -17,10 +17,10 @@ export class User {
   @Column({ type: "varchar", length: 5 })
   gcn: string;
 
-  @Column({ type: "varchar", length: 45, nullable: true })
+  @Column({ type: "varchar", nullable: true })
   image_path?: string;
 
-  @Column({ type: "varchar", length: 45, nullable: true })
+  @Column({ type: "varchar", nullable: true })
   github_url?: string;
 
   @Column({ type: "varchar", length: 50 })
