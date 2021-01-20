@@ -39,16 +39,22 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   }
 });
 
-app.use((req: Request, res: Response, next: NextFunction) => {
-  next(new NotFoundError());
+app.use("/halo", (req, res, next) => {
+  console.log("asdf");
+  res.end();
 });
 
-app.use((err: HttpError, req: Request, res: Response) => {
+app.use((req: Request, res: Response, next: NextFunction) => {
+  next(new NotFoundError);  
+});
+
+app.use((err: HttpError, req: Request, res: Response, next: NextFunction) => {
   const statusCode: number = err.statusCode || 500;
   res.status(statusCode)
   .json({
     statusCode: statusCode,
     message: err.message,
+    timeStamp: new Date(),
   });
 });
 
