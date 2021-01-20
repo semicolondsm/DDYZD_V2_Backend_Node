@@ -7,13 +7,13 @@ import morgan from "morgan";
 import cors from "cors";
 import { createConnection } from "typeorm";
 import { createOptions } from './ormconfig';
-import { config } from "./configs";
+import { config } from "./config";
 
 dotenv.config({ path: path.join(__dirname, "../.env") });
 
 const app: express.Application = express();
 
-createConnection(createOptions).then(() => {
+createConnection(createOptions).then((c) => {
   console.log("Database Connect Success");
 }).catch(err => {
   console.error(err);
