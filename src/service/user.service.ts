@@ -10,13 +10,12 @@ const provideToken: BusinessLogic = async (req, res, next) => {
     return next(new BadRequestError());
   }
   const userInfo = await getUserInfoWithDsmAuth(token);
-  const authenticatedUser: User = await UserRepository.getQueryRepository()
-  .findOrCreateUser(userInfo);
-  const accessToken: string = await issuanceToken(authenticatedUser.user_id, "access");
-  const refreshToken: string = await issuanceToken(authenticatedUser.user_id, "refresh");
+  const checkExistUser: User = await UserRepository.getQueryRepository().findUserByUniqueEmail(userInfo.email);
+  const authenticatedUser: User = checkExistUser ? 
+  checkExistUser : await UserRepository.getQueryRepository().createDefaultUser(userInfo);
   return res.status(200).json({
-    "access-token": accessToken,
-    "refresh-token": refreshToken,
+    "access-token": await issuanceToken(authenticatedUser.user_id, "access"),
+    "refresh-token": await issuanceToken(authenticatedUser.user_id, "refresh"),
   });
 }
 
