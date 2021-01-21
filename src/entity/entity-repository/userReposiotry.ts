@@ -23,16 +23,10 @@ export class UserRepository extends Repository<User> {
     .getOne();
   }
 
-  public async findOrCreateUser(user: Partial<User>): Promise<User> {
-    const existUser: User = await this.createQueryBuilder("user")
-    .where("user.name = :name", { name: user.name })
-    .andWhere("user.gcn = :gcn", { gcn: user.gcn })
-    .andWhere("user.email = email", { email: user.email })
+  public findUserByUniqueEmail(email: string): Promise<User> {
+    return this.createQueryBuilder("user")
+    .where("user.email = :email")
+    .setParameter("email", email)
     .getOne();
-    if(existUser) {
-      return existUser;
-    } else {
-      return this.createDefaultUser(user);
-    }
-   }
+  }
 }
