@@ -11,6 +11,7 @@ const issuanceToken = async (user_id: number, type: string): Promise<string> => 
     sub: `${user_id}`,
     type: type,
   }, config.jwtSecret, {
+    algorithm: "HS256",
     expiresIn: type === "access" ? "2h" : "14d",
   });
 }
