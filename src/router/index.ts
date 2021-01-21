@@ -3,4 +3,6 @@ import { userServiceRouter } from "./user.controller";
 
 const router: Router = Router();
 
-router.use("/user", userServiceRouter);
+router.use("/users", userServiceRouter);
+
+export default router;

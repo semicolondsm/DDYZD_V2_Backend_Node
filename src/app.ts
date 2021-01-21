@@ -11,6 +11,8 @@ import { config } from "./config";
 import { HttpError, NotFoundError } from "./shared/exception";
 import { logger } from "./shared/logger";
 
+import ddyzdRouter from "./router";
+
 dotenv.config({ path: path.join(__dirname, "../.env") });
 
 const app: express.Application = express();
@@ -40,10 +42,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   }
 });
 
-app.use("/halo", (req, res, next) => {
-  logger.info("logger");
-  res.end();
-});
+app.use("/", ddyzdRouter);
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   next(new NotFoundError(req.url));  
