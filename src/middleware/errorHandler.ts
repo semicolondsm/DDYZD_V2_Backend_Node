@@ -12,7 +12,7 @@ export const errorHandler = (myFunc: BusinessLogic): BusinessLogic => {
         next(err);
       } else {
         console.log(err);
-        logger.info(err.message);
+        logger.error(err.message);
         next(new InternalServerError());
       }
     }
