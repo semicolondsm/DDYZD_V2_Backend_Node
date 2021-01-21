@@ -1,26 +1,24 @@
 import axios, { AxiosResponse } from "axios";
 import jwt from "jsonwebtoken";
+import { config } from "../../config";
 import { User } from "../../entity/model";
 import { HttpError } from "../../shared/exception";
 
-type UserInfo = Partial<User>;
-
 const DSM_AUTH_URL = "http://54.180.98.91:8090";
 
-const issuanceToken = async (user_id: number, type: string)
-: Promise<string> => {
+const issuanceToken = async (user_id: number, type: string): Promise<string> => {
   return jwt.sign({
     subject: user_id,
     type: type,
-  }, process.env.JWT_SECRET, {
+  }, config.jwtSecret, {
     issuer: "ddyzd",
     expiresIn: type === "access" ? "2h" : "14d",
   });
 }
 
-const getUserInfoWithDsmAuth = async (token: string): Promise<UserInfo> => {
+const getUserInfoWithDsmAuth = async (token: string): Promise<Partial<User>> => {
   try {
-    const response: AxiosResponse<UserInfo> = await axios.get(`${DSM_AUTH_URL}/v1/info/basic`, {
+    const response: AxiosResponse<Partial<User>> = await axios.get(`${DSM_AUTH_URL}/v1/info/basic`, {
       headers: {
         "access-token": token,
       }

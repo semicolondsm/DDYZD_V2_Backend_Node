@@ -10,11 +10,11 @@ const verifyTokenLogic: (type: string, headers: string) => BusinessLogic =
   try {
     const token: string = req.headers[headers] as string;
     if(!token) {
-      next(new BadRequestError());
+      return next(new BadRequestError());
     }
     const payload: TokenPayload = jwt.verify(token.slice(7), config.jwtSecret) as TokenPayload;
     if(payload.type !== type) {
-      next(new UnAuthorizedTokenError());
+      return next(new UnAuthorizedTokenError());
     }
     req.decoded = payload;
     next();
