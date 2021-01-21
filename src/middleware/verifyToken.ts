@@ -5,14 +5,14 @@ import { TokenPayload } from './../shared/TokenPayloadInterface';
 import { config } from "../config";
 import { BadRequestError, ExpiredTokenError, UnAuthorizedTokenError } from "../shared/exception";
 
-const verifyTokenLogic: BusinessLogic = (req, res, next) => {
+const verifyTokenLogic: (type: string) => BusinessLogic = (type: string) => (req, res, next) => {
   try {
     const token: string = req.headers["authorization"];
     if(!token) {
       next(new BadRequestError());
     }
     const payload: TokenPayload = jwt.verify(token, config.jwtSecret) as TokenPayload;
-    if(payload.type !== "access") {
+    if(payload.type !== type) {
       next(new UnAuthorizedTokenError());
     }
     req.decoded = payload;
@@ -26,5 +26,6 @@ const verifyTokenLogic: BusinessLogic = (req, res, next) => {
   }
 }
 
-const verifyTokenMiddleware: BusinessLogic = errorHandler(verifyTokenLogic);
-export { verifyTokenMiddleware }
+const verifyTokenMiddleware: BusinessLogic = errorHandler(verifyTokenLogic("access"));
+const verifyRefreshTokenMiddleware: BusinessLogic = errorHandler(verifyTokenLogic("refresh"));
+export { verifyTokenMiddleware, verifyRefreshTokenMiddleware }
