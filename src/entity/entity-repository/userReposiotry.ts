@@ -22,4 +22,17 @@ export class UserRepository extends Repository<User> {
     .setParameter("gcn", gcn)
     .getOne();
   }
+
+  public async findOrCreateUser(user: Partial<User>): Promise<User> {
+    const existUser: User = await this.createQueryBuilder("user")
+    .where("user.name = :name", { name: user.name })
+    .andWhere("user.gcn = :gcn", { gcn: user.gcn })
+    .andWhere("user.email = email", { email: user.email })
+    .getOne();
+    if(existUser) {
+      return existUser;
+    } else {
+      return this.createDefaultUser(user);
+    }
+   }
 }
