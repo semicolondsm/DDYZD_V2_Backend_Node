@@ -26,7 +26,14 @@ const refreshToken: BusinessLogic = async (req, res, next) => {
   });
 }
 
+const showUserInfo: BusinessLogic = async (req, res, next) => {
+  const user: User = await UserRepository.getQueryRepository().findUserByClassIdentity(req.params.user_gcn);
+  delete user.device_token;
+  res.status(200).json(user);
+}
+
 export { 
   provideToken,
-  refreshToken
+  refreshToken,
+  showUserInfo
 }
