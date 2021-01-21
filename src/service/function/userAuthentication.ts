@@ -8,10 +8,9 @@ const DSM_AUTH_URL = "http://54.180.98.91:8090";
 
 const issuanceToken = async (user_id: number, type: string): Promise<string> => {
   return jwt.sign({
-    sub: user_id,
+    sub: `${user_id}`,
     type: type,
   }, config.jwtSecret, {
-    issuer: "ddyzd",
     expiresIn: type === "access" ? "2h" : "14d",
   });
 }
