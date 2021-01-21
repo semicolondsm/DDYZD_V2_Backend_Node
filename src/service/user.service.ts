@@ -14,15 +14,15 @@ const provideToken: BusinessLogic = async (req, res, next) => {
   const authenticatedUser: User = checkExistUser ? 
   checkExistUser : await UserRepository.getQueryRepository().createDefaultUser(userInfo);
   return res.status(200).json({
-    "access-token": await issuanceToken(authenticatedUser.user_id, "access"),
-    "refresh-token": await issuanceToken(authenticatedUser.user_id, "refresh"),
+    "access_token": await issuanceToken(authenticatedUser.user_id, "access"),
+    "refresh_token": await issuanceToken(authenticatedUser.user_id, "refresh"),
   });
 }
 
 const refreshToken: BusinessLogic = async (req, res, next) => {
   const accessToken: string = await issuanceToken(req.decoded.subject, "access");
   res.status(200).json({
-    "access-token": accessToken,
+    "access_token": accessToken,
   });
 }
 
