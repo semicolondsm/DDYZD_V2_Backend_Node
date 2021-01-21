@@ -19,6 +19,14 @@ const provideToken: BusinessLogic = async (req, res, next) => {
   });
 }
 
+const refreshToken: BusinessLogic = async (req, res, next) => {
+  const accessToken: string = await issuanceToken(req.decoded.subject, "access");
+  res.status(200).json({
+    "access-token": accessToken,
+  });
+}
+
 export { 
   provideToken,
+  refreshToken
 }
