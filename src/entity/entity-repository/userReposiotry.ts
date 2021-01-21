@@ -17,7 +17,7 @@ export class UserRepository extends Repository<User> {
   }
 
   public findUserByClassIdentity(gcn: string): Promise<User> {
-    return this.createQueryBuilder()
+    return this.createQueryBuilder("user")
     .where("user.gcn = :gcn")
     .setParameter("gcn", gcn)
     .getOne();
