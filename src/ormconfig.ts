@@ -12,6 +12,8 @@ export const createOptions: ConnectionOptions = {
    logging: config.dbLogging,
    entities: [
       "dist/entity/model/**/*.js",
-      "dist/entity/view/**/*.js"
+      "dist/entity/view/**/*.js",
+      "src/entity/model/**/*.ts",
+      "src/entity/view/**/*.ts"
    ]
 }
