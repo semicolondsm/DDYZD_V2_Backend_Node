@@ -29,13 +29,13 @@ export class Club {
   close_at?: Date;
 
   @Column()
-  banner_img: string;
+  banner_image: string;
 
   @Column()
-  profile_img: string;
+  profile_image: string;
 
   @Column({ nullable: true })
-  hongbo_img?: string;
+  hongbo_image: string;
 
   @OneToMany(() => Feed, feed => feed.club)
   feeds: Feed[];
