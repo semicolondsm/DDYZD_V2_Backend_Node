@@ -28,6 +28,9 @@ export class Club {
   @Column({ type: "datetime", nullable: true })
   close_at?: Date;
 
+  @Column({ default: "", nullable: true  })
+  description: string;
+
   @Column()
   banner_image: string;
 

@@ -6,10 +6,16 @@ const options: CustomViewEntityOption = new CustomViewEntityOption("club_tag_vie
 @ViewEntity(options)
 export class ClubTagView {
   @ViewColumn()
-  club_id: number;
+  id: number;
 
   @ViewColumn()
-  club_name: string;
+  name: string;
+
+  @ViewColumn()
+  description: string;
+
+  @ViewColumn()
+  club_image: string;
 
   @ViewColumn()
   tag_name: string;
