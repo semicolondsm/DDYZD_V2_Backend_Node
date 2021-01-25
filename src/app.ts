@@ -27,8 +27,8 @@ createConnection(createOptions).then((c) => {
 app.set("port", config.ServicePort || "3000");
 
 app.use(morgan("dev"));
-app.use("/file/feed", express.static(path.join(__dirname, "../../file/feed")));
-app.use("/file/club", express.static(path.join(__dirname, "../../file/club")));
+app.use("/file/feed", express.static(path.join(__dirname, "feeds")));
+app.use("/file/club", express.static(path.join(__dirname, "clubs")));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use((req: Request, res: Response, next: NextFunction) => {
