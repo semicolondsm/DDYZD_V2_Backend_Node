@@ -1,5 +1,7 @@
+import { ClubUserViewRepository } from "../entity/entity-repository/clubUserViewRepository";
 import { UserRepository } from "../entity/entity-repository/userReposiotry";
 import { User } from "../entity/model";
+import { ClubUserView } from "../entity/view/ClubUserView";
 import { BusinessLogic } from "../shared/BusinessLogicInterface";
 import { BadRequestError } from "../shared/exception";
 import { getUserInfoWithDsmAuth, issuanceToken } from "./function/userAuthentication";
@@ -28,11 +30,15 @@ const refreshToken: BusinessLogic = async (req, res, next) => {
 
 const showUserInfo: BusinessLogic = async (req, res, next) => {
   const user: User = await UserRepository.getQueryRepository().findUserByClassIdentity(req.params.user_gcn);
+  const clubs: ClubUserView[] = await ClubUserViewRepository.getQueryRepository().findUsersClub(req.params.user_gcn);
   if(!user) {
     return next(new BadRequestError());
   }
   delete user.device_token;
-  res.status(200).json(user);
+  res.status(200).json({
+    ... user,
+    clubs,
+  });
 }
 
 export { 
