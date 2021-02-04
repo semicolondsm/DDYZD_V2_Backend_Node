@@ -36,10 +36,7 @@ const showUserInfo: BusinessLogic = async (req, res, next) => {
     return next(new BadRequestError());
   }
   delete user.device_token;
-  res.status(200).json({
-    ... user,
-    clubs,
-  });
+  res.status(200).json({ ... user, clubs, });
 }
 
 const modifyUserInfo: BusinessLogic = async (req, res, next) => {
