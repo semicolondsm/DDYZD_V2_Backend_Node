@@ -55,5 +55,6 @@ export {
   provideToken,
   refreshToken,
   showUserInfo,
+  modifyUserInfo,
   deviceToken,
 }
