@@ -55,5 +55,5 @@ export {
   provideToken,
   refreshToken,
   showUserInfo,
-  modifyUserInfo,
+  modifyUserInfo
 }
