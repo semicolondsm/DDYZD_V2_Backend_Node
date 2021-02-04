@@ -3,6 +3,7 @@ import { UserRepository } from "../entity/entity-repository/userReposiotry";
 import { User } from "../entity/model";
 import { ClubUserView } from "../entity/view/ClubUserView";
 import { BusinessLogic } from "../shared/BusinessLogicInterface";
+import { ModifyUserInfoSchema } from "../shared/DataTransferObject";
 import { BadRequestError, UnAuthorizedTokenError } from "../shared/exception";
 import { getUserInfoWithDsmAuth, issuanceToken } from "./function/userAuthentication";
 
@@ -36,6 +37,18 @@ const showUserInfo: BusinessLogic = async (req, res, next) => {
   }
   delete user.device_token;
   res.status(200).json({ ... user, clubs, });
+}
+
+const modifyUserInfo: BusinessLogic = async (req, res, next) => {
+  const { error, value } = ModifyUserInfoSchema.validate(req.body);
+  if(error) {
+    return next(new BadRequestError());
+  }
+  const modifiedUser: User = await UserRepository.getQueryRepository().putUserData(+req.decoded.sub, value);
+  if(!modifiedUser) {
+    return next(new UnAuthorizedTokenError());
+  }
+  res.status(200).json({ msg: "Profile modify success" });
 }
 
 const deviceToken: BusinessLogic = async (req, res, next) => {
