@@ -9,9 +9,11 @@ const userServiceRouter: Router = Router();
 const provideUserTokenHandler: BusinessLogic = errorHandler(UserService.provideToken);
 const refreshTokenHandler: BusinessLogic = errorHandler(UserService.refreshToken);
 const showUserInfoHandler: BusinessLogic = errorHandler(UserService.showUserInfo);
+const modifyUserInfoHandler: BusinessLogic = errorHandler(UserService.modifyUserInfo);
 
 userServiceRouter.get("/token", provideUserTokenHandler);
 userServiceRouter.get("/refresh", verifyRefreshTokenMiddleware, refreshTokenHandler);
 userServiceRouter.get("/:user_gcn", verifyTokenMiddleware, showUserInfoHandler);
+userServiceRouter.put("/profile", verifyTokenMiddleware, modifyUserInfoHandler);
 
 export { userServiceRouter }
