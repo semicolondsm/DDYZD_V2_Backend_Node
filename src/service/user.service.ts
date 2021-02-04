@@ -5,7 +5,6 @@ import { ClubUserView } from "../entity/view/ClubUserView";
 import { BusinessLogic } from "../shared/BusinessLogicInterface";
 import { BadRequestError, UnAuthorizedTokenError } from "../shared/exception";
 import { getUserInfoWithDsmAuth, issuanceToken } from "./function/userAuthentication";
-import { ModifyUserInfoSchema } from "../shared/DataTransferObject";
 
 const provideToken: BusinessLogic = async (req, res, next) => {
   const token: string = req.headers["access-token"] as string;
@@ -39,21 +38,22 @@ const showUserInfo: BusinessLogic = async (req, res, next) => {
   res.status(200).json({ ... user, clubs, });
 }
 
-const modifyUserInfo: BusinessLogic = async (req, res, next) => {
-   const { error, value } = ModifyUserInfoSchema.validate(req.body);
-   if(error) {
-     return next(new BadRequestError());
-   }
-   const modifiedUser: User = await UserRepository.getQueryRepository().putUserData(+req.decoded.sub, value);
-   if(!modifiedUser) {
-     return next(new UnAuthorizedTokenError());
-   }
-   res.status(200).json({ msg: "Profile modify success" });
+const deviceToken: BusinessLogic = async (req, res, next) => {
+  const token: string = req.get("device-token");
+  if(!token || typeof token !== "string") {
+    return next(new BadRequestError());
+  }
+  const splitToken = token.split(" ");
+  if(splitToken[0] !== "Bearer") {
+    return next(new UnAuthorizedTokenError());
+  }
+  await UserRepository.getQueryRepository().deviceToken(+req.decoded.sub, splitToken[1]);
+  res.status(200).json({ message: "Device token inserted" });
 }
 
 export { 
   provideToken,
   refreshToken,
   showUserInfo,
-  modifyUserInfo,
+  deviceToken,
 }
