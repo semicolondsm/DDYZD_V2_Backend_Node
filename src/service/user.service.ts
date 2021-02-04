@@ -1,8 +1,11 @@
+import { ClubUserViewRepository } from "../entity/entity-repository/clubUserViewRepository";
 import { UserRepository } from "../entity/entity-repository/userReposiotry";
 import { User } from "../entity/model";
+import { ClubUserView } from "../entity/view/ClubUserView";
 import { BusinessLogic } from "../shared/BusinessLogicInterface";
-import { BadRequestError } from "../shared/exception";
+import { BadRequestError, UnAuthorizedTokenError } from "../shared/exception";
 import { getUserInfoWithDsmAuth, issuanceToken } from "./function/userAuthentication";
+import { ModifyUserInfoSchema } from "../shared/DataTransferObject";
 
 const provideToken: BusinessLogic = async (req, res, next) => {
   const token: string = req.headers["access-token"] as string;
@@ -28,15 +31,29 @@ const refreshToken: BusinessLogic = async (req, res, next) => {
 
 const showUserInfo: BusinessLogic = async (req, res, next) => {
   const user: User = await UserRepository.getQueryRepository().findUserByClassIdentity(req.params.user_gcn);
+  const clubs: ClubUserView[] = await ClubUserViewRepository.getQueryRepository().findUsersClub(req.params.user_gcn);
   if(!user) {
     return next(new BadRequestError());
   }
   delete user.device_token;
-  res.status(200).json(user);
+  res.status(200).json({ ... user, clubs, });
+}
+
+const modifyUserInfo: BusinessLogic = async (req, res, next) => {
+   const { error, value } = ModifyUserInfoSchema.validate(req.body);
+   if(error) {
+     return next(new BadRequestError());
+   }
+   const modifiedUser: User = await UserRepository.getQueryRepository().putUserData(+req.decoded.sub, value);
+   if(!modifiedUser) {
+     return next(new UnAuthorizedTokenError());
+   }
+   res.status(200).json({ msg: "Profile modify success" });
 }
 
 export { 
   provideToken,
   refreshToken,
-  showUserInfo
+  showUserInfo,
+  modifyUserInfo,
 }
