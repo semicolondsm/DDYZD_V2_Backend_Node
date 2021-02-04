@@ -4,8 +4,7 @@
   "description": "Awesome project developed with TypeORM.",
   "scripts": {
     "start": "nodemon --exec ts-node src/app.ts",
-    "start:prod": "cross-env NODE_ENV=production npx pm2 start ./dist/app.js --name express",
-    "stop": "npx pm2 stop express & npx pm2 delete express",
+    "start:prod": "cross-env NODE_ENV=production node ./dist/app.js",
     "copyfiles": "cp -r ./src/entity/view/generation-view/query/ ./dist/entity/view/generation-view/query",
     "build": "npx tsc & npm run copyfiles"
   },
