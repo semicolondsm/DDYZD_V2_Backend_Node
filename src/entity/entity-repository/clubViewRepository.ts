@@ -18,4 +18,13 @@ export class ClubTagViewRepository extends Repository<ClubTagView> {
     .groupBy("view.id")
     .getRawMany();
   }
+
+  public async findClubTagsById(club_id: number): Promise<string[]> {
+    const result: { clubtag: string } = await this.createQueryBuilder("view")
+    .select("GROUP_CONCAT(view.tag_name)", "clubtag")
+    .groupBy("view.id")
+    .having("view.id = :id", { id: club_id })
+    .getRawOne();
+    return result.clubtag.split(",");
+  }
 }
