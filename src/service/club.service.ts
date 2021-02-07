@@ -1,5 +1,7 @@
+import { ClubRepository } from "../entity/entity-repository/clubRepository";
 import { BusinessLogic } from "../shared/BusinessLogicInterface";
-import { ClubListResObj } from "../shared/DataTransferObject";
+import { ClubInfoResObj, ClubListResObj } from "../shared/DataTransferObject";
+import { BadRequestError } from "../shared/exception";
 import { ClubTagViewRepository } from './../entity/entity-repository/clubViewRepository';
 
 const showClubList: BusinessLogic = async  (req, res, next) => {
@@ -11,4 +13,16 @@ const showClubList: BusinessLogic = async  (req, res, next) => {
   res.status(200).json(clubs);
 }
 
-export { showClubList }
+const showClubInfo: BusinessLogic = async (req, res, next) => {
+  const club: ClubInfoResObj = await ClubRepository.getQueryRepository().findInfoById(+req.params.club_id);
+  if(!club) {
+    return next(new BadRequestError());
+  }
+  club.clubtag = await ClubTagViewRepository.getQueryRepository().findClubTagsById(+req.params.club_id);
+  res.status(200).json(club);
+}
+
+export { 
+  showClubList,
+  showClubInfo 
+}
