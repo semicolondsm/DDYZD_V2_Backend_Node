@@ -8,6 +8,15 @@ export class ClubListResObj {
   clubtag: string | string[];
 }
 
+export class ClubInfoResObj {
+  clubid: number;
+  clubname: string;
+  clubtag?: string[];
+  clubimage: string;
+  backimage: string;
+  description: string;
+}
+
 export class ModifyUserInfoDto {
   git?: string;
   email?: string;
