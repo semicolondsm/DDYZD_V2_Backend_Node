@@ -1,6 +1,6 @@
-FROM node:15.5.1
+FROM node:15.8.0-alpine3.10
 
-WORKDIR /home/node/app
+WORKDIR /root
 
 COPY . .
 
