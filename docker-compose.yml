@@ -8,6 +8,4 @@ services:
         - "3000:3000"
       volumes:
         - /home/semicolon/DDYZD/DDYZD_V2_Backend_Node/logs:/home/node/app/logs
-        - /home/semicolon/DDYZD/file/feed:/home/node/app/dist/feeds
-        - /home/semicolon/DDYZD/file/club:/home/node/app/dist/clubs
       container_name: express
