@@ -4,12 +4,12 @@ import { BusinessLogic } from "../shared/BusinessLogicInterface";
 import * as clubService from "../service/club.service";
 import { verifyTokenMiddleware } from "../middleware/verifyToken";
 
-const clubServiceRotue: Router = Router();
+const clubServiceRouter = Router();
 
 const showClubListHandler: BusinessLogic = errorHandler(clubService.showClubList);
 const followClubHandler: BusinessLogic = errorHandler(clubService.followClubHandler);
 
-clubServiceRotue.get("/list", showClubListHandler);
-clubServiceRotue.post("/:club_id/follow", verifyTokenMiddleware, followClubHandler);
+clubServiceRouter.get("/list", showClubListHandler);
+clubServiceRouter.post("/:club_id/follow", verifyTokenMiddleware, followClubHandler);
 
-export { clubServiceRotue }
+export { clubServiceRouter }
