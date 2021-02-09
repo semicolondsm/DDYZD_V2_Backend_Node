@@ -1,43 +1,37 @@
 import { Router } from "express";
 import { errorHandler } from "../middleware/errorHandler";
-import { BusinessLogic } from "../shared/BusinessLogicInterface";
 import * as UserService from "../service/user.service";
 import { verifyRefreshTokenMiddleware, verifyTokenMiddleware } from "../middleware/verifyToken";
 
 const userServiceRouter: Router = Router();
 
-const provideUserTokenHandler: BusinessLogic = errorHandler(UserService.provideToken);
-const refreshTokenHandler: BusinessLogic = errorHandler(UserService.refreshToken);
-const showUserInfoHandler: BusinessLogic = errorHandler(UserService.showUserInfo);
-const modifyUserInfoHandler: BusinessLogic = errorHandler(UserService.modifyUserInfo);
-const userDeviceTokenHandler: BusinessLogic = errorHandler(UserService.deviceToken);
-
 userServiceRouter.get(
   "/token", 
-  provideUserTokenHandler
+  errorHandler(UserService.provideToken)
 );
 
 userServiceRouter.get(
   "/refresh", 
   verifyRefreshTokenMiddleware, 
-  refreshTokenHandler
+  errorHandler(UserService.refreshToken)
 );
 
 userServiceRouter.get(
   "/:user_gcn", 
   verifyTokenMiddleware, 
-  showUserInfoHandler
+  errorHandler(UserService.showUserInfo)
 );
+
 userServiceRouter.put(
   "/profile", 
   verifyTokenMiddleware, 
-  modifyUserInfoHandler
+  errorHandler(UserService.modifyUserInfo)
 );
 
 userServiceRouter.post(
   "/device_token", 
   verifyTokenMiddleware, 
-  userDeviceTokenHandler
+  errorHandler(UserService.deviceToken)
 );
 
 export { userServiceRouter }
