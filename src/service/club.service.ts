@@ -2,41 +2,42 @@ import { ClubFollowRepository } from "../entity/entity-repository/clubFollowRepo
 import { ClubRepository } from "../entity/entity-repository/clubRepository";
 import { UserRepository } from "../entity/entity-repository/userReposiotry";
 import { Club, User } from "../entity/model";
-import { BusinessLogic } from "../shared/BusinessLogicInterface";
 import { ClubInfoResObj, ClubListResObj } from "../shared/DataTransferObject";
 import { BadRequestError } from "../shared/exception";
 import { ClubTagViewRepository } from './../entity/entity-repository/clubViewRepository';
 
-const showClubList: BusinessLogic = async  (req, res, next) => {
-  const clubs: ClubListResObj[] = await ClubTagViewRepository.getQueryRepository().findAllClub();
-  clubs.forEach(club => {
-    const serializedClubtags: string = club.clubtag as string;
-    club.clubtag = serializedClubtags.split(",");
-  });
-  res.status(200).json(clubs);
-}
+export class ClubService {
+  constructor(
+    private clubTagViewRepository: ClubTagViewRepository,
+    private clubRepository: ClubRepository,
+    private userRepository: UserRepository,
+    private clubFollowRepository: ClubFollowRepository
+  ) {}
 
-const showClubInfo: BusinessLogic = async (req, res, next) => {
-  const club: ClubInfoResObj = await ClubRepository.getQueryRepository().findInfoById(+req.params.club_id);
-  if(!club) {
-    return next(new BadRequestError());
+  public async showClubList(): Promise<ClubListResObj[]> {
+    const clubs: ClubListResObj[] = await this.clubTagViewRepository.findAllClub();
+    clubs.forEach(club => {
+      const serializedClubtags: string = club.clubtag as string;
+      club.clubtag = serializedClubtags.split(",");
+    });
+    return clubs;
   }
-  club.clubtag = await ClubTagViewRepository.getQueryRepository().findClubTagsById(+req.params.club_id);
-  res.status(200).json(club);
-}
-
-const followClubHandler: BusinessLogic = async (req, res, next) => {
-  const userRecord: User = await UserRepository.getQueryRepository().findOne(+req.decoded.sub);
-  const clubRecord: Club = await ClubRepository.getQueryRepository().findOne(+req.params.club_id);
-  if(!userRecord || !clubRecord) {
-    return next(new BadRequestError());
+  
+  public async showClubInfo(club_id: number): Promise<ClubInfoResObj> {
+    const club: ClubInfoResObj = await this.clubRepository.findInfoById(club_id);
+    if(!club) {
+      throw new BadRequestError();
+    }
+    club.clubtag = await this.clubTagViewRepository.findClubTagsById(club_id);
+    return club;
   }
-  await ClubFollowRepository.getQueryRepository().createClubFollow(userRecord, clubRecord);
-  res.status(200).json({ message: "User following club now" })
-}
-
-export { 
-  showClubList,
-  showClubInfo,
-  followClubHandler
+  
+  public async followClubHandler(user_id: number, club_id: number) {
+    const userRecord: User = await this.userRepository.findOne(user_id);
+    const clubRecord: Club = await this.clubRepository.findOne(club_id);
+    if(!userRecord || !clubRecord) {
+      throw new BadRequestError();
+    }
+    await this.clubFollowRepository.createClubFollow(userRecord, clubRecord);
+  }
 }
