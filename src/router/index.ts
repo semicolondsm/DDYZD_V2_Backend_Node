@@ -1,10 +1,12 @@
 import { Router } from "express";
-import { userServiceRouter } from "./user.controller";
-import { clubServiceRouter } from "./club.controller";
+import { clubServiceRouter } from "./club.router";
+import { userServiceRouter } from "./user.router";
 
-const router: Router = Router();
+export const ddyzdRouter = () => {
+  const app = Router();
 
-router.use("/users", userServiceRouter);
-router.use("/club", clubServiceRouter);
+  clubServiceRouter(app);
+  userServiceRouter(app);
 
-export default router;
+  return app;
+}
