@@ -27,22 +27,9 @@ createConnection(createOptions).then((c) => {
 app.set("port", config.ServicePort || "3000");
 
 app.use(morgan("dev"));
-app.use("/file/feed", express.static(path.join(__dirname, "feeds")));
-app.use("/file/club", express.static(path.join(__dirname, "clubs")));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use((req: Request, res: Response, next: NextFunction) => {
-  const allowOrigins: string[] = [process.env.ALLOW_ORIGIN1, process.env.ALLOW_ORIGIN2];
-  const origin: string = req.headers.origin as string;
-  if(allowOrigins.includes(origin)) {
-    cors({
-      origin,
-      credentials: true,
-    })(req, res, next);
-  } else {
-    next();
-  }
-});
+app.use(cors());
 
 app.use("/", ddyzdRouter);
 
