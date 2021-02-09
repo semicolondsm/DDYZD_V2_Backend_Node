@@ -1,37 +1,37 @@
 import { Router } from "express";
 import { errorHandler } from "../middleware/errorHandler";
-import * as UserService from "../service/user.service";
+import * as userService from "../service/user.service";
 import { verifyRefreshTokenMiddleware, verifyTokenMiddleware } from "../middleware/verifyToken";
 
 const userServiceRouter: Router = Router();
 
 userServiceRouter.get(
   "/token", 
-  errorHandler(UserService.provideToken)
+  errorHandler(userService.provideToken)
 );
 
 userServiceRouter.get(
   "/refresh", 
   verifyRefreshTokenMiddleware, 
-  errorHandler(UserService.refreshToken)
+  errorHandler(userService.refreshToken)
 );
 
 userServiceRouter.get(
   "/:user_gcn", 
   verifyTokenMiddleware, 
-  errorHandler(UserService.showUserInfo)
+  errorHandler(userService.showUserInfo)
 );
 
 userServiceRouter.put(
   "/profile", 
   verifyTokenMiddleware, 
-  errorHandler(UserService.modifyUserInfo)
+  errorHandler(userService.modifyUserInfo)
 );
 
 userServiceRouter.post(
   "/device_token", 
   verifyTokenMiddleware, 
-  errorHandler(UserService.deviceToken)
+  errorHandler(userService.deviceToken)
 );
 
 export { userServiceRouter }
