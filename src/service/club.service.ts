@@ -52,6 +52,5 @@ export class ClubService {
       throw new BadRequestError();
     }
     await this.clubFollowRepository.deleteClubFollow(userRecord, clubRecord);
-    return { message: "User unfollowing club now" };
   }
 }
