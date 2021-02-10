@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  express:
+      image: node:jiwoo
+      build: ./
+      ports:
+        - "3000:3000"
+      volumes:
+        - /home/semicolon/DDYZD/DDYZD_V2_Backend_Node/logs:/home/node/app/logs
+      container_name: express

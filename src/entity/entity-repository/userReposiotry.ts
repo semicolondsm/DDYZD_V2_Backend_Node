@@ -31,6 +31,10 @@ export class UserRepository extends Repository<User> {
     .getOne();
   }
 
+  public async deviceToken(id: number, token: string): Promise<void> {
+    await this.update(id, { device_token: token });
+  }
+
   public async putUserData(user_id: number, body: ModifyUserInfoDto): Promise<User> {
     const user: User = await this.findOne({ where: { user_id } });
     if(!user) {

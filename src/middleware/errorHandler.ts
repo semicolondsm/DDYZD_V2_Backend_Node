@@ -1,5 +1,4 @@
 import { BusinessLogic } from "../shared/BusinessLogicInterface";
-import { HttpError, InternalServerError } from "../shared/exception";
 import { logger } from "../shared/logger";
 
 export const errorHandler = (myFunc: BusinessLogic): BusinessLogic => {
@@ -7,14 +6,8 @@ export const errorHandler = (myFunc: BusinessLogic): BusinessLogic => {
     try {
       await myFunc(req, res, next);
     } catch(err) {
-      if(err instanceof HttpError) {
-        logger.info(err.message);
-        next(err);
-      } else {
-        console.log(err);
-        logger.error(err.message);
-        next(new InternalServerError());
-      }
+      logger.error(err.message);
+      next(err);
     }
   }
 }
