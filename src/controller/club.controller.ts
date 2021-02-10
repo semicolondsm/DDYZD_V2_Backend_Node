@@ -28,4 +28,9 @@ export class ClubController {
     await this.clubService.followClubHandler(+req.decoded.sub, +req.params.club_id);
     res.status(200).json({ message: "User following club now" })
   }
+
+  public unfollowClub: BusinessLogic = async (req, res, next) => {
+    const response = await this.clubService.unfollowClub(+req.decoded.sub, +req.params.club_id);
+    res.status(200).json(response);
+  }
 }
