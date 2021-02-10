@@ -33,6 +33,13 @@ export class UserInfoResObj extends User {
   clubs: ClubUserView[];
 }
 
+export class ClubMemberResObj {
+  name: string;
+  profile_image: string;
+  gcn: string;
+  git: string;
+}
+
 export class ModifyUserInfoDto {
   git?: string;
   email?: string;
