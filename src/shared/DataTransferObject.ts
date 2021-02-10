@@ -17,6 +17,11 @@ export class ClubInfoResObj {
   description: string;
 }
 
+export class UserTokenResOhj {
+  access_token: string;
+  refresh_token?: string;
+}
+
 export class ModifyUserInfoDto {
   git?: string;
   email?: string;
