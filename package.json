@@ -7,7 +7,8 @@
     "start:prod": "cross-env NODE_ENV=production node ./dist/app.js",
     "copyfiles": "cp -r ./src/entity/view/generation-view/query/ ./dist/entity/view/generation-view/query",
     "build": "npx tsc & npm run copyfiles",
-    "test": "tsc & cross-env NODE_ENV=test npx mocha dist/test/**/*.spec.js"
+    "test": "tsc & cross-env NODE_ENV=test npx mocha dist/test/**/*.spec.js",
+    "coverage": "nyc --reporter=text npm test"
   },
   "devDependencies": {
     "@types/body-parser": "^1.19.0",
@@ -38,6 +39,7 @@
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
     "mysql2": "^2.2.5",
+    "nyc": "^15.1.0",
     "reflect-metadata": "^0.1.10",
     "typeorm": "0.2.29",
     "winston": "^3.3.3"
