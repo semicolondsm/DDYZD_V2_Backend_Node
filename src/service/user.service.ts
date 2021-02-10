@@ -2,7 +2,7 @@ import { ClubUserViewRepository } from "../entity/entity-repository/clubUserView
 import { UserRepository } from "../entity/entity-repository/userReposiotry";
 import { User } from "../entity/model";
 import { ClubUserView } from "../entity/view/ClubUserView";
-import { ModifyUserInfoSchema, UserTokenResOhj } from "../shared/DataTransferObject";
+import { ModifyUserInfoSchema, UserInfoResObj, UserTokenResOhj } from "../shared/DataTransferObject";
 import { BadRequestError, UnAuthorizedTokenError } from "../shared/exception";
 import { getUserInfoWithDsmAuth, issuanceToken } from "./function/userAuthentication";
 import { ModifyUserInfoDto } from './../shared/DataTransferObject';
@@ -34,7 +34,7 @@ export class UserService {
     };
   }
   
-  public async showUserInfo(gcn: string) {
+  public async showUserInfo(gcn: string): Promise<UserInfoResObj> {
     const user: User = await this.userRepository.findUserByClassIdentity(gcn);
     const clubs: ClubUserView[] = await this.clubUserViewRepository.findUsersClub(gcn);
     if(!user) {

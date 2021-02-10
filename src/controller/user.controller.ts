@@ -2,7 +2,7 @@ import { ClubUserViewRepository } from "../entity/entity-repository/clubUserView
 import { UserRepository } from "../entity/entity-repository/userReposiotry";
 import { UserService } from "../service/user.service";
 import { BusinessLogic } from "../shared/BusinessLogicInterface";
-import { UserTokenResOhj } from "../shared/DataTransferObject";
+import { UserInfoResObj, UserTokenResOhj } from "../shared/DataTransferObject";
 
 export class UserController {
   private userService: UserService = new UserService(
@@ -22,7 +22,7 @@ export class UserController {
   }
 
   public showUserInfo: BusinessLogic = async (req, res, next) => {
-    const response = await this.userService.showUserInfo(req.params.user_gcn);
+    const response: UserInfoResObj = await this.userService.showUserInfo(req.params.user_gcn);
     res.status(200).json(response);
   }
 
