@@ -53,7 +53,6 @@ export class UserService {
     if(!modifiedUser) {
       throw new UnAuthorizedTokenError();
     }
-    return { msg: "Profile modify success" };
   }
   
   public async deviceToken(token: string, user_id: number) {
@@ -65,6 +64,5 @@ export class UserService {
       throw new UnAuthorizedTokenError();
     }
     await this.userRepository.deviceToken(user_id, splitToken[1]);
-    return { message: "Device token inserted" };
   }
 }

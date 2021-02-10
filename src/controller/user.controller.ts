@@ -27,13 +27,13 @@ export class UserController {
   }
 
   public modifyUserInfo: BusinessLogic = async (req, res, next) => {
-    const response = await this.userService.modifyUserInfo(req.body, +req.decoded.sub);
-    res.status(200).json(response);
+    await this.userService.modifyUserInfo(req.body, +req.decoded.sub);
+    res.status(200).json({ msg: "Profile modify success" });
   }
 
   public deviceToken: BusinessLogic = async (req, res, next) => {
     const token: string = req.get("device-token");
-    const response = await this.userService.deviceToken(token, +req.decoded.sub);
-    res.status(200).json(response);
+    await this.userService.deviceToken(token, +req.decoded.sub);
+    res.status(200).json({ message: "Device token inserted" });
   }
 }
