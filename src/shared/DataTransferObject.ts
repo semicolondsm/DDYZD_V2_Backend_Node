@@ -1,4 +1,6 @@
 import Joi from "joi";
+import { User } from "../entity/model";
+import { ClubUserView } from "../entity/view/ClubUserView";
 
 export class ClubListResObj {
   clubid: number;
@@ -20,6 +22,10 @@ export class ClubInfoResObj {
 export class UserTokenResOhj {
   access_token: string;
   refresh_token?: string;
+}
+
+export class UserInfoResObj extends User {
+  clubs: ClubUserView[];
 }
 
 export class ModifyUserInfoDto {
