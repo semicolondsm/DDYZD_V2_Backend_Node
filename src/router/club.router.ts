@@ -27,4 +27,11 @@ export const clubServiceRouter = (app: Router) => {
     validationNumberParameter("club_id"), 
     errorHandler(clubController.followClubHandler)
   );
+
+  router.delete(
+    "/:club_id/follow",
+    verifyTokenMiddleware,
+    validationNumberParameter("club_id"),
+    errorHandler(clubController.unfollowClub)
+  )
 }
