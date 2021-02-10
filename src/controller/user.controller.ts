@@ -2,6 +2,7 @@ import { ClubUserViewRepository } from "../entity/entity-repository/clubUserView
 import { UserRepository } from "../entity/entity-repository/userReposiotry";
 import { UserService } from "../service/user.service";
 import { BusinessLogic } from "../shared/BusinessLogicInterface";
+import { UserTokenResOhj } from "../shared/DataTransferObject";
 
 export class UserController {
   private userService: UserService = new UserService(
@@ -11,12 +12,12 @@ export class UserController {
 
   public provideToken: BusinessLogic = async (req, res, next) => {
     const token: string = req.headers["access-token"] as string;
-    const response = await this.userService.provideToken(token);
+    const response: UserTokenResOhj = await this.userService.provideToken(token);
     res.status(200).json(response);
   }
 
   public refreshToken: BusinessLogic = async (req, res, next) => {
-    const response = await this.userService.refreshToken(+req.decoded.sub);
+    const response: UserTokenResOhj = await this.userService.refreshToken(+req.decoded.sub);
     res.status(200).json(response);
   }
 

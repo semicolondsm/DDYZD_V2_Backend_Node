@@ -2,7 +2,7 @@ import { ClubUserViewRepository } from "../entity/entity-repository/clubUserView
 import { UserRepository } from "../entity/entity-repository/userReposiotry";
 import { User } from "../entity/model";
 import { ClubUserView } from "../entity/view/ClubUserView";
-import { ModifyUserInfoSchema } from "../shared/DataTransferObject";
+import { ModifyUserInfoSchema, UserTokenResOhj } from "../shared/DataTransferObject";
 import { BadRequestError, UnAuthorizedTokenError } from "../shared/exception";
 import { getUserInfoWithDsmAuth, issuanceToken } from "./function/userAuthentication";
 import { ModifyUserInfoDto } from './../shared/DataTransferObject';
@@ -13,7 +13,7 @@ export class UserService {
     private userRepository: UserRepository,
   ) {}
 
-  public async provideToken(token: string) {
+  public async provideToken(token: string): Promise<UserTokenResOhj> {
     if(!token) {
       throw new BadRequestError();
     }
@@ -27,7 +27,7 @@ export class UserService {
     };
   }
 
-  public async refreshToken(user_id: number) {
+  public async refreshToken(user_id: number): Promise<UserTokenResOhj> {
     const accessToken: string = await issuanceToken(user_id, "access");
     return {
       "access_token": accessToken,
