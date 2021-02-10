@@ -19,6 +19,11 @@ export class ClubInfoResObj {
   description: string;
 }
 
+export class ClubRecruitmentInfoResObj {
+  major: string[];
+  closeat: Date;
+}
+
 export class UserTokenResOhj {
   access_token: string;
   refresh_token?: string;
