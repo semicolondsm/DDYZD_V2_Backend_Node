@@ -7,8 +7,12 @@ export class ClubFollowRepository extends Repository<ClubFollow> {
     return getCustomRepository(ClubFollowRepository);
   }
 
-  public createClubFollow(user: User, club: Club) {
+  public createClubFollow(user: User, club: Club): Promise<ClubFollow> {
     const clubFollow = this.create({ user, club });
     return this.save(clubFollow);
+  }
+
+  public async deleteClubFollow(user: User, club: Club): Promise<void> {
+    await this.delete({ user, club });
   }
 }
