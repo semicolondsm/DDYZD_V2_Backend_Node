@@ -7,11 +7,11 @@ export class ClubFollow {
   @PrimaryGeneratedColumn()
   follow_id: number;
 
-  @ManyToOne(() => User, user => user.followings)
+  @ManyToOne(() => User, user => user.followings, { onDelete: "CASCADE" })
   @JoinColumn({ name: "user_id" })
   user: User;
 
-  @ManyToOne(() => Club, club => club.followers)
+  @ManyToOne(() => Club, club => club.followers, { onDelete: "CASCADE" })
   @JoinColumn({ name: "club_id" })
   club: Club;
 }
