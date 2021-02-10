@@ -51,7 +51,7 @@ export class ClubService {
     if(!userRecord || !clubRecord || !existRecord) {
       throw new BadRequestError();
     }
-    await ClubFollowRepository.getQueryRepository().deleteClubFollow(userRecord, clubRecord);
+    await this.clubFollowRepository.deleteClubFollow(userRecord, clubRecord);
     return { message: "User unfollowing club now" };
   }
 }
