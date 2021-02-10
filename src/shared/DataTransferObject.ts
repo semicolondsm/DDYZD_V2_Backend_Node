@@ -1,5 +1,5 @@
-import Joi from "joi";
-import { User } from "../entity/model";
+import Joi, { number, string } from "joi";
+import { Option, User } from "../entity/model";
 import { ClubUserView } from "../entity/view";
 
 export class ClubListResObj {
@@ -38,6 +38,14 @@ export class ClubMemberResObj {
   profile_image: string;
   gcn: string;
   git: string;
+}
+
+export class SupplyClubItemDto {
+  price: number;
+  name: string;
+  count: number
+  option: Option;
+  url: string;
 }
 
 export class ModifyUserInfoDto {
