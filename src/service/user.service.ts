@@ -1,7 +1,7 @@
 import { ClubUserViewRepository } from "../entity/entity-repository/clubUserViewRepository";
 import { UserRepository } from "../entity/entity-repository/userReposiotry";
 import { User } from "../entity/model";
-import { ClubUserView } from "../entity/view/ClubUserView";
+import { ClubUserView } from "../entity/view";
 import { ModifyUserInfoSchema, UserInfoResObj, UserTokenResOhj } from "../shared/DataTransferObject";
 import { BadRequestError, UnAuthorizedTokenError } from "../shared/exception";
 import { getUserInfoWithDsmAuth, issuanceToken } from "./function/userAuthentication";

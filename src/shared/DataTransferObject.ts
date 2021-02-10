@@ -1,6 +1,6 @@
 import Joi from "joi";
 import { User } from "../entity/model";
-import { ClubUserView } from "../entity/view/ClubUserView";
+import { ClubUserView } from "../entity/view";
 
 export class ClubListResObj {
   clubid: number;

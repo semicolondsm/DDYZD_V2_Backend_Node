@@ -1,5 +1,5 @@
 import { EntityRepository, getCustomRepository, Repository } from "typeorm";
-import { ClubUserView } from "../view/ClubUserView";
+import { ClubUserView } from "../view";
 
 @EntityRepository(ClubUserView)
 export class ClubUserViewRepository extends Repository<ClubUserView> {
