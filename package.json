@@ -5,7 +5,6 @@
   "scripts": {
     "start": "nodemon --exec ts-node src/app.ts",
     "start:prod": "cross-env NODE_ENV=production node ./dist/app.js",
-    "copyfiles": "cp -r ./src/entity/view/generation-view/query/ ./dist/entity/view/generation-view/query",
     "build": "npx tsc & npm run copyfiles",
     "test": "tsc & cross-env NODE_ENV=test npx mocha dist/test/**/*.spec.js",
     "coverage": "nyc --reporter=text npm test"
