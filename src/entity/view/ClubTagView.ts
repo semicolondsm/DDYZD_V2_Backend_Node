@@ -1,9 +1,17 @@
-import { ViewColumn, ViewEntity } from "typeorm";
-import { CustomViewEntityOption } from "./generation-view/ViewEntityOption";
+import { Connection, ViewColumn, ViewEntity } from "typeorm";
+import { Club } from "../model";
 
-const options: CustomViewEntityOption = new CustomViewEntityOption("club_tag_view", "asClubTagView.sql");
-
-@ViewEntity(options)
+@ViewEntity({
+  name: "club_tag_view",
+  expression: (connection: Connection) => connection.createQueryBuilder(Club, "club")
+  .select("club.club_id", "id")
+  .addSelect("club.club_name", "name")
+  .addSelect("club.description", "description")
+  .addSelect("club.profile_image", "club_image")
+  .addSelect("tag.title", "tag_name")
+  .leftJoin("club.clubHasTags", "clubHasTag")
+  .leftJoin("clubHasTag.tag", "tag")
+})
 export class ClubTagView {
   @ViewColumn()
   id: number;
