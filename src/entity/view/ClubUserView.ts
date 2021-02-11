@@ -1,9 +1,18 @@
-import { ViewColumn, ViewEntity } from "typeorm";
-import { CustomViewEntityOption } from "./generation-view/ViewEntityOption";
+import { Connection, ViewColumn, ViewEntity } from "typeorm";
+import { Club } from "../model";
 
-const options: CustomViewEntityOption = new CustomViewEntityOption("club_user_view", "asClubUserView.sql");
-
-@ViewEntity(options)
+@ViewEntity({
+  name: "club_user_view",
+  expression: (connection: Connection) => connection.createQueryBuilder(Club, "club")
+  .select("club.club_id", "club_id")
+  .addSelect("club.club_name", "club_name")
+  .addSelect("user.user_id", "user_id")
+  .addSelect("user.name", "user_name")
+  .addSelect("user.gcn", "gcn")
+  .addSelect("application.result", "result")
+  .leftJoin("club.applications", "application")
+  .leftJoin("application.user", "user")
+})
 export class ClubUserView {
   @ViewColumn()
   club_id: number;
