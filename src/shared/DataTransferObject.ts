@@ -1,4 +1,4 @@
-import Joi, { number, string } from "joi";
+import Joi from "joi";
 import { Option, User } from "../entity/model";
 import { ClubUserView } from "../entity/view";
 
