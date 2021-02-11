@@ -7,5 +7,5 @@ services:
       ports:
         - "3000:3000"
       volumes:
-        - /home/semicolon/DDYZD/DDYZD_V2_Backend_Node/logs:/home/node/app/logs
+        - /home/semicolon/DDYZD/DDYZD_V2_Backend_Node/logs:/root/logs
       container_name: express
