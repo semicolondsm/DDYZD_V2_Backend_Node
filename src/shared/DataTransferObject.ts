@@ -34,7 +34,7 @@ export class UserInfoResObj extends User {
 }
 
 export class ClubMemberResObj {
-  name: string;
+  user_name: string;
   profile_image: string;
   gcn: string;
   git: string;
