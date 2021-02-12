@@ -6,6 +6,7 @@ import { UserRepository } from "../entity/entity-repository/userReposiotry";
 import { ClubService } from "../service/club.service";
 import { BusinessLogic } from "../shared/BusinessLogicInterface";
 import { ClubInfoResObj, ClubListResObj, ClubMemberResObj } from "../shared/DataTransferObject";
+import { ClubRecruitmentInfoResObj } from "./../shared/DataTransferObject";
 
 export class ClubController {
   private clubService: ClubService = new ClubService(
@@ -39,5 +40,10 @@ export class ClubController {
   public showClubsMember: BusinessLogic = async (req, res, next) => {
     const members: ClubMemberResObj[] = await this.clubService.showClubsMember(+req.params.club_id);
     res.status(200).json(members);
+  }
+
+  public showClubRecruitments: BusinessLogic = async (req, res, next) => {
+    const recruitments: ClubRecruitmentInfoResObj = await this.clubService.showClubRecruitments(+req.params.club_id);
+    res.status(200).json(recruitments);
   }
 }

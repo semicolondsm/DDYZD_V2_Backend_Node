@@ -2,7 +2,7 @@ import { ClubFollowRepository } from "../entity/entity-repository/clubFollowRepo
 import { ClubRepository } from "../entity/entity-repository/clubRepository";
 import { UserRepository } from "../entity/entity-repository/userReposiotry";
 import { Club, ClubFollow, User } from "../entity/model";
-import { ClubInfoResObj, ClubListResObj, ClubMemberResObj } from "../shared/DataTransferObject";
+import { ClubInfoResObj, ClubListResObj, ClubMemberResObj, ClubRecruitmentInfoResObj } from "../shared/DataTransferObject";
 import { BadRequestError } from "../shared/exception";
 import { ClubTagViewRepository } from "./../entity/entity-repository/clubViewRepository";
 import { ClubUserViewRepository } from "./../entity/entity-repository/clubUserViewRepository";
@@ -62,5 +62,16 @@ export class ClubService {
       throw new BadRequestError();
     } 
     return members;
+  }
+
+  public async showClubRecruitments(club_id: number): Promise<ClubRecruitmentInfoResObj> {
+    const recruitment: Club = await this.clubRepository.findClubRecruitments(club_id);
+    if(!recruitment) {
+      throw new BadRequestError()
+    } 
+    return {
+      major: recruitment.majors.map(major => major.majorname),
+      closeat: recruitment.close_at,
+    };
   }
 }
