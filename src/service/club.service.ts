@@ -2,7 +2,7 @@ import { ClubFollowRepository } from "../entity/entity-repository/clubFollowRepo
 import { ClubRepository } from "../entity/entity-repository/clubRepository";
 import { UserRepository } from "../entity/entity-repository/userReposiotry";
 import { Club, ClubFollow, User } from "../entity/model";
-import { ClubInfoResObj, ClubListResObj } from "../shared/DataTransferObject";
+import { ClubInfoResObj, ClubListResObj, ClubMemberResObj } from "../shared/DataTransferObject";
 import { BadRequestError } from "../shared/exception";
 import { ClubTagViewRepository } from "./../entity/entity-repository/clubViewRepository";
 import { ClubUserViewRepository } from "./../entity/entity-repository/clubUserViewRepository";
@@ -54,5 +54,13 @@ export class ClubService {
       throw new BadRequestError();
     }
     await this.clubFollowRepository.deleteClubFollow(userRecord, clubRecord);
+  }
+
+  public async showClubsMember(club_id: number): Promise<ClubMemberResObj[]> {
+    const members: ClubMemberResObj[] = await this.clubUserViewRepository.findClubsMember(club_id);
+    if(!members) {
+      throw new BadRequestError();
+    } 
+    return members;
   }
 }
