@@ -34,8 +34,8 @@ export class NotFoundError extends HttpError {
 }
 
 export class BadRequestError extends HttpError {
-  constructor() {
-    super(400, "Bad Request");
+  constructor(message = "Bad Request") {
+    super(400, message);
   }
 }
 

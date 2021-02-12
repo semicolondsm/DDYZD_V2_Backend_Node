@@ -2,10 +2,12 @@ import { ClubFollowRepository } from "../entity/entity-repository/clubFollowRepo
 import { ClubRepository } from "../entity/entity-repository/clubRepository";
 import { UserRepository } from "../entity/entity-repository/userReposiotry";
 import { Club, ClubFollow, Supply, User } from "../entity/model";
-import { ClubInfoResObj, ClubListResObj, ClubMemberResObj, ClubRecruitmentInfoResObj } from "../shared/DataTransferObject";
+import { ClubInfoResObj, ClubListResObj, ClubMemberResObj, ClubRecruitmentInfoResObj, SupplyClubItemDto } from "../shared/DataTransferObject";
 import { BadRequestError } from "../shared/exception";
 import { ClubTagViewRepository } from "./../entity/entity-repository/clubViewRepository";
 import { ClubUserViewRepository } from "./../entity/entity-repository/clubUserViewRepository";
+import { SupplyRepository } from "../entity/entity-repository/supplyRepository";
+import { OptionsRepository } from "../entity/entity-repository/optionRepository";
 
 export class ClubService {
   constructor(
@@ -13,7 +15,9 @@ export class ClubService {
     private clubUserViewRepository: ClubUserViewRepository,
     private clubRepository: ClubRepository,
     private userRepository: UserRepository,
-    private clubFollowRepository: ClubFollowRepository
+    private clubFollowRepository: ClubFollowRepository,
+    private supplyRepository: SupplyRepository,
+    private optionRepositoty: OptionsRepository
   ) {}
 
   public async showClubList(): Promise<ClubListResObj[]> {
@@ -89,5 +93,17 @@ export class ClubService {
       throw new BadRequestError();
     } 
     return supplies;
+  }
+
+  public async requestClubSupplies(club_id: number, user_id: number, data: SupplyClubItemDto) {
+    const club: Club = await this.clubRepository.findOne({ where: { club_id } });
+    const user: User = await this.userRepository.findOne({ where: { user_id } });
+    if(club.current_budget - data.price < 0) {
+      throw new BadRequestError("예산 초과"); 
+    } 
+    const supply: Supply = await this.supplyRepository.createNewSupply(club, user, data);
+    if(data.option) {
+      await this.optionRepositoty.createNewOption(data.option, supply);
+    }
   }
 }

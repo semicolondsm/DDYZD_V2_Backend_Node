@@ -2,6 +2,8 @@ import { ClubFollowRepository } from "../entity/entity-repository/clubFollowRepo
 import { ClubRepository } from "../entity/entity-repository/clubRepository";
 import { ClubUserViewRepository } from "../entity/entity-repository/clubUserViewRepository";
 import { ClubTagViewRepository } from "../entity/entity-repository/clubViewRepository";
+import { OptionsRepository } from "../entity/entity-repository/optionRepository";
+import { SupplyRepository } from "../entity/entity-repository/supplyRepository";
 import { UserRepository } from "../entity/entity-repository/userReposiotry";
 import { Club, Supply } from "../entity/model";
 import { ClubService } from "../service/club.service";
@@ -15,7 +17,9 @@ export class ClubController {
     ClubUserViewRepository.getQueryRepository(),
     ClubRepository.getQueryRepository(),
     UserRepository.getQueryRepository(),
-    ClubFollowRepository.getQueryRepository()
+    ClubFollowRepository.getQueryRepository(),
+    SupplyRepository.getQueryRepository(),
+    OptionsRepository.getQueryRepository()
   );
 
   public showClubList: BusinessLogic = async  (req, res, next) => {
@@ -56,5 +60,10 @@ export class ClubController {
   public showClubSupplies: BusinessLogic = async (req, res, next) => {
     const supplies: Supply[] = await this.clubService.showClubSupplies(+req.params.club_id);
     res.status(200).json(supplies);
+  }
+
+  public requestClubSupplies: BusinessLogic = async (req, res, next) => {
+    await this.clubService.requestClubSupplies(+req.params.club_id, +req.decoded.sub, req.body);
+    res.status(200).json({ msg: "success" });
   }
 }
