@@ -1,6 +1,6 @@
 import { EntityRepository, getCustomRepository, Repository } from "typeorm";
 import { ClubInfoResObj } from "../../shared/DataTransferObject";
-import { Club } from "../model";
+import { Club, Supply } from "../model";
 
 @EntityRepository(Club)
 export class ClubRepository extends Repository<Club> {
@@ -34,5 +34,14 @@ export class ClubRepository extends Repository<Club> {
     .addSelect("club.current_budget")
     .where("club.club_id = :club_id", { club_id  })
     .getOne();
+  }
+
+  public async findClubSupplies(club_id: number): Promise<Supply[]> {
+    const club: Club = await this.createQueryBuilder("club")
+    .select("club.club_id")
+    .leftJoinAndSelect("club.supplies", "supplies")
+    .where("club.club_id = :club_id", { club_id })
+    .getOne();
+    return club.supplies;
   }
 }

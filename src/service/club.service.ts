@@ -1,7 +1,7 @@
 import { ClubFollowRepository } from "../entity/entity-repository/clubFollowRepository";
 import { ClubRepository } from "../entity/entity-repository/clubRepository";
 import { UserRepository } from "../entity/entity-repository/userReposiotry";
-import { Club, ClubFollow, User } from "../entity/model";
+import { Club, ClubFollow, Supply, User } from "../entity/model";
 import { ClubInfoResObj, ClubListResObj, ClubMemberResObj, ClubRecruitmentInfoResObj } from "../shared/DataTransferObject";
 import { BadRequestError } from "../shared/exception";
 import { ClubTagViewRepository } from "./../entity/entity-repository/clubViewRepository";
@@ -81,5 +81,13 @@ export class ClubService {
       throw new BadRequestError();
     }
     return status;
+  }
+
+  public async showClubSupplies(club_id: number): Promise<Supply[]> {
+    const supplies: Supply[] = await this.clubRepository.findClubSupplies(club_id);
+    if(!supplies) {
+      throw new BadRequestError();
+    } 
+    return supplies;
   }
 }
