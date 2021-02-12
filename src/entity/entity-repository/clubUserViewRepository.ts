@@ -8,7 +8,7 @@ export class ClubUserViewRepository extends Repository<ClubUserView> {
     return getCustomRepository(ClubUserViewRepository);
   }
 
-  public findUsersClub(gcn: string) {
+  public findUsersClub(gcn: string): Promise<ClubUserView[]> {
     return this.createQueryBuilder("view")
     .select("view.club_name")
     .addSelect("view.club_id")
