@@ -41,4 +41,11 @@ export const clubServiceRouter = (app: Router) => {
     validationNumberParameter("club_id"),
     errorHandler(clubController.showClubsMember)
   );
+
+  router.get(
+    "/:club_id/recruitment",
+    verifyTokenMiddleware,
+    validationNumberParameter("club_id"),
+    errorHandler(clubController.showClubRecruitments)
+  );
 }
