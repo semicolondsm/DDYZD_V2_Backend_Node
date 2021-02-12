@@ -8,7 +8,9 @@ import { Club } from "../model";
   .addSelect("club.club_name", "club_name")
   .addSelect("user.user_id", "user_id")
   .addSelect("user.name", "user_name")
+  .addSelect("user.image_path", "profile_image")
   .addSelect("user.gcn", "gcn")
+  .addSelect("user.github_url", "git")
   .addSelect("application.result", "result")
   .leftJoin("club.applications", "application")
   .leftJoin("application.user", "user")
@@ -25,6 +27,12 @@ export class ClubUserView {
 
   @ViewColumn()
   user_name: string;
+
+  @ViewColumn()
+  profile_image: string;
+
+  @ViewColumn()
+  git: string;
 
   @ViewColumn()
   gcn: string;
