@@ -1,5 +1,5 @@
 import { EntityRepository, getCustomRepository, Repository } from "typeorm";
-import { ClubInfoResObj, ClubRecruitmentInfoResObj } from "../../shared/DataTransferObject";
+import { ClubInfoResObj } from "../../shared/DataTransferObject";
 import { Club } from "../model";
 
 @EntityRepository(Club)
@@ -25,6 +25,14 @@ export class ClubRepository extends Repository<Club> {
     .addSelect("major.majorname")
     .leftJoin("club.majors", "major")
     .where("club.club_id = :club_id", { club_id })
+    .getOne();
+  }
+
+  public findClubStatus(club_id: number): Promise<Club> {
+    return this.createQueryBuilder("club")
+    .select("club.total_budget")
+    .addSelect("club.current_budget")
+    .where("club.club_id = :club_id", { club_id  })
     .getOne();
   }
 }

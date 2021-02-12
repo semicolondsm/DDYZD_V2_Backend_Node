@@ -3,6 +3,7 @@ import { ClubRepository } from "../entity/entity-repository/clubRepository";
 import { ClubUserViewRepository } from "../entity/entity-repository/clubUserViewRepository";
 import { ClubTagViewRepository } from "../entity/entity-repository/clubViewRepository";
 import { UserRepository } from "../entity/entity-repository/userReposiotry";
+import { Club } from "../entity/model";
 import { ClubService } from "../service/club.service";
 import { BusinessLogic } from "../shared/BusinessLogicInterface";
 import { ClubInfoResObj, ClubListResObj, ClubMemberResObj } from "../shared/DataTransferObject";
@@ -45,5 +46,10 @@ export class ClubController {
   public showClubRecruitments: BusinessLogic = async (req, res, next) => {
     const recruitments: ClubRecruitmentInfoResObj = await this.clubService.showClubRecruitments(+req.params.club_id);
     res.status(200).json(recruitments);
+  }
+
+  public showClubStatus: BusinessLogic = async (req, res, next) => {
+    const status: Club = await this.clubService.showClubStatus(+req.params.club_id);
+    res.status(200).json(status);
   }
 }
