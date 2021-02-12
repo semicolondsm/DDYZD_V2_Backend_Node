@@ -2,6 +2,8 @@ import { Router } from "express";
 import { errorHandler } from "../middleware/errorHandler";
 import { verifyRefreshTokenMiddleware, verifyTokenMiddleware } from "../middleware/verifyToken";
 import { UserController } from "../controller/user.controller";
+import { validationRequest } from "../middleware/validatoinRequest";
+import { ModifyUserInfoSchema } from "../shared/DataTransferObject";
 
 const router: Router = Router();
 export const userServiceRouter = (app :Router) => {
@@ -29,6 +31,7 @@ export const userServiceRouter = (app :Router) => {
   router.put(
     "/profile", 
     verifyTokenMiddleware, 
+    validationRequest(ModifyUserInfoSchema),
     errorHandler(userController.modifyUserInfo)
   );
   
