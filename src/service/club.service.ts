@@ -67,11 +67,19 @@ export class ClubService {
   public async showClubRecruitments(club_id: number): Promise<ClubRecruitmentInfoResObj> {
     const recruitment: Club = await this.clubRepository.findClubRecruitments(club_id);
     if(!recruitment) {
-      throw new BadRequestError()
+      throw new BadRequestError();
     } 
     return {
       major: recruitment.majors.map(major => major.majorname),
       closeat: recruitment.close_at,
     };
+  }
+
+  public async showClubStatus(club_id: number): Promise<Club> {
+    const status: Club = await this.clubRepository.findClubStatus(club_id);
+    if(!status) {
+      throw new BadRequestError();
+    }
+    return status;
   }
 }
