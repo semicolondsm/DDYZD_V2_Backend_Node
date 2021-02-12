@@ -24,6 +24,7 @@ export class ClubUserViewRepository extends Repository<ClubUserView> {
     .addSelect("view.git")
     .addSelect("view.gcn")
     .where("view.club_id = :club_id", { club_id })
+    .andWhere("view.result = 1")
     .getMany();
   }
 }
