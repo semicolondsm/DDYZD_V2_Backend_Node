@@ -4,11 +4,13 @@ import { UserRepository } from "../entity/entity-repository/userReposiotry";
 import { Club, ClubFollow, User } from "../entity/model";
 import { ClubInfoResObj, ClubListResObj } from "../shared/DataTransferObject";
 import { BadRequestError } from "../shared/exception";
-import { ClubTagViewRepository } from './../entity/entity-repository/clubViewRepository';
+import { ClubTagViewRepository } from "./../entity/entity-repository/clubViewRepository";
+import { ClubUserViewRepository } from "./../entity/entity-repository/clubUserViewRepository";
 
 export class ClubService {
   constructor(
     private clubTagViewRepository: ClubTagViewRepository,
+    private clubUserViewRepository: ClubUserViewRepository,
     private clubRepository: ClubRepository,
     private userRepository: UserRepository,
     private clubFollowRepository: ClubFollowRepository

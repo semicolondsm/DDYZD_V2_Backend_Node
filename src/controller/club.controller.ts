@@ -1,5 +1,6 @@
 import { ClubFollowRepository } from "../entity/entity-repository/clubFollowRepository";
 import { ClubRepository } from "../entity/entity-repository/clubRepository";
+import { ClubUserViewRepository } from "../entity/entity-repository/clubUserViewRepository";
 import { ClubTagViewRepository } from "../entity/entity-repository/clubViewRepository";
 import { UserRepository } from "../entity/entity-repository/userReposiotry";
 import { ClubService } from "../service/club.service";
@@ -9,6 +10,7 @@ import { ClubInfoResObj, ClubListResObj } from "../shared/DataTransferObject";
 export class ClubController {
   private clubService: ClubService = new ClubService(
     ClubTagViewRepository.getQueryRepository(),
+    ClubUserViewRepository.getQueryRepository(),
     ClubRepository.getQueryRepository(),
     UserRepository.getQueryRepository(),
     ClubFollowRepository.getQueryRepository()
