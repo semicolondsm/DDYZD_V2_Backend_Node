@@ -45,11 +45,7 @@ export class UserService {
   }
   
   public async modifyUserInfo(data: ModifyUserInfoDto, user_id: number) {
-    const { error, value } = ModifyUserInfoSchema.validate(data);
-    if(error) {
-      throw new BadRequestError();
-    }
-    const modifiedUser: User = await this.userRepository.putUserData(user_id, value);
+    const modifiedUser: User = await this.userRepository.putUserData(user_id, data);
     if(!modifiedUser) {
       throw new UnAuthorizedTokenError();
     }

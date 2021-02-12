@@ -3,6 +3,8 @@ import { errorHandler } from "../middleware/errorHandler";
 import { validationNumberParameter } from "../middleware/validationParameter";
 import { verifyTokenMiddleware } from "../middleware/verifyToken";
 import { ClubController } from "../controller/club.controller";
+import { validationRequest } from "../middleware/validatoinRequest";
+import { SupplyClubItemSchema } from "../shared/DataTransferObject";
 
 const router: Router = Router();
 export const clubServiceRouter = (app: Router) => {
@@ -33,5 +35,41 @@ export const clubServiceRouter = (app: Router) => {
     verifyTokenMiddleware,
     validationNumberParameter("club_id"),
     errorHandler(clubController.unfollowClub)
-  )
+  );
+
+  router.get(
+    "/:club_id/member",
+    verifyTokenMiddleware,
+    validationNumberParameter("club_id"),
+    errorHandler(clubController.showClubsMember)
+  );
+
+  router.get(
+    "/:club_id/recruitment",
+    verifyTokenMiddleware,
+    validationNumberParameter("club_id"),
+    errorHandler(clubController.showClubRecruitments)
+  );
+
+  router.get(
+    "/:club_id/status",
+    verifyTokenMiddleware,
+    validationNumberParameter("club_id"),
+    errorHandler(clubController.showClubStatus)
+  );
+
+  router.get(
+    "/:club_id/supply/list",
+    verifyTokenMiddleware,
+    validationNumberParameter("club_id"),
+    errorHandler(clubController.showClubSupplies)
+  );
+
+  router.post(
+    "/:club_id/supply",
+    verifyTokenMiddleware,
+    validationNumberParameter("club_id"),
+    validationRequest(SupplyClubItemSchema),
+    errorHandler(clubController.requestClubSupplies)
+  );
 }

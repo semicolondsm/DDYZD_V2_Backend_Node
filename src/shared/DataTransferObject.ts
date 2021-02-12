@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { Option, User } from "../entity/model";
+import { User } from "../entity/model";
 import { ClubUserView } from "../entity/view";
 
 export class ClubListResObj {
@@ -24,6 +24,13 @@ export class ClubRecruitmentInfoResObj {
   closeat: Date;
 }
 
+export class ClubMemberResObj {
+  user_name: string;
+  profile_image: string;
+  gcn: string;
+  git: string;
+}
+
 export class UserTokenResOhj {
   access_token: string;
   refresh_token?: string;
@@ -33,18 +40,11 @@ export class UserInfoResObj extends User {
   clubs: ClubUserView[];
 }
 
-export class ClubMemberResObj {
-  name: string;
-  profile_image: string;
-  gcn: string;
-  git: string;
-}
-
 export class SupplyClubItemDto {
   price: number;
   name: string;
   count: number
-  option: Option;
+  option?: string;
   url: string;
 }
 
@@ -56,4 +56,12 @@ export class ModifyUserInfoDto {
 export const ModifyUserInfoSchema: Joi.ObjectSchema<ModifyUserInfoDto> = Joi.object().keys({
   git: Joi.string().optional(),
   email: Joi.string().optional(),
+});
+
+export const SupplyClubItemSchema: Joi.ObjectSchema<SupplyClubItemDto> = Joi.object().keys({
+  price: Joi.number().required(),
+  name: Joi.string().required(),
+  count: Joi.number().required().default(1),
+  option: Joi.string().optional(),
+  url: Joi.string().required(),
 });
