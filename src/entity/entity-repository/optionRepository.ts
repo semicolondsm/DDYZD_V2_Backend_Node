@@ -9,7 +9,6 @@ export class OptionsRepository extends Repository<Option> {
 
   public async createNewOption(script: string, supply: Supply) {
     const newOption: Option = this.create({ script, supply });
-    this.manager.save(newOption);
     await this.manager.save(newOption);
   }
 }
