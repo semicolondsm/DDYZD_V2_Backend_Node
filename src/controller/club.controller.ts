@@ -5,7 +5,7 @@ import { ClubTagViewRepository } from "../entity/entity-repository/clubViewRepos
 import { UserRepository } from "../entity/entity-repository/userReposiotry";
 import { ClubService } from "../service/club.service";
 import { BusinessLogic } from "../shared/BusinessLogicInterface";
-import { ClubInfoResObj, ClubListResObj } from "../shared/DataTransferObject";
+import { ClubInfoResObj, ClubListResObj, ClubMemberResObj } from "../shared/DataTransferObject";
 
 export class ClubController {
   private clubService: ClubService = new ClubService(
@@ -34,5 +34,10 @@ export class ClubController {
   public unfollowClub: BusinessLogic = async (req, res, next) => {
     await this.clubService.unfollowClub(+req.decoded.sub, +req.params.club_id);
     res.status(200).json({ message: "User unfollowing club now" });
+  }
+
+  public showClubsMember: BusinessLogic = async (req, res, next) => {
+    const members: ClubMemberResObj[] = await this.clubService.showClubsMember(+req.params.club_id);
+    res.status(200).json(members);
   }
 }
