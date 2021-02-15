@@ -17,6 +17,7 @@ export class ClubInfoResObj {
   clubimage: string;
   backimage: string;
   description: string;
+  owner: boolean;
 }
 
 export class ClubRecruitmentInfoResObj {
