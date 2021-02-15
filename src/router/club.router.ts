@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { NextFunction, Request, Response, Router } from "express";
 import { errorHandler } from "../middleware/errorHandler";
 import { validationNumberParameter } from "../middleware/validationParameter";
 import { verifyTokenMiddleware } from "../middleware/verifyToken";
@@ -19,7 +19,13 @@ export const clubServiceRouter = (app: Router) => {
 
   router.get(
     "/:club_id/info", 
-    verifyTokenMiddleware,
+    (req: Request, res: Response, next: NextFunction) => {
+      if(req.headers["authorization"]) {
+        verifyTokenMiddleware(req, res, next);
+      } else {
+        next();
+      }
+    },
     validationNumberParameter("club_id"), 
     errorHandler(clubController.showClubInfo)
   );

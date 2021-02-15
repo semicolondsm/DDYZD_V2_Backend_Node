@@ -37,6 +37,10 @@ export class ClubService {
       throw new BadRequestError();
     }
     club.clubtag = await this.clubTagViewRepository.findClubTagsById(club_id);
+    if(!user_id) {
+      club.owner = false;
+      return club;
+    }
     const clubHead: ClubHead = await this.clubHeadRepository.findOne({ where: { 
       club: await this.clubRepository.findOne({ where: { club_id } }),  
       user: await this.userRepository.findOne({ where: { user_id } })

@@ -30,7 +30,7 @@ export class ClubController {
   }
 
   public showClubInfo: BusinessLogic = async (req, res, next) => {
-    const club: ClubInfoResObj = await this.clubService.showClubInfo(+req.params.club_id, +req.decoded.sub);
+    const club: ClubInfoResObj = await this.clubService.showClubInfo(+req.params.club_id, req.decoded ? +req.decoded.sub : 0 );
     res.status(200).json(club);
   }
 
