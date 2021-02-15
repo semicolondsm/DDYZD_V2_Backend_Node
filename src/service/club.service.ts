@@ -1,13 +1,14 @@
 import { ClubFollowRepository } from "../entity/entity-repository/clubFollowRepository";
 import { ClubRepository } from "../entity/entity-repository/clubRepository";
 import { UserRepository } from "../entity/entity-repository/userReposiotry";
-import { Club, ClubFollow, Supply, User } from "../entity/model";
+import { Club, ClubFollow, ClubHead, Supply, User } from "../entity/model";
 import { ClubInfoResObj, ClubListResObj, ClubMemberResObj, ClubRecruitmentInfoResObj, SupplyClubItemDto } from "../shared/DataTransferObject";
 import { BadRequestError } from "../shared/exception";
 import { ClubTagViewRepository } from "./../entity/entity-repository/clubViewRepository";
 import { ClubUserViewRepository } from "./../entity/entity-repository/clubUserViewRepository";
 import { SupplyRepository } from "../entity/entity-repository/supplyRepository";
 import { OptionsRepository } from "../entity/entity-repository/optionRepository";
+import { ClubHeadRepository } from "../entity/entity-repository/clubHeadRepository";
 
 export class ClubService {
   constructor(
@@ -17,7 +18,8 @@ export class ClubService {
     private userRepository: UserRepository,
     private clubFollowRepository: ClubFollowRepository,
     private supplyRepository: SupplyRepository,
-    private optionRepositoty: OptionsRepository
+    private optionRepositoty: OptionsRepository,
+    private clubHeadRepository: ClubHeadRepository
   ) {}
 
   public async showClubList(): Promise<ClubListResObj[]> {
@@ -29,12 +31,17 @@ export class ClubService {
     return clubs;
   }
   
-  public async showClubInfo(club_id: number): Promise<ClubInfoResObj> {
+  public async showClubInfo(club_id: number, user_id: number): Promise<ClubInfoResObj> {
     const club: ClubInfoResObj = await this.clubRepository.findInfoById(club_id);
     if(!club) {
       throw new BadRequestError();
     }
     club.clubtag = await this.clubTagViewRepository.findClubTagsById(club_id);
+    const clubHead: ClubHead = await this.clubHeadRepository.findOne({ where: { 
+      club: await this.clubRepository.findOne({ where: { club_id } }),  
+      user: await this.userRepository.findOne({ where: { user_id } })
+    }});
+    club.owner = !!clubHead;
     return club;
   }
   

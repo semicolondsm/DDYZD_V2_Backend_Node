@@ -1,4 +1,5 @@
 import { ClubFollowRepository } from "../entity/entity-repository/clubFollowRepository";
+import { ClubHeadRepository } from "../entity/entity-repository/clubHeadRepository";
 import { ClubRepository } from "../entity/entity-repository/clubRepository";
 import { ClubUserViewRepository } from "../entity/entity-repository/clubUserViewRepository";
 import { ClubTagViewRepository } from "../entity/entity-repository/clubViewRepository";
@@ -19,7 +20,8 @@ export class ClubController {
     UserRepository.getQueryRepository(),
     ClubFollowRepository.getQueryRepository(),
     SupplyRepository.getQueryRepository(),
-    OptionsRepository.getQueryRepository()
+    OptionsRepository.getQueryRepository(),
+    ClubHeadRepository.getQueryRepository()
   );
 
   public showClubList: BusinessLogic = async  (req, res, next) => {
@@ -28,7 +30,7 @@ export class ClubController {
   }
 
   public showClubInfo: BusinessLogic = async (req, res, next) => {
-    const club: ClubInfoResObj = await this.clubService.showClubInfo(+req.params.club_id);
+    const club: ClubInfoResObj = await this.clubService.showClubInfo(+req.params.club_id, +req.decoded.sub);
     res.status(200).json(club);
   }
 

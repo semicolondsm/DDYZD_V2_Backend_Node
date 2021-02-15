@@ -19,6 +19,7 @@ export const clubServiceRouter = (app: Router) => {
 
   router.get(
     "/:club_id/info", 
+    verifyTokenMiddleware,
     validationNumberParameter("club_id"), 
     errorHandler(clubController.showClubInfo)
   );
