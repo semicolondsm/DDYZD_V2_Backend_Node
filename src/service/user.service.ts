@@ -37,7 +37,7 @@ export class UserService {
 
   public async proviceTokenWithCode(code: string) {
     const token: string = await getUserToken(code);
-    const userInfo = await getUserInfoWithDsmAuth(token);
+    const userInfo = await getUserInfoWithDsmAuth(`Bearer ${token}`);
     const checkExistUser: User = await this.userRepository.findUserByUniqueEmail(userInfo.email);
     const authenticatedUser: User = checkExistUser ? 
     checkExistUser : await this.userRepository.createDefaultUser(userInfo);
