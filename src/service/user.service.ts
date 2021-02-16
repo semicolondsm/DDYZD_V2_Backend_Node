@@ -27,10 +27,11 @@ export class UserService {
     };
   }
 
-  public async refreshToken(user_id: number): Promise<UserTokenResOhj> {
+  public async refreshToken(user_id: number, refreshToken: string): Promise<UserTokenResOhj> {
     const accessToken: string = await issuanceToken(user_id, "access");
     return {
       "access_token": accessToken,
+      "refresh_token": refreshToken,
     };
   }
 

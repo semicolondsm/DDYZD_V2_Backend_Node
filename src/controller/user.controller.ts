@@ -22,7 +22,8 @@ export class UserController {
   }
 
   public refreshToken: BusinessLogic = async (req, res, next) => {
-    const response: UserTokenResOhj = await this.userService.refreshToken(+req.decoded.sub);
+    const refreshToken: string = req.headers["refresh-token"] as string;
+    const response: UserTokenResOhj = await this.userService.refreshToken(+req.decoded.sub, refreshToken.slice(7));
     res.status(200).json(response);
   }
 

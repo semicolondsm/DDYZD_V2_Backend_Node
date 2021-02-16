@@ -34,7 +34,7 @@ export class ClubMemberResObj {
 
 export class UserTokenResOhj {
   access_token: string;
-  refresh_token?: string;
+  refresh_token: string;
 }
 
 export class UserInfoResObj extends User {
