@@ -30,7 +30,7 @@ export class ClubController {
   }
 
   public showClubInfo: BusinessLogic = async (req, res, next) => {
-    const club: ClubInfoResObj = await this.clubService.showClubInfo(+req.params.club_id, +req.decoded.sub);
+    const club: ClubInfoResObj = await this.clubService.showClubInfo(+req.params.club_id, req.decoded ? +req.decoded.sub : 0 );
     res.status(200).json(club);
   }
 
@@ -66,6 +66,11 @@ export class ClubController {
 
   public requestClubSupplies: BusinessLogic = async (req, res, next) => {
     await this.clubService.requestClubSupplies(+req.params.club_id, +req.decoded.sub, req.body);
+    res.status(200).json({ msg: "success" });
+  }
+
+  public modifyClubSupplies: BusinessLogic = async (req, res, next) => {
+    await this.clubService.modifyClubSupplies(+req.params.club_id, +req.params.supply_id, +req.decoded.sub, req.body);
     res.status(200).json({ msg: "success" });
   }
 }

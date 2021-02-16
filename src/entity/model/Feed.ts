@@ -15,6 +15,9 @@ export class Feed extends EntityWithIdColumn {
   @Column({ nullable: true, default: 0 })
   flag?: number;
 
+  @Column({ type: "datetime", nullable: true, default: null })
+  upload_at: Date;
+
   @OneToMany(() => FeedFlag, feedFlag => feedFlag.feed)
   flags: FeedFlag[];
 

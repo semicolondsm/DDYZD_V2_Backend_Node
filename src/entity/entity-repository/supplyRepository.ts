@@ -12,4 +12,12 @@ export class SupplyRepository extends Repository<Supply> {
     const newSupply: Supply = this.create({ club, user, price, name, count, link, status: 2 });
     return await this.manager.save(newSupply);
   }
+
+  public findOneSupplyWithClubWithUser(supply_id: number): Promise<Supply> {
+    return this.createQueryBuilder("supply")
+    .leftJoin("supply.club", "club")
+    .leftJoinAndSelect("supply.user", "user")
+    .where("supply.id = :id", { id: supply_id })
+    .getOne();
+  }
 }

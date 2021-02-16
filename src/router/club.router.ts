@@ -1,10 +1,10 @@
-import { Router } from "express";
+import { NextFunction, Request, Response, Router } from "express";
 import { errorHandler } from "../middleware/errorHandler";
 import { validationNumberParameter } from "../middleware/validationParameter";
 import { verifyTokenMiddleware } from "../middleware/verifyToken";
 import { ClubController } from "../controller/club.controller";
 import { validationRequest } from "../middleware/validatoinRequest";
-import { SupplyClubItemSchema } from "../shared/DataTransferObject";
+import { ModifyClubSuppliesSchema, SupplyClubItemSchema } from "../shared/DataTransferObject";
 
 const router: Router = Router();
 export const clubServiceRouter = (app: Router) => {
@@ -19,7 +19,13 @@ export const clubServiceRouter = (app: Router) => {
 
   router.get(
     "/:club_id/info", 
-    verifyTokenMiddleware,
+    (req: Request, res: Response, next: NextFunction) => {
+      if(req.headers["authorization"]) {
+        verifyTokenMiddleware(req, res, next);
+      } else {
+        next();
+      }
+    },
     validationNumberParameter("club_id"), 
     errorHandler(clubController.showClubInfo)
   );
@@ -72,5 +78,14 @@ export const clubServiceRouter = (app: Router) => {
     validationNumberParameter("club_id"),
     validationRequest(SupplyClubItemSchema),
     errorHandler(clubController.requestClubSupplies)
+  );
+
+  router.put(
+    "/:club_id/supply/:supply_id", 
+    verifyTokenMiddleware,
+    validationNumberParameter("club_id"),
+    validationNumberParameter("supply_id"),
+    validationRequest(ModifyClubSuppliesSchema),
+    errorHandler(clubController.modifyClubSupplies)
   );
 }
