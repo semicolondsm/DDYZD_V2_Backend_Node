@@ -2,8 +2,8 @@ import { ClubFollowRepository } from "../entity/entity-repository/clubFollowRepo
 import { ClubRepository } from "../entity/entity-repository/clubRepository";
 import { UserRepository } from "../entity/entity-repository/userReposiotry";
 import { Club, ClubFollow, ClubHead, Supply, User } from "../entity/model";
-import { ClubInfoResObj, ClubListResObj, ClubMemberResObj, ClubRecruitmentInfoResObj, SupplyClubItemDto } from "../shared/DataTransferObject";
-import { BadRequestError } from "../shared/exception";
+import { ClubInfoResObj, ClubListResObj, ClubMemberResObj, ClubRecruitmentInfoResObj, ModifyClubSuppliesDto, SupplyClubItemDto } from "../shared/DataTransferObject";
+import { BadRequestError, ForbiddenError } from "../shared/exception";
 import { ClubTagViewRepository } from "./../entity/entity-repository/clubViewRepository";
 import { ClubUserViewRepository } from "./../entity/entity-repository/clubUserViewRepository";
 import { SupplyRepository } from "../entity/entity-repository/supplyRepository";
@@ -116,5 +116,18 @@ export class ClubService {
     if(data.option) {
       await this.optionRepositoty.createNewOption(data.option, supply);
     }
+  }
+
+  public async modifyClubSupplies(club_id: number, supply_id: number, user_id: number, { count, price = 0 }: ModifyClubSuppliesDto) {
+    const supply: Supply = await this.supplyRepository.findOneSupplyWithClubWithUser(supply_id);
+    if(!supply || supply.club.club_id !== club_id || supply.user.user_id !== user_id) {
+      throw new ForbiddenError();
+    }
+    if(supply.club.current_budget - price < 0) {
+      throw new BadRequestError("예산 초과");
+    }
+    supply.price = price ? price : supply.price;
+    supply.count = count ? count : supply.count;
+    await this.supplyRepository.manager.save(supply);
   }
 }
