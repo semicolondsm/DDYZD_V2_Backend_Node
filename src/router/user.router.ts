@@ -27,6 +27,12 @@ export const userServiceRouter = (app :Router) => {
     verifyRefreshTokenMiddleware, 
     errorHandler(userController.refreshToken)
   );
+
+  router.get(
+    "/profile",
+    verifyTokenMiddleware,
+    errorHandler(userController.showUserGcn)
+  );
   
   router.get(
     "/:user_gcn", 
