@@ -68,4 +68,9 @@ export class ClubController {
     await this.clubService.requestClubSupplies(+req.params.club_id, +req.decoded.sub, req.body);
     res.status(200).json({ msg: "success" });
   }
+
+  public modifyClubSupplies: BusinessLogic = async (req, res, next) => {
+    await this.clubService.modifyClubSupplies(+req.params.club_id, +req.params.supply_id, +req.decoded.sub, req.body);
+    res.status(200).json({ msg: "success" });
+  }
 }
