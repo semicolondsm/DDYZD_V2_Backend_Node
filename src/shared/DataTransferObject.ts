@@ -49,15 +49,15 @@ export class SupplyClubItemDto {
   url: string;
 }
 
+export class ModifyClubSuppliesDto {
+  count?: number;
+  price?: number;
+}
+
 export class ModifyUserInfoDto {
   git?: string;
   email?: string;
 }
-
-export const ModifyUserInfoSchema: Joi.ObjectSchema<ModifyUserInfoDto> = Joi.object().keys({
-  git: Joi.string().optional(),
-  email: Joi.string().optional(),
-});
 
 export const SupplyClubItemSchema: Joi.ObjectSchema<SupplyClubItemDto> = Joi.object().keys({
   price: Joi.number().required(),
@@ -65,4 +65,9 @@ export const SupplyClubItemSchema: Joi.ObjectSchema<SupplyClubItemDto> = Joi.obj
   count: Joi.number().required().default(1),
   option: Joi.string().optional(),
   url: Joi.string().required(),
+});
+
+export const ModifyUserInfoSchema: Joi.ObjectSchema<ModifyUserInfoDto> = Joi.object().keys({
+  git: Joi.string().optional(),
+  email: Joi.string().optional(),
 });
