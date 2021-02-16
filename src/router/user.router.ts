@@ -15,6 +15,11 @@ export const userServiceRouter = (app :Router) => {
     "/token", 
     errorHandler(userController.provideToken)
   );
+
+  router.post(
+    "/token/code",
+    errorHandler(userController.proviceTokenWithCode)
+  );
   
   router.get(
     "/refresh", 
