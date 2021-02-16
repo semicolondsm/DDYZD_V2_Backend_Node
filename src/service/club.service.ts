@@ -9,6 +9,7 @@ import { ClubUserViewRepository } from "./../entity/entity-repository/clubUserVi
 import { SupplyRepository } from "../entity/entity-repository/supplyRepository";
 import { OptionsRepository } from "../entity/entity-repository/optionRepository";
 import { ClubHeadRepository } from "../entity/entity-repository/clubHeadRepository";
+import { ClubUserView } from "../entity/view";
 
 export class ClubService {
   constructor(
@@ -119,23 +120,35 @@ export class ClubService {
   }
 
   public async modifyClubSupplies(club_id: number, supply_id: number, user_id: number, { count, price = 0 }: ModifyClubSuppliesDto) {
+    if(await this.checkIsNotClubMember(club_id, user_id)) {
+      throw new ForbiddenError();
+    }
     const supply: Supply = await this.supplyRepository.findOneSupplyWithClubWithUser(supply_id);
     if(!supply || supply.club.club_id !== club_id || supply.user.user_id !== user_id) {
       throw new ForbiddenError();
-    }
-    if(supply.club.current_budget - price < 0) {
+    } else if(supply.club.current_budget - price < 0) {
       throw new BadRequestError("예산 초과");
-    }
+    } 
     supply.price = price ? price : supply.price;
     supply.count = count ? count : supply.count;
     await this.supplyRepository.manager.save(supply);
   }
 
   public async removeClubSupplies(club_id: number, supply_id: number, user_id: number) {
+    if(await this.checkIsNotClubMember(club_id, user_id)) {
+      throw new ForbiddenError();
+    }
     const supply: Supply = await this.supplyRepository.findOneSupplyWithClubWithUser(supply_id);
     if(!supply || supply.club.club_id !== club_id || supply.user.user_id !== user_id) {
       throw new ForbiddenError();
     }
     await this.supplyRepository.delete(supply);
+  }
+
+  private async checkIsNotClubMember(club_id: number, user_id: number): Promise<boolean> {
+    const clubAndUser: ClubUserView = await this.clubUserViewRepository.findOne({
+      where: { club_id, user_id, result: 1 }
+    });
+    return !clubAndUser;
   }
 }
