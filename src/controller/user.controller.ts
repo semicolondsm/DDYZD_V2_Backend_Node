@@ -26,6 +26,11 @@ export class UserController {
     res.status(200).json(response);
   }
 
+  public showUserGcn: BusinessLogic = async (req, res, next) => {
+    const gcn: string = await this.userService.showUserGcn(+req.decoded.sub);
+    res.status(200).json({ gcn });
+  }
+
   public showUserInfo: BusinessLogic = async (req, res, next) => {
     const response: UserInfoResObj = await this.userService.showUserInfo(req.params.user_gcn);
     res.status(200).json(response);
