@@ -2,9 +2,9 @@ import { ClubUserViewRepository } from "../entity/entity-repository/clubUserView
 import { UserRepository } from "../entity/entity-repository/userReposiotry";
 import { User } from "../entity/model";
 import { ClubUserView } from "../entity/view";
-import { ModifyUserInfoSchema, UserInfoResObj, UserTokenResOhj } from "../shared/DataTransferObject";
+import { UserInfoResObj, UserTokenResOhj } from "../shared/DataTransferObject";
 import { BadRequestError, UnAuthorizedTokenError } from "../shared/exception";
-import { getUserInfoWithDsmAuth, issuanceToken } from "./function/userAuthentication";
+import { getUserInfoWithDsmAuth, issuanceToken, getUserToken } from "./function/userAuthentication";
 import { ModifyUserInfoDto } from './../shared/DataTransferObject';
 
 export class UserService {
@@ -31,6 +31,18 @@ export class UserService {
     const accessToken: string = await issuanceToken(user_id, "access");
     return {
       "access_token": accessToken,
+    };
+  }
+
+  public async proviceTokenWithCode(code: string) {
+    const token: string = await getUserToken(code);
+    const userInfo = await getUserInfoWithDsmAuth(token);
+    const checkExistUser: User = await this.userRepository.findUserByUniqueEmail(userInfo.email);
+    const authenticatedUser: User = checkExistUser ? 
+    checkExistUser : await this.userRepository.createDefaultUser(userInfo);
+    return {
+      "access_token": await issuanceToken(authenticatedUser.user_id, "access"),
+      "refresh_token": await issuanceToken(authenticatedUser.user_id, "refresh"),
     };
   }
   
