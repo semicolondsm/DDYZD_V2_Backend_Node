@@ -67,6 +67,11 @@ export const SupplyClubItemSchema: Joi.ObjectSchema<SupplyClubItemDto> = Joi.obj
   url: Joi.string().required(),
 });
 
+export const ModifyClubSuppliesSchema: Joi.ObjectSchema<ModifyClubSuppliesDto> = Joi.object().keys({
+  count: Joi.number().optional(),
+  price: Joi.number().optional(),
+});
+
 export const ModifyUserInfoSchema: Joi.ObjectSchema<ModifyUserInfoDto> = Joi.object().keys({
   git: Joi.string().optional(),
   email: Joi.string().optional(),
