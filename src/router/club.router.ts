@@ -88,4 +88,12 @@ export const clubServiceRouter = (app: Router) => {
     validationRequest(ModifyClubSuppliesSchema),
     errorHandler(clubController.modifyClubSupplies)
   );
+
+  router.delete(
+    "/:club_id/supply/:supply_id",
+    verifyTokenMiddleware,
+    validationNumberParameter("club_id"),
+    validationNumberParameter("supply_id"),
+    errorHandler(clubController.removeClubSupplies)
+  );
 }
