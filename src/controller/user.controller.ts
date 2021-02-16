@@ -16,6 +16,11 @@ export class UserController {
     res.status(200).json(response);
   }
 
+  public proviceTokenWithCode: BusinessLogic = async (req, res, next) => {
+    const response: UserTokenResOhj = await this.userService.proviceTokenWithCode(req.body.code);
+    res.status(200).json(response);
+  }
+
   public refreshToken: BusinessLogic = async (req, res, next) => {
     const response: UserTokenResOhj = await this.userService.refreshToken(+req.decoded.sub);
     res.status(200).json(response);
