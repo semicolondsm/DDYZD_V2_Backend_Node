@@ -45,6 +45,14 @@ export class UserService {
       "refresh_token": await issuanceToken(authenticatedUser.user_id, "refresh"),
     };
   }
+
+  public async showUserGcn(user_id: number): Promise<string> {
+    const user: User = await this.userRepository.findOneOnlyGcn(user_id);
+    if(!user) {
+      throw new BadRequestError();
+    }
+    return user.gcn;
+  }
   
   public async showUserInfo(gcn: string): Promise<UserInfoResObj> {
     const user: User = await this.userRepository.findUserByClassIdentity(gcn);
