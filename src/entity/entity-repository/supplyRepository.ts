@@ -15,8 +15,14 @@ export class SupplyRepository extends Repository<Supply> {
 
   public findOneSupplyWithClubWithUser(supply_id: number): Promise<Supply> {
     return this.createQueryBuilder("supply")
+    .select("supply.id")
+    .addSelect("supply.price")
+    .addSelect("supply.count")
+    .addSelect("club.club_id")
+    .addSelect("club.current_budget")
+    .addSelect("user.user_id")
     .leftJoin("supply.club", "club")
-    .leftJoinAndSelect("supply.user", "user")
+    .leftJoin("supply.user", "user")
     .where("supply.id = :id", { id: supply_id })
     .getOne();
   }

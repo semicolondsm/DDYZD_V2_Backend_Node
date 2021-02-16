@@ -130,4 +130,12 @@ export class ClubService {
     supply.count = count ? count : supply.count;
     await this.supplyRepository.manager.save(supply);
   }
+
+  public async removeClubSupplies(club_id: number, supply_id: number, user_id: number) {
+    const supply: Supply = await this.supplyRepository.findOneSupplyWithClubWithUser(supply_id);
+    if(!supply || supply.club.club_id !== club_id || supply.user.user_id !== user_id) {
+      throw new ForbiddenError();
+    }
+    await this.supplyRepository.delete(supply);
+  }
 }
