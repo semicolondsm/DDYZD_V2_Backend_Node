@@ -34,7 +34,7 @@ const getUserInfoWithDsmAuth = async (token: string): Promise<Partial<User>> => 
   try {
     const response: AxiosResponse<Partial<User>> = await axios.get(`${DSM_OPEN_API_URL}/v1/info/basic`, {
       headers: {
-        "access-token": token,
+        "access-token": "Bearer " + token,
       }
     });
     return response.data;
