@@ -6,6 +6,7 @@ import { Club } from "../model";
   expression: (connection: Connection) => connection.createQueryBuilder(Club, "club")
   .select("club.club_id", "club_id")
   .addSelect("club.club_name", "club_name")
+  .addSelect("club.profile_image", "club_image")
   .addSelect("user.user_id", "user_id")
   .addSelect("user.name", "user_name")
   .addSelect("user.image_path", "profile_image")
@@ -24,6 +25,9 @@ export class ClubUserView {
 
   @ViewColumn()
   club_name: string;
+
+  @ViewColumn()
+  club_image: string;
 
   @ViewColumn()
   user_name: string;
