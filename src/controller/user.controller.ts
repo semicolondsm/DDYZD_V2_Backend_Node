@@ -37,9 +37,14 @@ export class UserController {
     res.status(200).json(response);
   }
 
-  public modifyUserInfo: BusinessLogic = async (req, res, next) => {
-    await this.userService.modifyUserInfo(req.body, +req.decoded.sub);
+  public modifyUserGithubId: BusinessLogic = async (req, res, next) => {
+    await this.userService.modifyUserGithubId(req.body, +req.decoded.sub);
     res.status(200).json({ msg: "Profile modify success" });
+  }
+
+  public modifyUserBio: BusinessLogic = async (req, res, next) => {
+    await this.userService.modifyUserBio(req.body, +req.decoded.sub);
+    res.status(200).json({ msg: "Bio modify success" });
   }
 
   public deviceToken: BusinessLogic = async (req, res, next) => {

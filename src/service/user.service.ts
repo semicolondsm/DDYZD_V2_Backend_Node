@@ -2,10 +2,13 @@ import { ClubUserViewRepository } from "../entity/entity-repository/clubUserView
 import { UserRepository } from "../entity/entity-repository/userReposiotry";
 import { User } from "../entity/model";
 import { ClubUserView } from "../entity/view";
-import { UserInfoResObj, UserTokenResOhj } from "../shared/DataTransferObject";
-import { BadRequestError, UnAuthorizedTokenError } from "../shared/exception";
-import { getUserInfoWithDsmAuth, issuanceToken, getUserToken } from "./function/userAuthentication";
-import { ModifyUserInfoDto } from './../shared/DataTransferObject';
+import { ModifyUserBiodDto, ModifyUserGitHubIdDto, UserInfoResObj, UserTokenResOhj } from "../shared/DataTransferObject";
+import { BadRequestError, UnAuthorizedTokenError, HttpError } from "../shared/exception";
+import { config } from "../config";
+import { Octokit } from "@octokit/core";
+import axios, { AxiosResponse } from "axios";
+import jwt from "jsonwebtoken";
+import { timeStamp } from "console";
 
 export class UserService {
   constructor(
@@ -17,18 +20,18 @@ export class UserService {
     if(!token) {
       throw new BadRequestError();
     }
-    const userInfo = await getUserInfoWithDsmAuth(token);
+    const userInfo = await this.getUserInfoWithDsmAuth(token);
     const checkExistUser: User = await this.userRepository.findUserByUniqueEmail(userInfo.email);
     const authenticatedUser: User = checkExistUser ? 
     checkExistUser : await this.userRepository.createDefaultUser(userInfo);
     return {
-      "access_token": await issuanceToken(authenticatedUser.user_id, "access"),
-      "refresh_token": await issuanceToken(authenticatedUser.user_id, "refresh"),
+      "access_token": await this.issuanceToken(authenticatedUser.user_id, "access"),
+      "refresh_token": await this.issuanceToken(authenticatedUser.user_id, "refresh"),
     };
   }
 
   public async refreshToken(user_id: number, refreshToken: string): Promise<UserTokenResOhj> {
-    const accessToken: string = await issuanceToken(user_id, "access");
+    const accessToken: string = await this.issuanceToken(user_id, "access");
     return {
       "access_token": accessToken,
       "refresh_token": refreshToken,
@@ -36,14 +39,14 @@ export class UserService {
   }
 
   public async proviceTokenWithCode(code: string) {
-    const token: string = await getUserToken(code);
-    const userInfo = await getUserInfoWithDsmAuth(`Bearer ${token}`);
+    const token: string = await this.getUserToken(code);
+    const userInfo = await this.getUserInfoWithDsmAuth(`Bearer ${token}`);
     const checkExistUser: User = await this.userRepository.findUserByUniqueEmail(userInfo.email);
     const authenticatedUser: User = checkExistUser ? 
     checkExistUser : await this.userRepository.createDefaultUser(userInfo);
     return {
-      "access_token": await issuanceToken(authenticatedUser.user_id, "access"),
-      "refresh_token": await issuanceToken(authenticatedUser.user_id, "refresh"),
+      "access_token": await this.issuanceToken(authenticatedUser.user_id, "access"),
+      "refresh_token": await this.issuanceToken(authenticatedUser.user_id, "refresh"),
     };
   }
 
@@ -64,11 +67,22 @@ export class UserService {
     delete user.device_token;
     return { ... user, clubs, };
   }
-  
-  public async modifyUserInfo(data: ModifyUserInfoDto, user_id: number) {
-    const modifiedUser: User = await this.userRepository.putUserData(user_id, data);
-    if(!modifiedUser) {
-      throw new UnAuthorizedTokenError();
+
+  public async modifyUserGithubId(data: ModifyUserGitHubIdDto, user_id: number) {
+    try {
+      const profile: string = await this.getGitHubProfile(data.git);
+      await this.userRepository.putUserGitHubId(data.git, user_id);
+      await this.userRepository.putUserProfile(profile, user_id);
+    } catch(err) {
+      throw new BadRequestError(err.message);
+    }
+  }
+
+  public async modifyUserBio(data: ModifyUserBiodDto, user_id: number) {
+    try {
+      await this.userRepository.putUserBio(data.bio, user_id);
+    } catch(err) {
+      throw new BadRequestError(err.message);
     }
   }
   
@@ -82,4 +96,47 @@ export class UserService {
     }
     await this.userRepository.deviceToken(user_id, splitToken[1]);
   }
+
+  private async issuanceToken(user_id: number, type: string): Promise<string> {
+    return jwt.sign({
+      sub: `${user_id}`,
+      type: type,
+    }, config.jwtSecret, {
+      algorithm: "HS256",
+      expiresIn: type === "access" ? "2h" : "14d",
+    });
+  }
+
+  private async getUserToken(code: string): Promise<string> {
+    try {
+      const response = await axios.post(`${config.dsmAuthUrl}/dsmauth/token`, {
+        client_id: config.dsmAuthClientId,
+        client_secret: config.dsmAuthClientSecret,
+        code,
+      });
+      return response.data["access-token"];
+    } catch(err) {
+      throw new HttpError(err.response.status, err.response.data.message);
+    }
+  }
+
+  private async getUserInfoWithDsmAuth(token: string): Promise<Partial<User>> {
+    try {
+      const response: AxiosResponse<Partial<User>> = await axios.get(`${config.dsmOpenApiUrl}/v1/info/basic`, {
+        headers: {
+          "access-token": token,
+        }
+      });
+      return response.data;
+    } catch(err) {
+      throw new HttpError(err.response.status, err.response.data.message);
+    }
+  }
+
+  private async getGitHubProfile(github_id: string): Promise<string> {
+    const response = await this.octokit.request(`GET /users/${github_id}`);
+    return response.data.avatar_url;   
+  }
+
+  private octokit = new Octokit({ auth: config.githubAccessToken });
 }
