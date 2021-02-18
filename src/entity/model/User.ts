@@ -29,6 +29,9 @@ export class User {
   @Column({ type: "varchar", length: 4096, nullable: true })
   device_token: string;
 
+  @Column({ nullable: true })
+  bio: string;
+
   @OneToMany(() => ClubFollow, clubFollow => clubFollow.user)
   followings: ClubFollow[];
 
