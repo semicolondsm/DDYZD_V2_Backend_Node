@@ -1,5 +1,4 @@
 import { EntityRepository, getCustomRepository, Repository } from "typeorm";
-import { ModifyUserInfoDto } from "../../shared/DataTransferObject";
 import { User } from "../model";
 
 @EntityRepository(User)
@@ -35,15 +34,12 @@ export class UserRepository extends Repository<User> {
     await this.update(id, { device_token: token });
   }
 
-  public async putUserData(user_id: number, body: ModifyUserInfoDto): Promise<User> {
-    const user: User = await this.findOne({ where: { user_id } });
-    if(!user) {
-      return null;
-    } else {
-      user.github_url = body.git ? body.git : user.github_url;
-      user.email = body.email ? body.email : user.email;
-      return this.manager.save(user);
-    }
+  public async putUserGitHubId(github_id: string, user_id: number) {
+    await this.update({ user_id }, { github_url: github_id });
+  }
+
+  public async putUserProfile(profile: string, user_id: number) {
+    await this.update({ user_id }, { image_path: profile });
   }
 
   public findOneOnlyGcn(user_id: number): Promise<User> {
