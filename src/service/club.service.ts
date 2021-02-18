@@ -74,6 +74,9 @@ export class ClubService {
 
   public async showClubsMember(club_id: number): Promise<ClubMemberResObj[]> {
     const head: ClubMemberResObj = await this.clubHeadRepository.findClubHead(club_id);
+    if(!head) {
+      throw new BadRequestError();
+    }
     const members: ClubMemberResObj[] = await this.clubUserViewRepository.findClubsMember(club_id, head.user_id);
     if(!members) {
       throw new BadRequestError();
