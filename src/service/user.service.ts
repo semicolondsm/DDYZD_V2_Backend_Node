@@ -2,12 +2,13 @@ import { ClubUserViewRepository } from "../entity/entity-repository/clubUserView
 import { UserRepository } from "../entity/entity-repository/userReposiotry";
 import { User } from "../entity/model";
 import { ClubUserView } from "../entity/view";
-import { UserInfoResObj, UserTokenResOhj } from "../shared/DataTransferObject";
+import { ModifyUserBiodDto, ModifyUserGitHubIdDto, UserInfoResObj, UserTokenResOhj } from "../shared/DataTransferObject";
 import { BadRequestError, UnAuthorizedTokenError, HttpError } from "../shared/exception";
-import { ModifyUserInfoDto } from './../shared/DataTransferObject';
 import { config } from "../config";
+import { Octokit } from "@octokit/core";
 import axios, { AxiosResponse } from "axios";
 import jwt from "jsonwebtoken";
+import { timeStamp } from "console";
 
 export class UserService {
   constructor(
@@ -66,11 +67,22 @@ export class UserService {
     delete user.device_token;
     return { ... user, clubs, };
   }
-  
-  public async modifyUserInfo(data: ModifyUserInfoDto, user_id: number) {
-    const modifiedUser: User = await this.userRepository.putUserData(user_id, data);
-    if(!modifiedUser) {
-      throw new UnAuthorizedTokenError();
+
+  public async modifyUserGithubId(data: ModifyUserGitHubIdDto, user_id: number) {
+    try {
+      const profile: string = await this.getGitHubProfile(data.git);
+      await this.userRepository.putUserGitHubId(data.git, user_id);
+      await this.userRepository.putUserProfile(profile, user_id);
+    } catch(err) {
+      throw new BadRequestError(err.message);
+    }
+  }
+
+  public async modifyUserBio(data: ModifyUserBiodDto, user_id: number) {
+    try {
+      await this.userRepository.putUserBio(data.bio, user_id);
+    } catch(err) {
+      throw new BadRequestError(err.message);
     }
   }
   
@@ -120,4 +132,11 @@ export class UserService {
       throw new HttpError(err.response.status, err.response.data.message);
     }
   }
+
+  private async getGitHubProfile(github_id: string): Promise<string> {
+    const response = await this.octokit.request(`GET /users/${github_id}`);
+    return response.data.avatar_url;   
+  }
+
+  private octokit = new Octokit({ auth: config.githubAccessToken });
 }

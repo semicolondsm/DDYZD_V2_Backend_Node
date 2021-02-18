@@ -29,6 +29,7 @@
     "typescript": "3.3.3333"
   },
   "dependencies": {
+    "@octokit/core": "^3.2.5",
     "axios": "^0.21.1",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
