@@ -14,7 +14,7 @@ export class ClubHeadRepository extends Repository<ClubHead> {
     .addSelect("user.name", "user_name")
     .addSelect("user.image_path", "profile_image")
     .addSelect("user.gcn", "gcn")
-    .addSelect("user.github_url")
+    .addSelect("user.github_url", "git")
     .leftJoin("head.user", "user")
     .leftJoin("head.club", "club")
     .where("club.club_id = :club_id", { club_id })
