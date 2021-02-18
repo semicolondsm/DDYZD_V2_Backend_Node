@@ -58,9 +58,12 @@ export class ProvideUserTokenDto {
   code: string;
 }
 
-export class ModifyUserInfoDto {
-  git?: string;
-  email?: string;
+export class ModifyUserGitHubIdDto {
+  git: string;
+}
+
+export class ModifyUserBiodDto {
+  bio: string;
 }
 
 export const SupplyClubItemSchema: Joi.ObjectSchema<SupplyClubItemDto> = Joi.object().keys({
@@ -80,7 +83,10 @@ export const ProvideUserTokenSchema: Joi.ObjectSchema<ProvideUserTokenDto> = Joi
   code: Joi.string().required(),
 });
 
-export const ModifyUserInfoSchema: Joi.ObjectSchema<ModifyUserInfoDto> = Joi.object().keys({
-  git: Joi.string().optional(),
-  email: Joi.string().optional(),
+export const ModifyUserGitHubIdSchema: Joi.ObjectSchema<ModifyUserGitHubIdDto> = Joi.object().keys({
+  git: Joi.string().required(),
+});
+
+export const ModifyUserBioSchema: Joi.ObjectSchema<ModifyUserBiodDto> = Joi.object().keys({
+  email: Joi.string().required(),
 });
