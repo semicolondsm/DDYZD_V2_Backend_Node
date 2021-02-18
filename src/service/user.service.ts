@@ -2,12 +2,13 @@ import { ClubUserViewRepository } from "../entity/entity-repository/clubUserView
 import { UserRepository } from "../entity/entity-repository/userReposiotry";
 import { User } from "../entity/model";
 import { ClubUserView } from "../entity/view";
-import { UserInfoResObj, UserTokenResOhj } from "../shared/DataTransferObject";
+import { ModifyUserGitHubIdDto, UserInfoResObj, UserTokenResOhj } from "../shared/DataTransferObject";
 import { BadRequestError, UnAuthorizedTokenError, HttpError } from "../shared/exception";
 import { config } from "../config";
+import { Octokit } from "@octokit/core";
 import axios, { AxiosResponse } from "axios";
 import jwt from "jsonwebtoken";
-import octokit from "@octokit/core";
+import { timeStamp } from "console";
 
 export class UserService {
   constructor(
@@ -66,6 +67,16 @@ export class UserService {
     delete user.device_token;
     return { ... user, clubs, };
   }
+
+  public async modifyUserGithubId(data: ModifyUserGitHubIdDto, user_id: number) {
+    try {
+      const profile: string = await this.getGitHubProfile(data.git);
+      await this.userRepository.putUserGitHubId(data.git, user_id);
+      await this.userRepository.putUserProfile(profile, user_id);
+    } catch(err) {
+      throw new BadRequestError(err.message);
+    }
+  }
   
   public async deviceToken(token: string, user_id: number) {
     if(!token || typeof token !== "string") {
@@ -113,4 +124,11 @@ export class UserService {
       throw new HttpError(err.response.status, err.response.data.message);
     }
   }
+
+  private async getGitHubProfile(github_id: string): Promise<string> {
+    const response = await this.octokit.request(`GET /users/${github_id}`);
+    return response.data.avatar_url;   
+  }
+
+  private octokit = new Octokit({ auth: config.githubAccessToken });
 }
