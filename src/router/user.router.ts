@@ -50,7 +50,8 @@ export const userServiceRouter = (app :Router) => {
   router.put(
     "/profile/bio", 
     verifyTokenMiddleware, 
-    validationRequest(ModifyUserBioSchema)
+    validationRequest(ModifyUserBioSchema),
+    errorHandler(userController.modifyUserBio)
   );
 
   router.post(
