@@ -2,7 +2,7 @@ import { ClubUserViewRepository } from "../entity/entity-repository/clubUserView
 import { UserRepository } from "../entity/entity-repository/userReposiotry";
 import { User } from "../entity/model";
 import { ClubUserView } from "../entity/view";
-import { ModifyUserGitHubIdDto, UserInfoResObj, UserTokenResOhj } from "../shared/DataTransferObject";
+import { ModifyUserBiodDto, ModifyUserGitHubIdDto, UserInfoResObj, UserTokenResOhj } from "../shared/DataTransferObject";
 import { BadRequestError, UnAuthorizedTokenError, HttpError } from "../shared/exception";
 import { config } from "../config";
 import { Octokit } from "@octokit/core";
@@ -73,6 +73,14 @@ export class UserService {
       const profile: string = await this.getGitHubProfile(data.git);
       await this.userRepository.putUserGitHubId(data.git, user_id);
       await this.userRepository.putUserProfile(profile, user_id);
+    } catch(err) {
+      throw new BadRequestError(err.message);
+    }
+  }
+
+  public async modifyUserBio(data: ModifyUserBiodDto, user_id: number) {
+    try {
+      await this.userRepository.putUserBio(data.bio, user_id);
     } catch(err) {
       throw new BadRequestError(err.message);
     }

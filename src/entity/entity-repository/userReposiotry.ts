@@ -42,6 +42,10 @@ export class UserRepository extends Repository<User> {
     await this.update({ user_id }, { image_path: profile });
   }
 
+  public async putUserBio(bio: string, user_id: number) {
+    await this.update({ user_id }, { bio });
+  }
+
   public findOneOnlyGcn(user_id: number): Promise<User> {
     return this.createQueryBuilder("user")
     .select("user.gcn")
