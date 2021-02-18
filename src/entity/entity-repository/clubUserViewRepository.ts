@@ -18,13 +18,14 @@ export class ClubUserViewRepository extends Repository<ClubUserView> {
     .getMany();
   }
 
-  public findClubsMember(club_id: number): Promise<ClubMemberResObj[]> {
+  public findClubsMember(club_id: number, head_id: number): Promise<ClubMemberResObj[]> {
     return this.createQueryBuilder("view")
     .select("view.user_name")
     .addSelect("view.profile_image")
     .addSelect("view.git")
     .addSelect("view.gcn")
     .where("view.club_id = :club_id", { club_id })
+    .andWhere("view.user_id != :head_id", { head_id })
     .andWhere("view.result = 1")
     .getMany();
   }
