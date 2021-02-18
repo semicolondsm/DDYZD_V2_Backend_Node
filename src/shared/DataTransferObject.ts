@@ -26,6 +26,7 @@ export class ClubRecruitmentInfoResObj {
 }
 
 export class ClubMemberResObj {
+  user_id?: number;
   user_name: string;
   profile_image: string;
   gcn: string;
