@@ -12,6 +12,7 @@ export class ClubUserViewRepository extends Repository<ClubUserView> {
     return this.createQueryBuilder("view")
     .select("view.club_name")
     .addSelect("view.club_id")
+    .addSelect("view.club_image")
     .where("view.gcn = :gcn", { gcn })
     .andWhere("view.result = 1")
     .getMany();
