@@ -88,5 +88,5 @@ export const ModifyUserGitHubIdSchema: Joi.ObjectSchema<ModifyUserGitHubIdDto> =
 });
 
 export const ModifyUserBioSchema: Joi.ObjectSchema<ModifyUserBiodDto> = Joi.object().keys({
-  email: Joi.string().required(),
+  bio: Joi.string().required(),
 });
