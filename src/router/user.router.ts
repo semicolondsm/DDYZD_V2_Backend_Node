@@ -43,15 +43,13 @@ export const userServiceRouter = (app :Router) => {
   router.put(
     "/profile/git", 
     verifyTokenMiddleware, 
-    validationRequest(ModifyUserGitHubIdSchema),
-    errorHandler(userController.modifyUserInfo)
+    validationRequest(ModifyUserGitHubIdSchema)
   );
 
   router.put(
     "/profile/bio", 
     verifyTokenMiddleware, 
-    validationRequest(ModifyUserBioSchema),
-    errorHandler(userController.modifyUserInfo)
+    validationRequest(ModifyUserBioSchema)
   );
 
   router.post(

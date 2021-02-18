@@ -37,11 +37,6 @@ export class UserController {
     res.status(200).json(response);
   }
 
-  public modifyUserInfo: BusinessLogic = async (req, res, next) => {
-    await this.userService.modifyUserInfo(req.body, +req.decoded.sub);
-    res.status(200).json({ msg: "Profile modify success" });
-  }
-
   public deviceToken: BusinessLogic = async (req, res, next) => {
     const token: string = req.get("device-token");
     await this.userService.deviceToken(token, +req.decoded.sub);

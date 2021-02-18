@@ -4,10 +4,10 @@ import { User } from "../entity/model";
 import { ClubUserView } from "../entity/view";
 import { UserInfoResObj, UserTokenResOhj } from "../shared/DataTransferObject";
 import { BadRequestError, UnAuthorizedTokenError, HttpError } from "../shared/exception";
-import { ModifyUserInfoDto } from './../shared/DataTransferObject';
 import { config } from "../config";
 import axios, { AxiosResponse } from "axios";
 import jwt from "jsonwebtoken";
+import octokit from "@octokit/core";
 
 export class UserService {
   constructor(
@@ -65,13 +65,6 @@ export class UserService {
     }
     delete user.device_token;
     return { ... user, clubs, };
-  }
-  
-  public async modifyUserInfo(data: ModifyUserInfoDto, user_id: number) {
-    const modifiedUser: User = await this.userRepository.putUserData(user_id, data);
-    if(!modifiedUser) {
-      throw new UnAuthorizedTokenError();
-    }
   }
   
   public async deviceToken(token: string, user_id: number) {
