@@ -43,7 +43,8 @@ export const userServiceRouter = (app :Router) => {
   router.put(
     "/profile/git", 
     verifyTokenMiddleware, 
-    validationRequest(ModifyUserGitHubIdSchema)
+    validationRequest(ModifyUserGitHubIdSchema),
+    errorHandler(userController.modifyUserGithubId)
   );
 
   router.put(
