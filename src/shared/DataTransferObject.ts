@@ -18,6 +18,9 @@ export class ClubInfoResObj {
   backimage: string;
   description: string;
   owner: boolean;
+  follow: boolean;
+  recruitment: boolean;
+  recruitment_close?: Date;
 }
 
 export class ClubRecruitmentInfoResObj {
