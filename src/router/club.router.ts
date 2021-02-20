@@ -13,12 +13,12 @@ export const clubServiceRouter = (app: Router) => {
   app.use("/club", router);
 
   router.get(
-    "/list", 
+    "/list",
     errorHandler(clubController.showClubList)
   );
 
   router.get(
-    "/:club_id/info", 
+    "/:club_id/info",
     (req: Request, res: Response, next: NextFunction) => {
       if(req.headers["authorization"]) {
         verifyTokenMiddleware(req, res, next);
@@ -26,14 +26,14 @@ export const clubServiceRouter = (app: Router) => {
         next();
       }
     },
-    validationNumberParameter("club_id"), 
+    validationNumberParameter("club_id"),
     errorHandler(clubController.showClubInfo)
   );
 
   router.post(
-    "/:club_id/follow", 
-    verifyTokenMiddleware, 
-    validationNumberParameter("club_id"), 
+    "/:club_id/follow",
+    verifyTokenMiddleware,
+    validationNumberParameter("club_id"),
     errorHandler(clubController.followClubHandler)
   );
 
@@ -80,7 +80,7 @@ export const clubServiceRouter = (app: Router) => {
   );
 
   router.put(
-    "/:club_id/supply/:supply_id", 
+    "/:club_id/supply/:supply_id",
     verifyTokenMiddleware,
     validationNumberParameter("club_id"),
     validationNumberParameter("supply_id"),
