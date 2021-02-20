@@ -2,7 +2,7 @@ import { ClubFollowRepository } from "../entity/entity-repository/clubFollowRepo
 import { ClubRepository } from "../entity/entity-repository/clubRepository";
 import { UserRepository } from "../entity/entity-repository/userReposiotry";
 import { Club, ClubFollow, ClubHead, Supply, User } from "../entity/model";
-import { ClubInfoResObj, ClubListResObj, ClubMemberResObj, ClubRecruitmentInfoResObj, ModifyClubSuppliesDto, SupplyClubItemDto } from "../shared/DataTransferObject";
+import { ClubDefaultInfoObj, ClubInfoResObj, ClubListResObj, ClubMemberResObj, ClubRecruitmentInfoResObj, ModifyClubSuppliesDto, SupplyClubItemDto } from "../shared/DataTransferObject";
 import { BadRequestError, ForbiddenError } from "../shared/exception";
 import { ClubTagViewRepository } from "./../entity/entity-repository/clubViewRepository";
 import { ClubUserViewRepository } from "./../entity/entity-repository/clubUserViewRepository";
@@ -33,21 +33,19 @@ export class ClubService {
   }
   
   public async showClubInfo(club_id: number, user_id: number): Promise<ClubInfoResObj> {
-    const club: ClubInfoResObj = await this.clubRepository.findInfoById(club_id);
+    const club: Club = await this.clubRepository.findOne({ where: { club_id } });
     if(!club) {
       throw new BadRequestError();
     }
-    club.clubtag = await this.clubTagViewRepository.findClubTagsById(club_id);
-    if(!user_id) {
-      club.owner = false;
-      return club;
+    const resObj: ClubDefaultInfoObj = await this.getClubDefaultInfo(club);
+    if(user_id) {
+      const user: User = await this.userRepository.findOne({ where: { user_id } });
+      const clubHead: ClubHead = await this.clubHeadRepository.findOne({ where: { club, user }});
+      const clubFollow: ClubFollow = await this.clubFollowRepository.findOne({ where: { club, user } });
+      return { ... resObj, owner: !!clubHead, follow: !!clubFollow };
+    } else {
+      return { ... resObj, owner: false, follow: false };
     }
-    const clubHead: ClubHead = await this.clubHeadRepository.findOne({ where: { 
-      club: await this.clubRepository.findOne({ where: { club_id } }),  
-      user: await this.userRepository.findOne({ where: { user_id } })
-    }});
-    club.owner = !!clubHead;
-    return club;
   }
   
   public async followClubHandler(user_id: number, club_id: number) {
@@ -155,5 +153,18 @@ export class ClubService {
       where: { club_id, user_id, result: 1 }
     });
     return !clubAndUser;
+  }
+
+  private async getClubDefaultInfo(club: Club): Promise<ClubDefaultInfoObj> {
+    return {
+      clubid: club.club_id,
+      clubname: club.club_name,
+      clubtag: await this.clubTagViewRepository.findClubTagsById(club.club_id),
+      clubimage: club.profile_image,
+      backimage: club.banner_image,
+      description: club.description,
+      recruitment: !!club.close_at,
+      recruitment_close: club.close_at,
+    }
   }
 }
