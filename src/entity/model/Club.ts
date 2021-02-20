@@ -44,7 +44,7 @@ export class Club {
 
   @OneToMany(() => Alarm, alarm => alarm.club)
   alarms: Alarm[];
-  
+
   @OneToMany(() => ClubHasTag, clubHasTag => clubHasTag.club)
   clubHasTags: ClubHasTag[];
 

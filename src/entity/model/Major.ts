@@ -7,7 +7,7 @@ export class Major extends EntityWithIdColumn {
   @Column({ type: "varchar", length: 45 })
   major_name: string;
 
-  @ManyToOne(() => Club, club => club.majors) 
+  @ManyToOne(() => Club, club => club.majors)
   @JoinColumn({ name: "club_id" })
   club: Club;
 }
