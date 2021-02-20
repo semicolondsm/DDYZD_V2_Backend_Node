@@ -31,7 +31,7 @@ export class ClubService {
     });
     return clubs;
   }
-  
+
   public async showClubInfo(club_id: number, user_id: number): Promise<ClubInfoResObj> {
     const club: Club = await this.clubRepository.findOne({ where: { club_id } });
     if(!club) {
@@ -47,7 +47,7 @@ export class ClubService {
       return { ... resObj, owner: false, follow: false };
     }
   }
-  
+
   public async followClubHandler(user_id: number, club_id: number) {
     const userRecord: User = await this.userRepository.findOne(user_id);
     const clubRecord: Club = await this.clubRepository.findOne(club_id);
@@ -78,7 +78,7 @@ export class ClubService {
     const members: ClubMemberResObj[] = await this.clubUserViewRepository.findClubsMember(club_id, head.user_id);
     if(!members) {
       throw new BadRequestError();
-    } 
+    }
     members.unshift(head);
     return members;
   }
@@ -87,7 +87,7 @@ export class ClubService {
     const recruitment: Club = await this.clubRepository.findClubRecruitments(club_id);
     if(!recruitment) {
       throw new BadRequestError();
-    } 
+    }
     return {
       major: recruitment.majors.map(major => major.major_name),
       closeat: recruitment.close_at,
@@ -106,7 +106,7 @@ export class ClubService {
     const supplies: Supply[] = await this.clubRepository.findClubSupplies(club_id);
     if(!supplies) {
       throw new BadRequestError();
-    } 
+    }
     return supplies;
   }
 
@@ -114,8 +114,8 @@ export class ClubService {
     const club: Club = await this.clubRepository.findOne({ where: { club_id } });
     const user: User = await this.userRepository.findOne({ where: { user_id } });
     if(club.current_budget - data.price < 0) {
-      throw new BadRequestError("예산 초과"); 
-    } 
+      throw new BadRequestError("예산 초과");
+    }
     const supply: Supply = await this.supplyRepository.createNewSupply(club, user, data);
     if(data.option) {
       await this.optionRepositoty.createNewOption(data.option, supply);
@@ -131,7 +131,7 @@ export class ClubService {
       throw new ForbiddenError();
     } else if(supply.club.current_budget - price < 0) {
       throw new BadRequestError("예산 초과");
-    } 
+    }
     supply.price = price ? price : supply.price;
     supply.count = count ? count : supply.count;
     await this.supplyRepository.manager.save(supply);
