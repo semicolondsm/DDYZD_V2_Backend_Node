@@ -10,8 +10,8 @@ export class Chat extends EntityWithIdColumn {
   @CreateDateColumn({ type: "datetime" })
   created_at: Date;
 
-  @Column({ type: "enum", nullable: true, enum: ["U", "S", "H"]})
-  user_type: "U" | "S" | "H";
+  @Column({ type: "enum", nullable: true, enum: ["U", "C", "H"]})
+  user_type: "U" | "C" | "H";
 
   @ManyToOne(() => Room, room => room.chats)
   @JoinColumn({ name: "room_id" })
