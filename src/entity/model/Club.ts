@@ -1,7 +1,6 @@
 import { Column, Entity, OneToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Alarm } from "./Alarm";
 import { ClubHasTag } from "./ClubHasTag";
-import { Feed } from "./Feed";
 import { Major } from "./Major";
 import { ClubFollow } from './ClubFollow';
 import { Application } from "./Application";
@@ -39,9 +38,6 @@ export class Club {
 
   @Column({ nullable: true })
   hongbo_image: string;
-
-  @OneToMany(() => Feed, feed => feed.club)
-  feeds: Feed[];
 
   @OneToMany(() => Major, major => major.club)
   majors: Major[];

@@ -2,8 +2,6 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { ClubFollow } from './ClubFollow';
 import { Application } from './Application';
 import { ClubHead } from "./ClubHead";
-import { Room } from "./Room";
-import { FeedFlag } from './FeedFlag';
 import { Supply } from "./Supply";
 
 @Entity("user")
@@ -40,12 +38,6 @@ export class User {
 
   @OneToMany(() => ClubHead, clubHead => clubHead.user)
   heads: ClubHead[];
-
-  @OneToMany(() => Room, room => room.user)
-  rooms: Room[];
-
-  @OneToMany(() => FeedFlag, feedFlag => feedFlag.user)
-  flags: FeedFlag[];
 
   @OneToMany(() => Supply, supply => supply.user)
   supplies: Supply[];

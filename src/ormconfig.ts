@@ -2,8 +2,8 @@ import { ConnectionOptions } from "typeorm";
 import { config } from "./config";
 import { ClubTagView, ClubUserView } from "./entity/view";
 import { 
-   Alarm, Application, Chat, Club, ClubFollow, ClubHasTag, ClubHead, 
-   Feed, FeedFlag, FeedMedium, Major, Option, Room, Supply, Tag, User } from "./entity/model";
+   Alarm, Application, Club, ClubFollow, ClubHasTag, ClubHead, 
+   Major, Option, Supply, Tag, User } from "./entity/model";
 
 export const createOptions: ConnectionOptions = {
    type: "mysql",
@@ -15,8 +15,8 @@ export const createOptions: ConnectionOptions = {
    synchronize: config.dbSynchronize,
    logging: config.dbLogging,
    entities: [
-      Alarm, Application, Chat, Club, ClubFollow, ClubHasTag, ClubHead,
-      Feed, FeedFlag, FeedMedium, Major, Option, Room, Supply, Tag, User,
+      Alarm, Application, Club, ClubFollow, ClubHasTag, ClubHead, 
+      Major, Option, Supply, Tag, User,
       ClubUserView, ClubTagView
    ]
 }
