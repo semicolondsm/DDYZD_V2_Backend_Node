@@ -10,17 +10,20 @@ export class ClubListResObj {
   clubtag: string | string[];
 }
 
-export class ClubInfoResObj {
+export class ClubDefaultInfoObj {
   clubid: number;
   clubname: string;
   clubtag?: string[];
   clubimage: string;
   backimage: string;
   description: string;
-  owner: boolean;
-  follow: boolean;
   recruitment: boolean;
   recruitment_close?: Date;
+}
+
+export class ClubInfoResObj extends ClubDefaultInfoObj {
+  owner: boolean;
+  follow: boolean;
 }
 
 export class ClubRecruitmentInfoResObj {
