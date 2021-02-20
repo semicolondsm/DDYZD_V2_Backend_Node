@@ -2,7 +2,6 @@ import { Entity, JoinColumn, ManyToOne, OneToMany, OneToOne } from "typeorm";
 import { EntityWithIdColumn } from "./EntityWithPrimaryColumn";
 import { Club } from './Club';
 import { User } from "./User";
-import { Room } from "./Room";
 
 @Entity("club_head")
 export class ClubHead extends EntityWithIdColumn {
@@ -13,7 +12,4 @@ export class ClubHead extends EntityWithIdColumn {
   @ManyToOne(() => User, user => user.heads)
   @JoinColumn({ name: "user_id" })
   user: User;
-
-  @OneToMany(() => Room, room => room.clubHead)
-  rooms: Room[];
 }

@@ -91,7 +91,7 @@ export class ClubService {
       throw new BadRequestError();
     } 
     return {
-      major: recruitment.majors.map(major => major.majorname),
+      major: recruitment.majors.map(major => major.major_name),
       closeat: recruitment.close_at,
     };
   }
