@@ -29,6 +29,7 @@ export class ClubInfoResObj extends ClubDefaultInfoObj {
 export class ClubRecruitmentInfoResObj {
   major: string[];
   closeat: Date;
+  startat: Date;
 }
 
 export class ClubMemberResObj {
