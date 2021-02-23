@@ -90,6 +90,7 @@ export class ClubService {
     } 
     return {
       major: recruitment.majors.map(major => major.major_name),
+      startat: recruitment.start_at,
       closeat: recruitment.close_at,
     };
   }

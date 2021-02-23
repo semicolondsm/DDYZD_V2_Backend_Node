@@ -11,6 +11,7 @@ export class ClubRepository extends Repository<Club> {
   public findClubRecruitments(club_id: number): Promise<Club> {
     return this.createQueryBuilder("club")
     .select("club.close_at")
+    .addSelect("club.start_at")
     .addSelect("major.major_name")
     .leftJoin("club.majors", "major")
     .where("club.club_id = :club_id", { club_id })
