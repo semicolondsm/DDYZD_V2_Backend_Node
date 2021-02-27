@@ -3,7 +3,7 @@ import { Alarm } from "./Alarm";
 import { ClubHasTag } from "./ClubHasTag";
 import { Major } from "./Major";
 import { ClubFollow } from './ClubFollow';
-import { ClubMember } from "./Application";
+import { ClubMember } from "./ClubMember";
 import { ClubHead } from "./ClubHead";
 import { Supply } from "./Supply";
 

@@ -1,5 +1,5 @@
 import { Alarm } from "./Alarm";
-import { Application } from "./Application";
+import { ClubMember } from "./ClubMember";
 import { Club } from "./Club";
 import { ClubFollow } from './ClubFollow';
 import { ClubHasTag } from './ClubHasTag';
@@ -12,7 +12,7 @@ import { User } from "./User";
 
 export {
   Alarm,
-  Application,
+  ClubMember,
   Club,
   ClubFollow,
   ClubHasTag,

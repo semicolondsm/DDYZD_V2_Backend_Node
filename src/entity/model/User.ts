@@ -1,6 +1,6 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { ClubFollow } from './ClubFollow';
-import { ClubMember } from './Application';
+import { ClubMember } from './ClubMember';
 import { ClubHead } from "./ClubHead";
 import { Supply } from "./Supply";
 
