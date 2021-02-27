@@ -12,8 +12,8 @@ import { Club } from "../model";
   .addSelect("user.image_path", "profile_image")
   .addSelect("user.gcn", "gcn")
   .addSelect("user.github_url", "git")
-  .leftJoin("club.applications", "application")
-  .leftJoin("application.user", "user")
+  .leftJoin("club.members", "members")
+  .leftJoin("members.user", "user")
 })
 export class ClubUserView {
   @ViewColumn()
