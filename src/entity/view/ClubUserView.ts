@@ -12,7 +12,6 @@ import { Club } from "../model";
   .addSelect("user.image_path", "profile_image")
   .addSelect("user.gcn", "gcn")
   .addSelect("user.github_url", "git")
-  .addSelect("application.result", "result")
   .leftJoin("club.applications", "application")
   .leftJoin("application.user", "user")
 })
@@ -40,7 +39,4 @@ export class ClubUserView {
 
   @ViewColumn()
   gcn: string;
-
-  @ViewColumn()
-  result: number;
 }
