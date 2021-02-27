@@ -1,14 +1,11 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "./User";
 import { Club } from './Club';
 
-@Entity("application")
+@Entity("club_member")
 export class Application {
   @PrimaryGeneratedColumn()
   application_id: number;
-
-  @Column({ type: "tinyint", nullable: true })
-  result?: number;
 
   @ManyToOne(() => User, user => user.applications)
   @JoinColumn({ name: "user_id" })
