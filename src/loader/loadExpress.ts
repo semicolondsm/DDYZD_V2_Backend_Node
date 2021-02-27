@@ -10,7 +10,7 @@ import { logger } from "../shared/logger";
 export const loadExpress = (app: Application) => {
   app.set("port", config.ServicePort || "3000");
   
-  app.use(morgan("dev"));
+  app.use(morgan("combined"));
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(cors());
