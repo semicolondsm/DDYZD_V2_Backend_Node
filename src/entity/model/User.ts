@@ -1,6 +1,6 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { ClubFollow } from './ClubFollow';
-import { Application } from './Application';
+import { ClubMember } from './Application';
 import { ClubHead } from "./ClubHead";
 import { Supply } from "./Supply";
 
@@ -33,8 +33,8 @@ export class User {
   @OneToMany(() => ClubFollow, clubFollow => clubFollow.user)
   followings: ClubFollow[];
 
-  @OneToMany(() => Application, application => application.user)
-  applications: Application[];
+  @OneToMany(() => ClubMember, application => application.user)
+  members: ClubMember[];
 
   @OneToMany(() => ClubHead, clubHead => clubHead.user)
   heads: ClubHead[];
