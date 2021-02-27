@@ -3,7 +3,7 @@ import { Alarm } from "./Alarm";
 import { ClubHasTag } from "./ClubHasTag";
 import { Major } from "./Major";
 import { ClubFollow } from './ClubFollow';
-import { Application } from "./Application";
+import { ClubMember } from "./Application";
 import { ClubHead } from "./ClubHead";
 import { Supply } from "./Supply";
 
@@ -51,8 +51,8 @@ export class Club {
   @OneToMany(() => ClubFollow, clubFollow => clubFollow.club)
   followers: ClubFollow[];
 
-  @OneToMany(() => Application, application => application.club)
-  applications: Application[];
+  @OneToMany(() => ClubMember, application => application.club)
+  members: ClubMember[];
 
   @OneToOne(() => ClubHead, clubHead => clubHead.club)
   head: ClubHead;
