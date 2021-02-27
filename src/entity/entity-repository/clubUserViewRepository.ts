@@ -14,7 +14,6 @@ export class ClubUserViewRepository extends Repository<ClubUserView> {
     .addSelect("view.club_id")
     .addSelect("view.club_image")
     .where("view.gcn = :gcn", { gcn })
-    .andWhere("view.result = 1")
     .getMany();
   }
 
@@ -26,7 +25,6 @@ export class ClubUserViewRepository extends Repository<ClubUserView> {
     .addSelect("view.gcn")
     .where("view.club_id = :club_id", { club_id })
     .andWhere("view.user_id != :head_id", { head_id })
-    .andWhere("view.result = 1")
     .getMany();
   }
 }
