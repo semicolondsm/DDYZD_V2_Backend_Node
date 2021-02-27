@@ -36,7 +36,6 @@ export const userServiceRouter = (app :Router) => {
   
   router.get(
     "/:user_gcn", 
-    verifyTokenMiddleware, 
     errorHandler(userController.showUserInfo)
   );
   
