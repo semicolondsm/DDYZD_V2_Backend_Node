@@ -4,10 +4,10 @@ import { Club } from "../model";
 @ViewEntity({
   name: "club_user_view",
   expression: (connection: Connection) => connection.createQueryBuilder(Club, "club")
-  .select("club.club_id", "club_id")
-  .addSelect("club.club_name", "club_name")
+  .select("club.id", "club_id")
+  .addSelect("club.name", "club_name")
   .addSelect("club.profile_image", "club_image")
-  .addSelect("user.user_id", "user_id")
+  .addSelect("user.id", "user_id")
   .addSelect("user.name", "user_name")
   .addSelect("user.image_path", "profile_image")
   .addSelect("user.gcn", "gcn")
