@@ -35,15 +35,15 @@ export class UserRepository extends Repository<User> {
   }
 
   public async putUserGitHubId(github_id: string, user_id: number) {
-    await this.update({ user_id }, { github_url: github_id });
+    await this.update({ id: user_id }, { github_url: github_id });
   }
 
   public async putUserProfile(profile: string, user_id: number) {
-    await this.update({ user_id }, { image_path: profile });
+    await this.update({ id: user_id }, { image_path: profile });
   }
 
   public async putUserBio(bio: string, user_id: number) {
-    await this.update({ user_id }, { bio });
+    await this.update({ id: user_id }, { bio });
   }
 
   public findOneOnlyGcn(user_id: number): Promise<User> {
