@@ -8,7 +8,6 @@ import { config } from "../config";
 import { Octokit } from "@octokit/core";
 import axios, { AxiosResponse } from "axios";
 import jwt from "jsonwebtoken";
-import { timeStamp } from "console";
 
 export class UserService {
   constructor(
@@ -25,8 +24,8 @@ export class UserService {
     const authenticatedUser: User = checkExistUser ? 
     checkExistUser : await this.userRepository.createDefaultUser(userInfo);
     return {
-      "access_token": await this.issuanceToken(authenticatedUser.user_id, "access"),
-      "refresh_token": await this.issuanceToken(authenticatedUser.user_id, "refresh"),
+      "access_token": await this.issuanceToken(authenticatedUser.id, "access"),
+      "refresh_token": await this.issuanceToken(authenticatedUser.id, "refresh"),
     };
   }
 
@@ -45,8 +44,8 @@ export class UserService {
     const authenticatedUser: User = checkExistUser ? 
     checkExistUser : await this.userRepository.createDefaultUser(userInfo);
     return {
-      "access_token": await this.issuanceToken(authenticatedUser.user_id, "access"),
-      "refresh_token": await this.issuanceToken(authenticatedUser.user_id, "refresh"),
+      "access_token": await this.issuanceToken(authenticatedUser.id, "access"),
+      "refresh_token": await this.issuanceToken(authenticatedUser.id, "refresh"),
     };
   }
 
