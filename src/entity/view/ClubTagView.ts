@@ -4,8 +4,8 @@ import { Club } from "../model";
 @ViewEntity({
   name: "club_tag_view",
   expression: (connection: Connection) => connection.createQueryBuilder(Club, "club")
-  .select("club.club_id", "id")
-  .addSelect("club.club_name", "name")
+  .select("club.id", "id")
+  .addSelect("club.name", "name")
   .addSelect("club.description", "description")
   .addSelect("club.profile_image", "club_image")
   .addSelect("tag.title", "tag_name")
