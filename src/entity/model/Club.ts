@@ -1,4 +1,4 @@
-import { Column, Entity, OneToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToOne, OneToMany } from "typeorm";
 import { Alarm } from "./Alarm";
 import { ClubHasTag } from "./ClubHasTag";
 import { Major } from "./Major";
@@ -6,14 +6,12 @@ import { ClubFollow } from './ClubFollow';
 import { ClubMember } from "./ClubMember";
 import { ClubHead } from "./ClubHead";
 import { Supply } from "./Supply";
+import { EntityWithIdColumn } from "./EntityWithPrimaryColumn";
 
 @Entity("club")
-export class Club {
-  @PrimaryGeneratedColumn({ name: "club_id" })
-  club_id: number;
-
+export class Club extends EntityWithIdColumn {
   @Column({ type: "varchar", length: 45 })
-  club_name: string;
+  name: string;
 
   @Column({ default: 0 })
   total_budget: number;
@@ -27,7 +25,7 @@ export class Club {
   @Column({ type: "datetime", nullable: true })
   close_at?: Date;
 
-  @Column({ default: "", nullable: true  })
+  @Column({ nullable: true  })
   description: string;
 
   @Column()
