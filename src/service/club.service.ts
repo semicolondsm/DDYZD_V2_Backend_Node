@@ -33,13 +33,13 @@ export class ClubService {
   }
   
   public async showClubInfo(club_id: number, user_id: number): Promise<ClubInfoResObj> {
-    const club: Club = await this.clubRepository.findOne({ where: { club_id } });
+    const club: Club = await this.clubRepository.findOne({ where: { id: club_id } });
     if(!club) {
       throw new BadRequestError();
     }
     const resObj: ClubDefaultInfoObj = await this.getClubDefaultInfo(club);
     if(user_id) {
-      const user: User = await this.userRepository.findOne({ where: { user_id } });
+      const user: User = await this.userRepository.findOne({ where: { id: user_id } });
       const clubHead: ClubHead = await this.clubHeadRepository.findOne({ where: { club, user }});
       const clubFollow: ClubFollow = await this.clubFollowRepository.findOne({ where: { club, user } });
       return { ... resObj, owner: !!clubHead, follow: !!clubFollow };
@@ -112,8 +112,8 @@ export class ClubService {
   }
 
   public async requestClubSupplies(club_id: number, user_id: number, data: SupplyClubItemDto) {
-    const club: Club = await this.clubRepository.findOne({ where: { club_id } });
-    const user: User = await this.userRepository.findOne({ where: { user_id } });
+    const club: Club = await this.clubRepository.findOne({ where: { id: club_id } });
+    const user: User = await this.userRepository.findOne({ where: { id: user_id } });
     if(club.current_budget - data.price < 0) {
       throw new BadRequestError("예산 초과"); 
     } 
@@ -128,7 +128,7 @@ export class ClubService {
       throw new ForbiddenError();
     }
     const supply: Supply = await this.supplyRepository.findOneSupplyWithClubWithUser(supply_id);
-    if(!supply || supply.club.club_id !== club_id || supply.user.user_id !== user_id) {
+    if(!supply || supply.club.id !== club_id || supply.user.id !== user_id) {
       throw new ForbiddenError();
     } else if(supply.club.current_budget - price < 0) {
       throw new BadRequestError("예산 초과");
@@ -143,7 +143,7 @@ export class ClubService {
       throw new ForbiddenError();
     }
     const supply: Supply = await this.supplyRepository.findOneSupplyWithClubWithUser(supply_id);
-    if(!supply || supply.club.club_id !== club_id || supply.user.user_id !== user_id) {
+    if(!supply || supply.club.id !== club_id || supply.user.id !== user_id) {
       throw new ForbiddenError();
     }
     await this.supplyRepository.delete(supply);
@@ -151,16 +151,16 @@ export class ClubService {
 
   private async checkIsNotClubMember(club_id: number, user_id: number): Promise<boolean> {
     const clubAndUser: ClubUserView = await this.clubUserViewRepository.findOne({
-      where: { club_id, user_id, result: 1 }
+      where: { club_id, user_id }
     });
     return !clubAndUser;
   }
 
   private async getClubDefaultInfo(club: Club): Promise<ClubDefaultInfoObj> {
     return {
-      clubid: club.club_id,
-      clubname: club.club_name,
-      clubtag: await this.clubTagViewRepository.findClubTagsById(club.club_id),
+      clubid: club.id,
+      clubname: club.name,
+      clubtag: await this.clubTagViewRepository.findClubTagsById(club.id),
       clubimage: club.profile_image,
       backimage: club.banner_image,
       description: club.description,
