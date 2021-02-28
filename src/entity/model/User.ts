@@ -1,14 +1,12 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany } from "typeorm";
 import { ClubFollow } from './ClubFollow';
 import { ClubMember } from './ClubMember';
 import { ClubHead } from "./ClubHead";
 import { Supply } from "./Supply";
+import { EntityWithIdColumn } from "./EntityWithPrimaryColumn";
 
 @Entity("user")
-export class User {
-  @PrimaryGeneratedColumn()
-  user_id: number;
-
+export class User extends EntityWithIdColumn {
   @Column({ type: "varchar", length: 45 })
   name: string;
 
