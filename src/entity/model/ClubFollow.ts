@@ -1,12 +1,10 @@
-import { Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, JoinColumn, ManyToOne } from "typeorm";
 import { Club } from "./Club";
+import { EntityWithIdColumn } from "./EntityWithPrimaryColumn";
 import { User } from "./User";
 
 @Entity("club_follow")
-export class ClubFollow {
-  @PrimaryGeneratedColumn()
-  follow_id: number;
-
+export class ClubFollow extends EntityWithIdColumn{
   @ManyToOne(() => User, user => user.followings, { onDelete: "CASCADE" })
   @JoinColumn({ name: "user_id" })
   user: User;
