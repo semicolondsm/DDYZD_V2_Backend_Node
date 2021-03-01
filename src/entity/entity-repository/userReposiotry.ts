@@ -49,7 +49,7 @@ export class UserRepository extends Repository<User> {
   public findOneOnlyGcn(user_id: number): Promise<User> {
     return this.createQueryBuilder("user")
     .select("user.gcn")
-    .where("user.user_id = :id", { id: user_id })
+    .where("user.id = :id", { id: user_id })
     .getOne();
   }
 }
