@@ -100,4 +100,9 @@ export const clubServiceRouter = (app: Router) => {
     "/banner",
     errorHandler(clubController.findClubBanners)
   );
+
+  router.get(
+    "/promotional",
+    errorHandler(clubController.showPromotionalMaterial)
+  );
 }

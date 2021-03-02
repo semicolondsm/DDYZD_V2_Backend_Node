@@ -9,7 +9,7 @@ import { UserRepository } from "../entity/entity-repository/userReposiotry";
 import { Club, Supply } from "../entity/model";
 import { ClubService } from "../service/club.service";
 import { BusinessLogic } from "../shared/BusinessLogicInterface";
-import { ClubInfoResObj, ClubListResObj, ClubMemberResObj } from "../shared/DataTransferObject";
+import { ClubImagesResObj, ClubInfoResObj, ClubListResObj, ClubMemberResObj } from "../shared/DataTransferObject";
 import { ClubRecruitmentInfoResObj } from "./../shared/DataTransferObject";
 
 export class ClubController {
@@ -81,6 +81,11 @@ export class ClubController {
 
   public findClubBanners: BusinessLogic = async (req, res, next) => {
     const returnValues: string[] = await this.clubService.showBannerImage();
+    res.status(200).json(returnValues);
+  }
+
+  public showPromotionalMaterial: BusinessLogic = async (req, res, next) => {
+    const returnValues: ClubImagesResObj[] = await this.clubService.showPromotionalMaterial();
     res.status(200).json(returnValues);
   }
 }

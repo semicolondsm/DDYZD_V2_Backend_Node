@@ -2,7 +2,7 @@ import { ClubFollowRepository } from "../entity/entity-repository/clubFollowRepo
 import { ClubRepository } from "../entity/entity-repository/clubRepository";
 import { UserRepository } from "../entity/entity-repository/userReposiotry";
 import { Club, ClubFollow, ClubHead, Supply, User } from "../entity/model";
-import { ClubDefaultInfoObj, ClubInfoResObj, ClubListResObj, ClubMemberResObj, ClubRecruitmentInfoResObj, ModifyClubSuppliesDto, SupplyClubItemDto } from "../shared/DataTransferObject";
+import { ClubDefaultInfoObj, ClubImagesResObj, ClubInfoResObj, ClubListResObj, ClubMemberResObj, ClubRecruitmentInfoResObj, ModifyClubSuppliesDto, SupplyClubItemDto } from "../shared/DataTransferObject";
 import { BadRequestError, ForbiddenError } from "../shared/exception";
 import { ClubTagViewRepository } from "./../entity/entity-repository/clubViewRepository";
 import { ClubUserViewRepository } from "./../entity/entity-repository/clubUserViewRepository";
@@ -152,6 +152,11 @@ export class ClubService {
   public async showBannerImage(): Promise<string[]> {
     const banners = await this.clubRepository.findClubBanners();
     return banners;
+  }
+
+  public async showPromotionalMaterial(): Promise<ClubImagesResObj[]> {
+    const materials: ClubImagesResObj[] = await this.clubRepository.findClubPromotionalMaterial();
+    return materials;
   }
 
   private async checkIsNotClubMember(club_id: number, user_id: number): Promise<boolean> {
