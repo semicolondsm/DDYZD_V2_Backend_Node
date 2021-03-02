@@ -95,4 +95,9 @@ export const clubServiceRouter = (app: Router) => {
     validationNumberParameter("supply_id"),
     errorHandler(clubController.removeClubSupplies)
   );
+
+  router.get(
+    "/banner",
+    errorHandler(clubController.findClubBanners)
+  );
 }

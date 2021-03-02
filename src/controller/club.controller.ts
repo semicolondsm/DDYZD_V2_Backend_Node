@@ -78,4 +78,9 @@ export class ClubController {
     await this.clubService.removeClubSupplies(+req.params.club_id, +req.params.supply_id, +req.decoded.sub);
     res.status(200).json({ msg: "success" });
   }
+
+  public findClubBanners: BusinessLogic = async (req, res, next) => {
+    const returnValues: string[] = await this.clubService.showBannerImage();
+    res.status(200).json(returnValues);
+  }
 }

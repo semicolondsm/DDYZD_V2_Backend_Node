@@ -149,6 +149,11 @@ export class ClubService {
     await this.supplyRepository.delete(supply);
   }
 
+  public async showBannerImage(): Promise<string[]> {
+    const banners = await this.clubRepository.findClubBanners();
+    return banners;
+  }
+
   private async checkIsNotClubMember(club_id: number, user_id: number): Promise<boolean> {
     const clubAndUser: ClubUserView = await this.clubUserViewRepository.findOne({
       where: { club_id, user_id }
