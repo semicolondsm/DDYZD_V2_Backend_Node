@@ -33,4 +33,11 @@ export class ClubRepository extends Repository<Club> {
     .getOne();
     return club.supplies;
   }
+
+  public async findClubBanners(): Promise<string[]> {
+    const clubs: Club[] = await this.createQueryBuilder("club")
+    .select("club.banner_image")
+    .getMany();
+    return clubs.map(club => club.banner_image);
+  }
 }
