@@ -80,7 +80,7 @@ export class ClubController {
   }
 
   public findClubBanners: BusinessLogic = async (req, res, next) => {
-    const returnValues: string[] = await this.clubService.showBannerImage();
+    const returnValues: ClubImagesResObj[] = await this.clubService.showBannerImage();
     res.status(200).json(returnValues);
   }
 

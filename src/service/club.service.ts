@@ -149,8 +149,8 @@ export class ClubService {
     await this.supplyRepository.delete(supply);
   }
 
-  public async showBannerImage(): Promise<string[]> {
-    const banners = await this.clubRepository.findClubBanners();
+  public async showBannerImage(): Promise<ClubImagesResObj[]> {
+    const banners: ClubImagesResObj[] = await this.clubRepository.findClubBanners();
     return banners;
   }
 
