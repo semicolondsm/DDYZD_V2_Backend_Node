@@ -1,4 +1,5 @@
 import { EntityRepository, getCustomRepository, Repository } from "typeorm";
+import { ClubImagesResObj } from "../../shared/DataTransferObject";
 import { Club, Supply } from "../model";
 
 @EntityRepository(Club)
@@ -39,5 +40,12 @@ export class ClubRepository extends Repository<Club> {
     .select("club.banner_image")
     .getMany();
     return clubs.map(club => club.banner_image);
+  }
+
+  public findClubPromotionalMaterial(): Promise<ClubImagesResObj[]> {
+    return this.createQueryBuilder("club")
+    .select("club.hongbo_image", "image")
+    .addSelect("club.name", "name")
+    .getRawMany();
   }
 }
