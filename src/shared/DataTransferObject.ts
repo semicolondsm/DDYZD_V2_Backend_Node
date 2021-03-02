@@ -49,6 +49,11 @@ export class UserInfoResObj extends User {
   clubs: ClubUserView[];
 }
 
+export class ClubImagesResObj {
+  name: string;
+  image: string;
+}
+
 export class SupplyClubItemDto {
   price: number;
   name: string;
