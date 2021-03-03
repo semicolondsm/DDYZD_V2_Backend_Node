@@ -1,3 +1,4 @@
+import fs from "fs";
 import { NextFunction, Request, Response , Application} from "express";
 import bodyParser from "body-parser";
 import morgan from "morgan";
@@ -10,7 +11,9 @@ import { logger } from "../shared/logger";
 export const loadExpress = (app: Application) => {
   app.set("port", config.ServicePort || "3000");
   
-  app.use(morgan("combined"));
+  app.use(morgan("combined", {
+    stream: fs.createWriteStream("./logs/log.log", { encoding: "utf8" }),
+  }));
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(cors());
