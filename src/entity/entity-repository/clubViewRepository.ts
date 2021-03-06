@@ -14,6 +14,7 @@ export class ClubTagViewRepository extends Repository<ClubTagView> {
     .addSelect("view.name", "clubname")
     .addSelect("view.description", "clubdescription")
     .addSelect("view.club_image", "clubimage")
+    .addSelect("view.club_banner", "clubbanner")
     .addSelect("GROUP_CONCAT(view.tag_name)", "clubtag")
     .groupBy("view.id")
     .getRawMany();

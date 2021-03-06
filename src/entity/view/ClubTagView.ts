@@ -9,6 +9,7 @@ import { Club } from "../model";
   .addSelect("club.description", "description")
   .addSelect("club.profile_image", "club_image")
   .addSelect("tag.title", "tag_name")
+  .addSelect("club.banner_image", "club_banner")
   .leftJoin("club.clubHasTags", "clubHasTag")
   .leftJoin("clubHasTag.tag", "tag")
 })
@@ -24,6 +25,9 @@ export class ClubTagView {
 
   @ViewColumn()
   club_image: string;
+
+  @ViewColumn()
+  club_banner: string;
 
   @ViewColumn()
   tag_name: string;
