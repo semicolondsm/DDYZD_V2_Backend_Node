@@ -21,5 +21,6 @@ export const config = {
   dsmAuthClientSecret: process.env.DSM_AUTH_CLIENT_SECRET,
   dsmAuthUrl: "https://developer-api.dsmkr.com",
   dsmOpenApiUrl: "https://developer-api.dsmkr.com",
+  ddyzdApiUrl: process.env.DDYZD_API_URL,
   githubAccessToken: process.env.GITHUB_ACCESS_TOKEN,
 } 
