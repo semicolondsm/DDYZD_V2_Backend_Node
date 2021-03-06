@@ -4,8 +4,8 @@ import { UserRepository } from "../entity/entity-repository/userReposiotry";
 import { Club, ClubFollow, ClubHead, Supply, User } from "../entity/model";
 import { ClubDefaultInfoObj, ClubImagesResObj, ClubInfoResObj, ClubListResObj, ClubMemberResObj, ClubRecruitmentInfoResObj, ModifyClubSuppliesDto, SupplyClubItemDto } from "../shared/DataTransferObject";
 import { BadRequestError, ForbiddenError } from "../shared/exception";
-import { ClubTagViewRepository } from "./../entity/entity-repository/clubViewRepository";
-import { ClubUserViewRepository } from "./../entity/entity-repository/clubUserViewRepository";
+import { ClubTagViewRepository } from "../entity/entity-repository/clubViewRepository";
+import { ClubUserViewRepository } from "../entity/entity-repository/clubUserViewRepository";
 import { SupplyRepository } from "../entity/entity-repository/supplyRepository";
 import { OptionsRepository } from "../entity/entity-repository/optionRepository";
 import { ClubHeadRepository } from "../entity/entity-repository/clubHeadRepository";
@@ -19,7 +19,7 @@ export class ClubService {
     private userRepository: UserRepository,
     private clubFollowRepository: ClubFollowRepository,
     private supplyRepository: SupplyRepository,
-    private optionRepositoty: OptionsRepository,
+    private optionRepository: OptionsRepository,
     private clubHeadRepository: ClubHeadRepository
   ) {}
 
@@ -119,7 +119,7 @@ export class ClubService {
     } 
     const supply: Supply = await this.supplyRepository.createNewSupply(club, user, data);
     if(data.option) {
-      await this.optionRepositoty.createNewOption(data.option, supply);
+      await this.optionRepository.createNewOption(data.option, supply);
     }
   }
 
