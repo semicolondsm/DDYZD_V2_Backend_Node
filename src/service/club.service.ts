@@ -49,7 +49,6 @@ export class ClubService {
   }
   
   public async followClubHandler(user_id: number, club_id: number) {
-    console.log(user_id, club_id);
     const userRecord: User = await this.userRepository.findOne(user_id);
     const clubRecord: Club = await this.clubRepository.findOne(club_id);
     if(!userRecord || !clubRecord) {
