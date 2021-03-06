@@ -53,6 +53,7 @@ export class UserInfoResObj extends User {
 export class ClubImagesResObj {
   name: string;
   image: string;
+  profile: string;
 }
 
 export class SupplyClubItemDto {

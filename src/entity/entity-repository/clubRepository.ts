@@ -39,6 +39,7 @@ export class ClubRepository extends Repository<Club> {
     return this.createQueryBuilder("club")
     .select("club.banner_image", "image")
     .addSelect("club.name", "name")
+    .addSelect("club.profile_image", "profile")
     .getRawMany();
   }
 
@@ -46,6 +47,7 @@ export class ClubRepository extends Repository<Club> {
     return this.createQueryBuilder("club")
     .select("club.hongbo_image", "image")
     .addSelect("club.name", "name")
+    .addSelect("club.profile_image", "profile")
     .getRawMany();
   }
 }
