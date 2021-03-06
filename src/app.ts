@@ -3,12 +3,10 @@ import path from "path";
 import dotenv from "dotenv";
 import { logger } from "./shared/logger";
 import { initApplication } from "./loader";
-import { config } from "./config";
 
 dotenv.config({ path: path.join(__dirname, "../.env") });
 
 initApplication()
-    .then(() => console.log("server on ", config.ServicePort || 3000))
     .catch(() => console.error("server start failed"));
 
 process.on("uncaughtException", (err: Error) => {
