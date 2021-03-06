@@ -7,6 +7,7 @@ export class ClubListResObj {
   clubname: string;
   clubdescription: string;
   clubimage: string;
+  clubbanner: string;
   clubtag: string | string[];
 }
 
