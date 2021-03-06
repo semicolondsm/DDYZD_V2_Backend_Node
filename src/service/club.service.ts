@@ -49,10 +49,18 @@ export class ClubService {
   }
   
   public async followClubHandler(user_id: number, club_id: number) {
+    console.log(user_id, club_id);
     const userRecord: User = await this.userRepository.findOne(user_id);
     const clubRecord: Club = await this.clubRepository.findOne(club_id);
     if(!userRecord || !clubRecord) {
       throw new BadRequestError();
+    }
+    const followRecord: ClubFollow = await this.clubFollowRepository.findOne({
+      user: userRecord,
+      club: clubRecord,
+    });
+    if(followRecord) {
+      throw new BadRequestError("이미 팔로우 했습니다");
     }
     await this.clubFollowRepository.createClubFollow(userRecord, clubRecord);
   }
