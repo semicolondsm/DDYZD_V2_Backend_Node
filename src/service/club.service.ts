@@ -174,6 +174,11 @@ export class ClubService {
   }
 
   private async getClubDefaultInfo(club: Club): Promise<ClubDefaultInfoObj> {
+    if(club.close_at < new Date()) {
+      club.close_at = null;
+      club.start_at = null;
+      this.clubRepository.manager.save(club).then(() => console.log(`${club.name} 모집종료`)).catch(console.log);
+    }
     return {
       clubid: club.id,
       clubname: club.name,
