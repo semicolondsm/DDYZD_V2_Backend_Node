@@ -32,7 +32,7 @@ const databaseConfigList = {
     password: process.env.PRODUCTION_PASSWORD,
     database: process.env.PRODUCTION_DATABASE,
     synchronize: false,
-    logging: true,
+    logging: false,
   }
 }
 
