@@ -5,6 +5,7 @@ import { verifyTokenMiddleware } from "../middleware/verifyToken";
 import { ClubController } from "../controller/club.controller";
 import { validationRequest } from "../middleware/validatoinRequest";
 import { ModifyClubSuppliesSchema, SupplyClubItemSchema } from "../shared/DataTransferObject";
+import { verifyTokenOrDone } from "../middleware/verifyTokenOrDone";
 
 const router: Router = Router();
 export const clubServiceRouter = (app: Router) => {
@@ -19,13 +20,7 @@ export const clubServiceRouter = (app: Router) => {
 
   router.get(
     "/:club_id/info", 
-    (req: Request, res: Response, next: NextFunction) => {
-      if(req.headers["authorization"]) {
-        verifyTokenMiddleware(req, res, next);
-      } else {
-        next();
-      }
-    },
+    verifyTokenOrDone,
     validationNumberParameter("club_id"), 
     errorHandler(clubController.showClubInfo)
   );
