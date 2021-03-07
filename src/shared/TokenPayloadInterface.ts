@@ -1,6 +1,6 @@
 export interface TokenPayload {
   type: "access" | "refresh";
-  subject: number;
+  sub: number;
   iat: number;
   exp: number;
   iss: string;
