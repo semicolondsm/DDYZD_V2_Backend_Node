@@ -48,6 +48,8 @@ export class ClubRepository extends Repository<Club> {
     .select("club.hongbo_image", "image")
     .addSelect("club.name", "name")
     .addSelect("club.profile_image", "profile")
+    .orderBy("field(id, '19')", "DESC")
+    .addOrderBy("id", "ASC")
     .getRawMany();
   }
 }
