@@ -56,15 +56,12 @@ export class ClubImagesResObj {
   profile: string;
 }
 
-export class FeedListDefaultResObj {
+export class FeedListResObj {
   feedId: number;
 	clubName: string;
 	profileImage: string;
 	uploadAt: Date;
 	content: string;
-}
-
-export class FeedListResObj extends FeedListDefaultResObj {
   media: string[]
 	flags: number;
 	owner: boolean;
