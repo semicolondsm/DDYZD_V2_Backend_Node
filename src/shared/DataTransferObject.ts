@@ -56,6 +56,22 @@ export class ClubImagesResObj {
   profile: string;
 }
 
+export class FeedListDefaultResObj {
+  feedId: number;
+	clubName: string;
+	profileImage: string;
+	uploadAt: Date;
+	content: string;
+}
+
+export class FeedListResObj extends FeedListDefaultResObj {
+  media: string[]
+	flags: number;
+	owner: boolean;
+	flag: boolean;
+	follow: boolean;
+}
+
 export class SupplyClubItemDto {
   price: number;
   name: string;
