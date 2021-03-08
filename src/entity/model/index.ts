@@ -9,6 +9,9 @@ import { Option } from "./Option";
 import { Supply } from "./Supply";
 import { Tag } from "./Tag";
 import { User } from "./User";
+import { Feed } from "./Feed";
+import { FeedFlag } from "./FeedFlag";
+import { FeedMedium } from "./FeedMedium";
 
 export {
   Alarm,
@@ -21,5 +24,8 @@ export {
   Option,
   Supply,
   Tag,
-  User
+  User,
+  Feed,
+  FeedFlag,
+  FeedMedium
 }

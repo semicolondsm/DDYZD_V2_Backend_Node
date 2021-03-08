@@ -7,6 +7,7 @@ import { ClubMember } from "./ClubMember";
 import { ClubHead } from "./ClubHead";
 import { Supply } from "./Supply";
 import { EntityWithIdColumn } from "./EntityWithPrimaryColumn";
+import { Feed } from "./Feed";
 
 @Entity("club")
 export class Club extends EntityWithIdColumn {
@@ -57,4 +58,7 @@ export class Club extends EntityWithIdColumn {
 
   @OneToMany(() => Supply, supply => supply.club)
   supplies: Supply[];
+
+  @OneToMany(() => Feed, feed => feed.club) 
+  feeds: Feed[];
 }
