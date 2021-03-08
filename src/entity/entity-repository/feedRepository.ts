@@ -1,4 +1,5 @@
 import { EntityRepository, getCustomRepository, Repository } from "typeorm";
+import { FeedListDefaultResObj } from "../../shared/DataTransferObject";
 import { Feed } from "../model";
 
 @EntityRepository(Feed)
@@ -7,7 +8,7 @@ export class FeedRepotisoty extends Repository<Feed> {
     return getCustomRepository(FeedRepotisoty);
   }
 
-  public getFeedList(page: number): Promise<Feed[]> {
+  public getFeedList(page: number): Promise<FeedListDefaultResObj[]> {
     return this.createQueryBuilder("feed")
     .select("feed.id", "feedId")
     .addSelect("feed.content", "content")
