@@ -1,5 +1,4 @@
 import { EntityRepository, getCustomRepository, Repository } from "typeorm";
-import { FeedListDefaultResObj } from "../../shared/DataTransferObject";
 import { Feed } from "../model";
 
 @EntityRepository(Feed)
@@ -8,23 +7,19 @@ export class FeedRepotisoty extends Repository<Feed> {
     return getCustomRepository(FeedRepotisoty);
   }
 
-  public getFeedList(page: number): Promise<FeedListDefaultResObj[]> {
+  public getFeedList(page: number): Promise<Feed[]> {
     return this.createQueryBuilder("feed")
-    .select("feed.id", "feedId")
-    .addSelect("feed.content", "content")
-    .addSelect("feed.upload_at", "uploadAt")
-    .addSelect("club.name", "clubName")
-    .addSelect("club.profile_image", "profileImage")
-    .leftJoin("feed.club", "club")
+    .leftJoinAndSelect("feed.club", "club")
     .orderBy("feed.upload_at", "DESC")
     .offset(page*3)
     .limit(3)
-    .getRawMany();
+    .getMany();
   }
 
   public async getFeedMedia(feed_id: number): Promise<string[]> {
     const feed: Feed = await this.createQueryBuilder("feed")
-    .select("media.medium_path")
+    .select("feed.id")
+    .addSelect("media.medium_path")
     .leftJoin("feed.feed_media", "media")
     .where("feed.id = :id", { id: feed_id })
     .getOne();
