@@ -15,4 +15,12 @@ export class ClubFollowRepository extends Repository<ClubFollow> {
   public async deleteClubFollow(user: User, club: Club): Promise<void> {
     await this.delete({ user, club });
   }
+
+  public async checkIsFollowed(user_id: number, club_id: number): Promise<boolean> {
+    const follow: ClubFollow = await this.createQueryBuilder("fallow")
+    .where("fallow.user_id = :user_id", { user_id })
+    .andWhere("fallow.club_id = :club_id", { club_id })
+    .getOne();
+    return !!follow;
+  }
 }
