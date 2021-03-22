@@ -19,7 +19,7 @@ export class ClubDefaultInfoObj {
   backimage: string;
   description: string;
   recruitment: boolean;
-  recruitment_close?: string;
+  recruitment_close?: Date;
 }
 
 export class ClubInfoResObj extends ClubDefaultInfoObj {
@@ -29,8 +29,8 @@ export class ClubInfoResObj extends ClubDefaultInfoObj {
 
 export class ClubRecruitmentInfoResObj {
   major: string[];
-  closeat: string;
-  startat: string;
+  closeat: Date;
+  startat: Date;
 }
 
 export class ClubMemberResObj {
