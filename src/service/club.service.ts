@@ -97,8 +97,8 @@ export class ClubService {
     } 
     return {
       major: recruitment.majors.map(major => major.major_name),
-      startat: recruitment.start_at,
-      closeat: recruitment.close_at,
+      startat: (recruitment.start_at + "+09:00").replace("Z", ""), // change local date
+      closeat: (recruitment.close_at + "+09:00").replace("Z", ""),
     };
   }
 
@@ -187,7 +187,7 @@ export class ClubService {
       backimage: club.banner_image,
       description: club.description,
       recruitment: !!club.close_at,
-      recruitment_close: club.close_at,
+      recruitment_close: (club.close_at + "+09:00").replace("Z", ""), // change local date
     }
   }
 }
