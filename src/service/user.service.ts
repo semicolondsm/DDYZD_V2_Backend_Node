@@ -1,8 +1,9 @@
 import { ClubUserViewRepository } from "../entity/entity-repository/clubUserViewRepository";
 import { UserRepository } from "../entity/entity-repository/userReposiotry";
+import { ActivityDetailRepository } from "../entity/entity-repository/ActivityDetailRepository";
 import { User } from "../entity/model";
 import { ClubUserView } from "../entity/view";
-import { ModifyUserBiodDto, ModifyUserGitHubIdDto, UserInfoResObj, UserTokenResOhj } from "../shared/DataTransferObject";
+import { ModifyUserBiodDto, ModifyUserGitHubIdDto, UserActivitiesResObj, UserInfoResObj, UserTokenResOhj } from "../shared/DataTransferObject";
 import { BadRequestError, UnAuthorizedTokenError, HttpError } from "../shared/exception";
 import { config } from "../config";
 import { Octokit } from "@octokit/core";
@@ -13,6 +14,7 @@ export class UserService {
   constructor(
     private clubUserViewRepository: ClubUserViewRepository,
     private userRepository: UserRepository,
+    private activityDetailRepository: ActivityDetailRepository
   ) {}
 
   public async provideToken(token: string): Promise<UserTokenResOhj> {
@@ -94,6 +96,10 @@ export class UserService {
       throw new UnAuthorizedTokenError();
     }
     await this.userRepository.deviceToken(user_id, splitToken[1]);
+  }
+
+  public showUserActivities(user_id: number): Promise<UserActivitiesResObj[]> {
+    return this.activityDetailRepository.getUserActivities(user_id);
   }
 
   private async issuanceToken(user_id: number, type: string): Promise<string> {
