@@ -1,4 +1,6 @@
 import { Alarm } from "./Alarm";
+import { Activity } from "./Activity";
+import { ActivityDetails } from "./ActivityDetail";
 import { ClubMember } from "./ClubMember";
 import { Club } from "./Club";
 import { ClubFollow } from './ClubFollow';
@@ -15,6 +17,8 @@ import { FeedMedium } from "./FeedMedium";
 
 export {
   Alarm,
+  Activity, 
+  ActivityDetails,
   ClubMember,
   Club,
   ClubFollow,
