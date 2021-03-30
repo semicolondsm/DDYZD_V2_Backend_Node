@@ -1,4 +1,5 @@
 import { EntityRepository, getCustomRepository, Repository } from "typeorm";
+import { UserActivitiesResObj } from "../../shared/DataTransferObject";
 import { ActivityDetails } from "../model";
 
 @EntityRepository(ActivityDetails) 
@@ -7,7 +8,7 @@ export class ActivityDetailRepository extends Repository<ActivityDetails> {
     return getCustomRepository(ActivityDetailRepository);
   }
 
-  public getUserActivities(user_id: number) {
+  public getUserActivities(user_id: number): Promise<UserActivitiesResObj[]> {
     return this.createQueryBuilder("ac")
     .select("activity.activity", "activity")
     .addSelect("club.name", "club_name")

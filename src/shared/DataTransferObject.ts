@@ -50,6 +50,14 @@ export class UserInfoResObj extends User {
   clubs: ClubUserView[];
 }
 
+export class UserActivitiesResObj {
+  activity: string;
+  date: Date;
+  club_name: string;
+  club_image: string;
+  club_id: number;
+}
+
 export class ClubImagesResObj {
   name: string;
   image: string;
