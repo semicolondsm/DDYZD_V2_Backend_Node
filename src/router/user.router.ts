@@ -33,6 +33,12 @@ export const userServiceRouter = (app :Router) => {
     verifyTokenMiddleware,
     errorHandler(userController.showUserGcn)
   );
+
+  router.get(
+    "/activity",
+    verifyTokenMiddleware,
+    errorHandler(userController.showUserActivities)
+  );
   
   router.get(
     "/:user_gcn", 

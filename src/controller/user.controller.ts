@@ -1,13 +1,15 @@
+import { ActivityDetailRepository } from "../entity/entity-repository/ActivityDetailRepository";
 import { ClubUserViewRepository } from "../entity/entity-repository/clubUserViewRepository";
 import { UserRepository } from "../entity/entity-repository/userReposiotry";
 import { UserService } from "../service/user.service";
 import { BusinessLogic } from "../shared/BusinessLogicInterface";
-import { UserInfoResObj, UserTokenResOhj } from "../shared/DataTransferObject";
+import { UserActivitiesResObj, UserInfoResObj, UserTokenResOhj } from "../shared/DataTransferObject";
 
 export class UserController {
   private userService: UserService = new UserService(
     ClubUserViewRepository.getQueryRepository(),
-    UserRepository.getQueryRepository()
+    UserRepository.getQueryRepository(),
+    ActivityDetailRepository.getQueryRepository()
   );
 
   public provideToken: BusinessLogic = async (req, res, next) => {
@@ -51,5 +53,10 @@ export class UserController {
     const token: string = req.get("device-token");
     await this.userService.deviceToken(token, +req.decoded.sub);
     res.status(200).json({ message: "Device token inserted" });
+  }
+
+  public showUserActivities: BusinessLogic = async (req, res, next) => {
+    const activities: UserActivitiesResObj[] = await this.userService.showUserActivities(+req.decoded.sub);
+    res.status(200).json(activities);
   }
 }
