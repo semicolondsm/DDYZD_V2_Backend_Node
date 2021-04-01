@@ -25,11 +25,12 @@ export class ClubService {
 
   public async showClubList(): Promise<ClubListResObj[]> {
     const clubs: ClubListResObj[] = await this.clubTagViewRepository.findAllClub();
-    clubs.forEach(club => {
+    return await Promise.all(clubs.map(async (club) => {
       const serializedClubtags: string = club.clubtag as string;
       club.clubtag = serializedClubtags.split(",");
-    });
-    return clubs;
+      club.clubrecruitment = await this.clubRepository.getClubRecruitmentInfo(club.clubid);
+      return club;
+    }));
   }
   
   public async showClubInfo(club_id: number, user_id: number): Promise<ClubInfoResObj> {
