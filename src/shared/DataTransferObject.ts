@@ -9,6 +9,7 @@ export class ClubListResObj {
   clubimage: string;
   clubbanner: string;
   clubtag: string | string[];
+  clubrecruitment: boolean;
 }
 
 export class ClubDefaultInfoObj {

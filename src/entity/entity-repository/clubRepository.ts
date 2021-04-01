@@ -52,4 +52,13 @@ export class ClubRepository extends Repository<Club> {
     .addOrderBy("id", "ASC")
     .getRawMany();
   }
+
+  public async getClubRecruitmentInfo(club_id: number): Promise<boolean> {
+    const club = await this.createQueryBuilder("club")
+    .select("club.id")
+    .addSelect("club.close_at")
+    .where("club.id = :id", { id: club_id })
+    .getOne();
+    return !!club.close_at;
+  }
 }
