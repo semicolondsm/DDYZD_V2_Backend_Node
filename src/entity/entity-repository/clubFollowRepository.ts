@@ -17,9 +17,9 @@ export class ClubFollowRepository extends Repository<ClubFollow> {
   }
 
   public async checkIsFollowed(user_id: number, club_id: number): Promise<boolean> {
-    const follow: ClubFollow = await this.createQueryBuilder("fallow")
-    .where("fallow.user_id = :user_id", { user_id })
-    .andWhere("fallow.club_id = :club_id", { club_id })
+    const follow: ClubFollow = await this.createQueryBuilder("follow")
+    .where("follow.user_id = :user_id", { user_id })
+    .andWhere("follow.club_id = :club_id", { club_id })
     .getOne();
     return !!follow;
   }
