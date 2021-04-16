@@ -184,8 +184,8 @@ export class ClubService {
       this.clubRepository.getNotificatedRoom(club.id).then((club: Club) => {
         Promise.all(club.rooms.map(room => {
           room.status = "C";
-          return this.roomRepository.changeRoomStatus(room);
-        })).then(() => console.log(`${club.name} room status`)).catch(console.log);
+          return this.roomRepository.manager.save(room);
+        })).then(() => console.log(`change ${club.name} room status`)).catch(console.log);
       });
     }
     return {
