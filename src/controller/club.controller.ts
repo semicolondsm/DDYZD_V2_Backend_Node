@@ -4,6 +4,7 @@ import { ClubRepository } from "../entity/entity-repository/clubRepository";
 import { ClubUserViewRepository } from "../entity/entity-repository/clubUserViewRepository";
 import { ClubTagViewRepository } from "../entity/entity-repository/clubViewRepository";
 import { OptionsRepository } from "../entity/entity-repository/optionRepository";
+import { RoomRepository } from "../entity/entity-repository/RoomRepository";
 import { SupplyRepository } from "../entity/entity-repository/supplyRepository";
 import { UserRepository } from "../entity/entity-repository/userReposiotry";
 import { Club, Supply } from "../entity/model";
@@ -21,8 +22,9 @@ export class ClubController {
     ClubFollowRepository.getQueryRepository(),
     SupplyRepository.getQueryRepository(),
     OptionsRepository.getQueryRepository(),
-    ClubHeadRepository.getQueryRepository()
-  );
+    ClubHeadRepository.getQueryRepository(),
+    RoomRepository.getQueryRepository()
+  );  
 
   public showClubList: BusinessLogic = async  (req, res, next) => {
     const clubs: ClubListResObj[] = await this.clubService.showClubList();

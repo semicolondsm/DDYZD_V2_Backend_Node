@@ -10,6 +10,7 @@ import { SupplyRepository } from "../entity/entity-repository/supplyRepository";
 import { OptionsRepository } from "../entity/entity-repository/optionRepository";
 import { ClubHeadRepository } from "../entity/entity-repository/clubHeadRepository";
 import { ClubUserView } from "../entity/view";
+import { RoomRepository } from "../entity/entity-repository/RoomRepository";
 
 export class ClubService {
   constructor(
@@ -20,7 +21,8 @@ export class ClubService {
     private clubFollowRepository: ClubFollowRepository,
     private supplyRepository: SupplyRepository,
     private optionRepository: OptionsRepository,
-    private clubHeadRepository: ClubHeadRepository
+    private clubHeadRepository: ClubHeadRepository,
+    private roomRepository: RoomRepository
   ) {}
 
   public async showClubList(): Promise<ClubListResObj[]> {
@@ -179,6 +181,12 @@ export class ClubService {
       club.close_at = null;
       club.start_at = null;
       this.clubRepository.manager.save(club).then(() => console.log(`${club.name} 모집종료`)).catch(console.log);
+      this.clubRepository.getNotificatedRoom(club.id).then((club: Club) => {
+        Promise.all(club.rooms.map(room => {
+          room.status = "C";
+          return this.roomRepository.changeRoomStatus(room);
+        })).then(() => console.log(`${club.name} room status`)).catch(console.log);
+      });
     }
     return {
       clubid: club.id,
