@@ -62,7 +62,7 @@ export class ClubRepository extends Repository<Club> {
     return !!club.close_at;
   }
 
-  public async getNotificatedRoom(club_id: number): Promise<Club> {
+  public getNotificatedRoom(club_id: number): Promise<Club> {
     return this.createQueryBuilder("club")
     .leftJoinAndSelect("club.rooms", "room")
     .where("club.id = :id", { id: club_id })
