@@ -61,4 +61,12 @@ export class ClubRepository extends Repository<Club> {
     .getOne();
     return !!club.close_at;
   }
+
+  public async getNotificatedRoom(club_id: number): Promise<Club> {
+    return this.createQueryBuilder("club")
+    .leftJoinAndSelect("club.rooms", "room")
+    .where("club.id = :id", { id: club_id })
+    .andWhere("room.status = 'N'")
+    .getOne();
+  }
 }
