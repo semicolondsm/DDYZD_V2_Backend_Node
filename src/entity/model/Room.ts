@@ -5,13 +5,13 @@ import { User } from "./User";
 
 @Entity("room")
 export class Room extends EntityWithIdColumn {
-  @Column({ type: "tinyint", length: 1 })
+  @Column({ type: "tinyint" })
   club_looked: number;
 
   @Column({ type: "varchar", length: 2 })
   status: string;
 
-  @Column({ type: "tinyint", length: 1 })
+  @Column({ type: "tinyint" })
   user_looked: number;
 
   @Column({ type: "varchar", length: 512 })

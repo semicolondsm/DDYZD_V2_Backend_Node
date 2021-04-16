@@ -14,6 +14,7 @@ import { User } from "./User";
 import { Feed } from "./Feed";
 import { FeedFlag } from "./FeedFlag";
 import { FeedMedium } from "./FeedMedium";
+import { Room } from "./Room";
 
 export {
   Alarm,
@@ -31,5 +32,6 @@ export {
   User,
   Feed,
   FeedFlag,
-  FeedMedium
+  FeedMedium,
+  Room
 }
