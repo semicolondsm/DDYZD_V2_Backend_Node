@@ -14,10 +14,10 @@ export class Room extends EntityWithIdColumn {
   @Column({ type: "tinyint" })
   user_looked: number;
 
-  @Column({ type: "varchar", length: 512 })
+  @Column({ type: "varchar", length: 512, nullable: true })
   last_message: string;
 
-  @Column("datetime")
+  @Column({ type: "datetime", nullable: true })
   last_date: Date;
 
   @Column("int")

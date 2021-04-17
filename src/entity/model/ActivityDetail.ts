@@ -8,7 +8,7 @@ export class ActivityDetails {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @CreateDateColumn({ type: "date" })
+  @CreateDateColumn({ type: "date", nullable: true })
   date: Date;
 
   @ManyToOne(type => Club)
