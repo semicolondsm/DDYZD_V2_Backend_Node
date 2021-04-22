@@ -1,11 +1,22 @@
 import { NoticeRepository } from "../entity/entity-repository/noticeRepository";
+import { ClubMemberRepository } from "../entity/entity-repository/clubMemberRepository";
 import { Notice } from "../entity/model/Notice";
 import { Writer } from "../shared/Enum";
+import { ForbiddenError } from "../shared/exception";
 import { BadRequestError } from "../shared/exception";
 
 export class NoticeService {
-  constructor(private noticeRepository: NoticeRepository) {}
+  constructor(
+      private noticeRepository: NoticeRepository,
+      private clubRepository: ClubMemberRepository,
+    ) {}
 
+  public async checkIsAdmin(club_id: number, user_id: number): Promise<void> {
+      const admin: boolean = await this.clubRepository.checkIsClubMember(club_id, user_id);
+      if(admin === false) {
+        throw new ForbiddenError();
+      }
+  }
   public async getAllNotice(size: number, page: number): Promise<Notice[]> {
     const notices: Notice[] = await this.noticeRepository.getAllNotice(size, page);
     if (!notices) {
