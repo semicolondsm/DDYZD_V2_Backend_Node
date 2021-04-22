@@ -29,18 +29,21 @@ export const noticeServiceRouter = (app: Router) => {
 
     router.get(
         "/:notice_id",
+        validationNumberParameter,
         errorHandler(noticeController.getSpecificNotice)
     );
 
     router.patch(
         "/:notice_id",
         verifyTokenMiddleware,
+        validationNumberParameter,
         errorHandler(noticeController.updateNotice)
     );
 
     router.delete(
         "/:notice_id",
         verifyTokenMiddleware,
+        validationNumberParameter,
         errorHandler(noticeController.deleteNotice)
     );
 }
