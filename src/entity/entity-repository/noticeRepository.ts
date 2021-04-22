@@ -5,7 +5,7 @@ import { Writer } from "../../shared/Enum";
 @EntityRepository(Notice)
 export class NoticeRepository extends Repository<Notice> {
     
-    static getCustomRepository() {
+    static getQueryRepository() {
         return getCustomRepository(NoticeRepository);
     }
 
