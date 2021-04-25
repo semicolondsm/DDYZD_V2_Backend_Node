@@ -1,4 +1,4 @@
 export enum Writer {
-    T = "Teacher",
-    L = "Levely",
+    Teacher = "Teacher",
+    Levely = "Levely",
 }
