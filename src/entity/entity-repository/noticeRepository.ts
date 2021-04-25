@@ -13,7 +13,7 @@ export class NoticeRepository extends Repository<Notice> {
           return this.createQueryBuilder()
             .select("notice.writer", "writer")
             .addSelect("notice.title", "title")
-            .addSelect("notice.created_at", "created_at")
+            .addSelect("notice.createdAt", "createdAt")
             .orderBy("id", "DESC")
             .limit(size)
             .offset(size * page)
@@ -25,7 +25,7 @@ export class NoticeRepository extends Repository<Notice> {
             .select("notice.writer", "writer")
             .addSelect("notice.title", "title")
             .addSelect("notice.content", "content")
-            .addSelect("notice.created_at", "created_at")
+            .addSelect("notice.createdAt", "createdAt")
             .where("notice.id = :id", { id: notice_id })
             .getRawOne();
     }
