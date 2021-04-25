@@ -3,7 +3,6 @@ import { errorHandler } from "../middleware/errorHandler";
 import { validationNumberParameter } from "../middleware/validationParameter";
 import { verifyTokenMiddleware } from "../middleware/verifyToken";
 import { NoticeController } from "../controller/notice.controller";
-import { verifyTokenOrDone } from "../middleware/verifyTokenOrDone";
 
 const router: Router = Router();
 export const noticeServiceRouter = (app: Router) => {
@@ -23,27 +22,27 @@ export const noticeServiceRouter = (app: Router) => {
     );
 
     router.get(
-        "/?size=4&page=1",
+        "/",
         errorHandler(noticeController.getAllNotice)
     );
 
     router.get(
         "/:notice_id",
-        validationNumberParameter,
+        validationNumberParameter("notice_id"),
         errorHandler(noticeController.getSpecificNotice)
     );
 
     router.patch(
         "/:notice_id",
         verifyTokenMiddleware,
-        validationNumberParameter,
+        validationNumberParameter("notice_id"),
         errorHandler(noticeController.updateNotice)
     );
 
     router.delete(
         "/:notice_id",
         verifyTokenMiddleware,
-        validationNumberParameter,
+        validationNumberParameter("notice_id"),
         errorHandler(noticeController.deleteNotice)
     );
 }
