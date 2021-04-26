@@ -12,7 +12,7 @@ export class NoticeController {
 
     public checkIsAdmin: BusinessLogic = async (req, res, next) => {
         const clubId: number = 32;
-        await this.noticeService.checkIsAdmin(clubId, +req.decoded);
+        await this.noticeService.checkIsAdmin(clubId, +req.decoded.sub);
         res.status(200).json({
             message: "pass!!"
         })
