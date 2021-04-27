@@ -18,7 +18,7 @@ export class NoticeController {
             message: "pass!!"
         })
     }
-    
+
     public getAllNotice: BusinessLogic = async (req, res, next) => {
         const notices: Notice[] = await this.noticeService.getAllNotice(+req.query.size, +req.query.page);
         if(!notices) {
@@ -29,7 +29,7 @@ export class NoticeController {
             res.status(200).json(notices);
         }
     }
-    
+
     public getSpecificNotice: BusinessLogic = async (req, res, next) => {
         const notice: Notice = await this.noticeService.getSpecificNotice(+req.params.notice_id);
         if(!notice) {
@@ -39,7 +39,7 @@ export class NoticeController {
         } else {
             res.status(200).json(notice);
         }
-    } 
+    }
 
     public createNotice: BusinessLogic = async (req, res, next) => {
         await this.noticeService.createNotice(req.body, this.clubId, +req.decoded.sub);
