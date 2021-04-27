@@ -4,7 +4,7 @@ import { Writer } from "../../shared/Enum";
 
 @Entity('notice')
 export class Notice extends EntityWithIdColumn{
-    @Column()
+    @Column({ type: "varchar", length: 30})
     title: string;
 
     @Column({ type: "varchar", length: 3000})
