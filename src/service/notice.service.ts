@@ -11,48 +11,56 @@ export class NoticeService {
       private clubRepository: ClubMemberRepository,
     ) {}
 
-  public async checkIsAdmin(club_id: number, user_id: number): Promise<void> {
-      const admin: boolean = await this.clubRepository.checkIsClubMember(club_id, user_id);
-      if(admin === false) {
-        throw new ForbiddenError();
-      }
+  public async checkIsNotAdmin(club_id: number, user_id: number): Promise<void> {
+    if(await this.checkAuthority(club_id, user_id)) {
+      throw new ForbiddenError();
+    }
   }
+
+  private async checkAuthority(club_id: number, user_id: number): Promise<boolean> {
+      const admin: boolean = await this.clubRepository.checkIsClubMember(club_id, user_id);
+      return !admin;
+  }
+
   public async getAllNotice(size: number, page: number): Promise<Notice[]> {
     const notices: Notice[] = await this.noticeRepository.getAllNotice(size, page);
-    if (!notices) {
-      throw new BadRequestError();
-    }
     return notices;
   }
 
   public async getSpecificNotice(notice_id: number): Promise<Notice> {
     const notice: Notice = await this.noticeRepository.getSpecificNotice(notice_id);
-    if (!notice) {
-      throw new BadRequestError();
-    }
     return notice;
   }
 
-  public async createNotice(writer: Writer, title: string, content: string): Promise<void> {
-    await this.noticeRepository.createNotice(writer, title, content);
-  }
-
-  public async updateNotice(notice_id: number, writer: Writer, title: string, content: string): Promise<void> {
-    const notice = await this.noticeRepository.findOne({
-      where: { id: notice_id },
-    });
-    if (!notice) {
-      throw new BadRequestError();
+  public async createNotice(notice: Notice, club_id: number, user_id: number): Promise<void> {
+    if(await this.checkAuthority(club_id, user_id)) {
+      throw new ForbiddenError();
     }
-    await this.noticeRepository.updateNotice(notice_id, writer, title, content);
+    await this.noticeRepository.createNotice(notice);
   }
 
-  public async deleteNotice(notice_id: number): Promise<void> {
-    const notice = await this.noticeRepository.findOne({
+  public async updateNotice(notice_id: number, club_id: number, user_id: number, notice: Notice): Promise<void> {
+    const updateNotice = await this.noticeRepository.findOne({
       where: { id: notice_id },
     });
-    if (!notice) {
-      throw new BadRequestError();
+    if (!updateNotice) {
+      throw new BadRequestError("해당 공지사항이 없습니다.");
+    }
+    if(await this.checkAuthority(club_id, user_id)) {
+      throw new ForbiddenError();
+    }
+    await this.noticeRepository.updateNotice(notice_id, notice);
+  }
+
+  public async deleteNotice(notice_id: number, club_id: number, user_id: number): Promise<void> {
+    const deleteNotice = await this.noticeRepository.findOne({
+      where: { id: notice_id },
+    });
+    if (!deleteNotice) {
+      throw new BadRequestError("해당 공지사항이 없습니다.");
+    }
+    if(await this.checkAuthority(club_id, user_id)) {
+      throw new ForbiddenError();
     }
     await this.noticeRepository.deleteNotice(notice_id);
   }
