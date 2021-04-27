@@ -30,20 +30,20 @@ export class NoticeRepository extends Repository<Notice> {
             .getRawOne();
     }
 
-    public async createNotice(writer: Writer, title: string, content: string): Promise<void> {
+    public async createNotice(notice: Notice): Promise<void> {
         await this.createQueryBuilder()
             .insert()
             .into(Notice)
             .values([
-                { writer: writer, title: title, content: content }
+                { writer: notice.writer, title: notice.title, content: notice.content }
             ])
             .execute()
     }
 
-    public async updateNotice(notice_id: number, writer: Writer, title: string, content: string): Promise<void> {
+    public async updateNotice(notice_id: number, notice: Notice): Promise<void> {
         await this.createQueryBuilder()
             .update(Notice)
-            .set({ writer: writer, title: title, content: content })
+            .set({ writer: notice.writer, title: notice.title, content: notice.content })
             .where("notice.id = :id", { id: notice_id })
             .execute()
     }
