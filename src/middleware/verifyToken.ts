@@ -25,7 +25,7 @@ const verifyTokenLogic: (type: string, headers: string) => BusinessLogic =
       next(new UnAuthorizedTokenError());
     }
   }
-}
+} 
 
 const verifyTokenMiddleware: BusinessLogic = errorHandler(verifyTokenLogic("access", "authorization"));
 const verifyRefreshTokenMiddleware: BusinessLogic = errorHandler(verifyTokenLogic("refresh", "refresh-token"));

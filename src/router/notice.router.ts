@@ -12,12 +12,13 @@ export const noticeServiceRouter = (app: Router) => {
 
     router.get(
         "/check",
+        verifyTokenMiddleware,
         errorHandler(noticeController.checkIsAdmin)
     );
 
     router.post(
         "/",
-        verifyTokenMiddleware,
+        verifyTokenMiddleware, 
         errorHandler(noticeController.createNotice)
     );
 
