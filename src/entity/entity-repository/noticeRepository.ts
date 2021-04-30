@@ -1,6 +1,5 @@
 import { EntityRepository, getCustomRepository, Repository } from "typeorm";
 import { Notice } from "../model/Notice";
-import { Writer } from "../../shared/Enum";
 
 @EntityRepository(Notice)
 export class NoticeRepository extends Repository<Notice> {
@@ -17,7 +16,7 @@ export class NoticeRepository extends Repository<Notice> {
             .orderBy("id", "DESC")
             .limit(size)
             .offset(size * page)
-            .getRawMany();
+            .getMany();
     }
 
     public async getSpecificNotice(notice_id: number): Promise<Notice> {
@@ -33,7 +32,6 @@ export class NoticeRepository extends Repository<Notice> {
     public async createNotice(notice: Notice): Promise<void> {
         await this.createQueryBuilder()
             .insert()
-            .into(Notice)
             .values([
                 { writer: notice.writer, title: notice.title, content: notice.content }
             ])
@@ -42,8 +40,7 @@ export class NoticeRepository extends Repository<Notice> {
 
     public async updateNotice(notice_id: number, notice: Notice): Promise<void> {
         await this.createQueryBuilder()
-            .update(Notice)
-            .set({ writer: notice.writer, title: notice.title, content: notice.content })
+            .update({ writer: notice.writer, title: notice.title, content: notice.content })
             .where("notice.id = :id", { id: notice_id })
             .execute()
     }
@@ -51,7 +48,6 @@ export class NoticeRepository extends Repository<Notice> {
     public async deleteNotice(notice_id: number): Promise<void> {
         await this.createQueryBuilder()
             .delete()
-            .from(Notice)
             .where("notice.id = :id", { id: notice_id })
             .execute()
     }
