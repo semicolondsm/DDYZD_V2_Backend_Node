@@ -18,7 +18,7 @@
     "@types/mocha": "^8.2.2",
     "@types/morgan": "^1.9.2",
     "@types/node": "^8.0.29",
-    "@types/sinon": "^9.0.10",
+    "@types/sinon": "^10.0.0",
     "chai": "^4.3.0",
     "cross-env": "^7.0.3",
     "mocha": "^8.2.1",
