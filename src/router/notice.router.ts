@@ -18,7 +18,7 @@ export const noticeServiceRouter = (app: Router) => {
 
     router.post(
         "/",
-        verifyTokenMiddleware, 
+        verifyTokenMiddleware,
         errorHandler(noticeController.createNotice)
     );
 

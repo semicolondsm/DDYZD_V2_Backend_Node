@@ -15,7 +15,7 @@ export class ActivityDetails {
   @JoinColumn({ name: "club_id" })
   club: Club;
 
-  @ManyToOne(type => User) 
+  @ManyToOne(type => User)
   @JoinColumn({ name: "user_id" })
   user: User;
 
