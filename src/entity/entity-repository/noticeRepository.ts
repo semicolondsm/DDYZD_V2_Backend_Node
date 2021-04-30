@@ -3,7 +3,7 @@ import { Notice } from "../model/Notice";
 
 @EntityRepository(Notice)
 export class NoticeRepository extends Repository<Notice> {
-    
+
     static getQueryRepository() {
         return getCustomRepository(NoticeRepository);
     }
@@ -52,4 +52,3 @@ export class NoticeRepository extends Repository<Notice> {
             .execute()
     }
 }
-

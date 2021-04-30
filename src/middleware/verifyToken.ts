@@ -5,7 +5,7 @@ import { TokenPayload } from './../shared/TokenPayloadInterface';
 import { config } from "../config";
 import { BadRequestError, ExpiredTokenError, UnAuthorizedTokenError } from "../shared/exception";
 
-const verifyTokenLogic: (type: string, headers: string) => BusinessLogic = 
+const verifyTokenLogic: (type: string, headers: string) => BusinessLogic =
 (type: string, headers: string) => (req, res, next) => {
   try {
     const token: string = req.headers[headers] as string;
@@ -25,7 +25,7 @@ const verifyTokenLogic: (type: string, headers: string) => BusinessLogic =
       next(new UnAuthorizedTokenError());
     }
   }
-} 
+}
 
 const verifyTokenMiddleware: BusinessLogic = errorHandler(verifyTokenLogic("access", "authorization"));
 const verifyRefreshTokenMiddleware: BusinessLogic = errorHandler(verifyTokenLogic("refresh", "refresh-token"));

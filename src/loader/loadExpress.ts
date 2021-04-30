@@ -10,20 +10,20 @@ import { logger } from "../shared/logger";
 
 export const loadExpress = (app: Application) => {
   app.set("port", config.ServicePort || "3000");
-  
+
   app.use(morgan("combined", {
     stream: fs.createWriteStream("./logs/log.log", { encoding: "utf8" }),
   }));
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(cors());
-  
+
   app.use("/", ddyzdRouter());
-  
+
   app.use((req: Request, res: Response, next: NextFunction) => {
-    next(new NotFoundError(req.url));  
+    next(new NotFoundError(req.url));
   });
-  
+
   app.use((err: HttpError, req: Request, res: Response, next: NextFunction) => {
     logger.info(err.message);
     const statusCode: number = err.statusCode || 500;
@@ -34,7 +34,7 @@ export const loadExpress = (app: Application) => {
       timeStamp: new Date(),
     });
   });
-  
+
   app.listen(app.get("port"), () => {
     console.log("server on", app.get("port"));
   });
