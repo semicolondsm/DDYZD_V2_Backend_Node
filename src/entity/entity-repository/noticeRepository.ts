@@ -10,7 +10,8 @@ export class NoticeRepository extends Repository<Notice> {
 
     public async getAllNotice(size: number, page: number): Promise<Notice[]> {
           return this.createQueryBuilder("notice")
-            .select("notice.writer")
+            .select("notice.id")
+            .addSelect("notice.writer")
             .addSelect("notice.title")
             .addSelect("notice.createdAt")
             .orderBy("notice.id", "DESC")
