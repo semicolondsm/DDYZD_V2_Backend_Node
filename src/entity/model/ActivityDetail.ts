@@ -8,14 +8,14 @@ export class ActivityDetails {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @CreateDateColumn({ type: "date", nullable: true })
+  @CreateDateColumn({ nullable: true })
   date: Date;
 
   @ManyToOne(type => Club)
   @JoinColumn({ name: "club_id" })
   club: Club;
 
-  @ManyToOne(type => User) 
+  @ManyToOne(type => User)
   @JoinColumn({ name: "user_id" })
   user: User;
 
