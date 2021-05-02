@@ -9,24 +9,24 @@ export class NoticeRepository extends Repository<Notice> {
     }
 
     public async getAllNotice(size: number, page: number): Promise<Notice[]> {
-          return this.createQueryBuilder()
-            .select("notice.writer", "writer")
-            .addSelect("notice.title", "title")
-            .addSelect("notice.createdAt", "createdAt")
-            .orderBy("id", "DESC")
+          return this.createQueryBuilder("notice")
+            .select("notice.writer")
+            .addSelect("notice.title")
+            .addSelect("notice.createdAt")
+            .orderBy("notice.id", "DESC")
             .limit(size)
             .offset(size * page)
             .getMany();
     }
 
     public async getSpecificNotice(notice_id: number): Promise<Notice> {
-        return this.createQueryBuilder()
-            .select("notice.writer", "writer")
-            .addSelect("notice.title", "title")
-            .addSelect("notice.content", "content")
-            .addSelect("notice.createdAt", "createdAt")
+        return this.createQueryBuilder("notice")
+            .select("notice.writer")
+            .addSelect("notice.title")
+            .addSelect("notice.content")
+            .addSelect("notice.createdAt")
             .where("notice.id = :id", { id: notice_id })
-            .getRawOne();
+            .getOne();
     }
 
     public async createNotice(notice: Notice): Promise<void> {
@@ -39,14 +39,14 @@ export class NoticeRepository extends Repository<Notice> {
     }
 
     public async updateNotice(notice_id: number, notice: Notice): Promise<void> {
-        await this.createQueryBuilder()
+        await this.createQueryBuilder("notice")
             .update({ writer: notice.writer, title: notice.title, content: notice.content })
             .where("notice.id = :id", { id: notice_id })
             .execute()
     }
 
     public async deleteNotice(notice_id: number): Promise<void> {
-        await this.createQueryBuilder()
+        await this.createQueryBuilder("notice")
             .delete()
             .where("notice.id = :id", { id: notice_id })
             .execute()

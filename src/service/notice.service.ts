@@ -1,7 +1,6 @@
 import { NoticeRepository } from "../entity/entity-repository/noticeRepository";
 import { ClubMemberRepository } from "../entity/entity-repository/clubMemberRepository";
 import { Notice } from "../entity/model/Notice";
-import { Writer } from "../shared/Enum";
 import { ForbiddenError } from "../shared/exception";
 import { BadRequestError } from "../shared/exception";
 
