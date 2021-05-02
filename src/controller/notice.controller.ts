@@ -21,6 +21,9 @@ export class NoticeController {
     }
 
     public getAllNotice: BusinessLogic = async (req, res, next) => {
+        if(!req.query.size || !req.query.page) {
+            throw new BadRequestError("Invalid Parameter");
+        }
         const notices: Notice[] = await this.noticeService.getAllNotice(+req.query.size, +req.query.page);
         res.status(200).json(notices);
     }
