@@ -3,6 +3,8 @@ import { errorHandler } from "../middleware/errorHandler";
 import { validationNumberParameter } from "../middleware/validationParameter";
 import { verifyTokenMiddleware } from "../middleware/verifyToken";
 import { NoticeController } from "../controller/notice.controller";
+import { validationRequest } from "../middleware/validatoinRequest";
+import { CreateNoticeSchema, UpdateNoticeSchema } from "../shared/DataTransferObject";
 
 const router: Router = Router();
 export const noticeServiceRouter = (app: Router) => {
@@ -19,6 +21,7 @@ export const noticeServiceRouter = (app: Router) => {
     router.post(
         "/",
         verifyTokenMiddleware,
+        validationRequest(CreateNoticeSchema),
         errorHandler(noticeController.createNotice)
     );
 
@@ -37,6 +40,7 @@ export const noticeServiceRouter = (app: Router) => {
         "/:notice_id",
         verifyTokenMiddleware,
         validationNumberParameter("notice_id"),
+        validationRequest(UpdateNoticeSchema),
         errorHandler(noticeController.updateNotice)
     );
 

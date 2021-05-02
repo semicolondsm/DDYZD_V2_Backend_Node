@@ -1,5 +1,6 @@
 import Joi from "joi";
 import { User } from "../entity/model";
+import { Notice } from "../entity/model/Notice";
 import { ClubUserView } from "../entity/view";
 
 export class ClubListResObj {
@@ -115,6 +116,18 @@ export const ModifyClubSuppliesSchema: Joi.ObjectSchema<ModifyClubSuppliesDto> =
   count: Joi.number().optional(),
   price: Joi.number().optional(),
 });
+
+export const CreateNoticeSchema: Joi.ObjectSchema<Notice> = Joi.object().keys({
+  title: Joi.string().required(),
+  content: Joi.string().required(),
+  writer: Joi.string().required(),
+});
+
+export const UpdateNoticeSchema: Joi.ObjectSchema<Notice> = Joi.object().keys({
+  title: Joi.string().optional(),
+  content: Joi.string().optional(),
+  writer: Joi.string().optional(),
+})
 
 export const ProvideUserTokenSchema: Joi.ObjectSchema<ProvideUserTokenDto> = Joi.object().keys({
   code: Joi.string().required(),
