@@ -3,7 +3,7 @@ import { Activity } from "./Activity";
 import { Club } from "./Club";
 import { User } from "./User";
 
-@Entity("activity_details")
+@Entity("activity_detail")
 export class ActivityDetails {
   @PrimaryGeneratedColumn()
   id: number;
