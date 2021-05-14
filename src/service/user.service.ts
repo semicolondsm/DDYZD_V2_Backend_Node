@@ -119,7 +119,7 @@ export class UserService {
         client_secret: config.dsmAuthClientSecret,
         code,
       });
-      return response.data["access-token"];
+      return response.data["access_token"];
     } catch(err) {
       throw new HttpError(err.response.status, err.response.data.message);
     }
@@ -129,7 +129,7 @@ export class UserService {
     try {
       const response: AxiosResponse<Partial<User>> = await axios.get(`${config.dsmOpenApiUrl}/v1/info/basic`, {
         headers: {
-          "access-token": token,
+          Authorization: token,
         }
       });
       return response.data;
