@@ -44,7 +44,7 @@
     "mysql2": "^2.2.5",
     "nyc": "^15.1.0",
     "reflect-metadata": "^0.1.10",
-    "typeorm": "0.2.32",
+    "typeorm": "0.2.34",
     "winston": "^3.3.3"
   },
   "main": "index.js",
