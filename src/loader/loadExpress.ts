@@ -10,12 +10,7 @@ import { logger } from "../shared/logger";
 
 export const loadExpress = (app: Application) => {
   app.set("port", config.ServicePort || "3000");
-
-  app.use(morgan("combined", {
-    stream: fs.createWriteStream("./logs/log.log", { encoding: "utf8" }),
-  }));
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: false }));
+  
   app.use(cors());
 
   app.use("/", ddyzdRouter());
