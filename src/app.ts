@@ -3,7 +3,7 @@ import path from "path";
 import dotenv from "dotenv";
 import { logger } from "./shared/logger";
 import { initApplication } from "./loader";
-import iconv from "mysql2/node_modules/iconv-lite";
+import iconv from "iconv-lite";
 iconv.encodingExists("foo");
 
 dotenv.config({ path: path.join(__dirname, "../.env") });
