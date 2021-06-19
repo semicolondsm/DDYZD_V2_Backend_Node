@@ -19,6 +19,9 @@ export const loadExpress = (app: Application) => {
 
   app.use((req: Request, res: Response, next: NextFunction) => {
     express.json()(req, res as ServerResponse, next);
+  });
+
+  app.use((req: Request, res: Response, next: NextFunction) => {
     express.urlencoded({ extended: false })(req, res as ServerResponse, next);
   });
 
