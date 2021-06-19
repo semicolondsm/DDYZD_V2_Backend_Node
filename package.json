@@ -31,7 +31,7 @@
     "typescript": "4.3.2"
   },
   "dependencies": {
-    "@octokit/core": "^3.2.5",
+    "@octokit/core": "^3.5.1",
     "axios": "^0.21.1",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
